@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+/*
+ * Daily Arcade design tokens.
+ * Aesthetic: retro-arcade meets modern editorial. Restrained palette,
+ * bold typography, generous spacing. Not Pixar; not Stripe-default.
+ */
+@theme inline {
+  /* Palette */
+  --color-bg: #0a0b10;
+  --color-bg-elevated: #15171f;
+  --color-bg-overlay: #1c1f2b;
+
+  --color-fg: #f3f0e6;
+  --color-fg-muted: #a3a191;
+  --color-fg-dim: #6f6e64;
+
+  --color-line: #2a2d3a;
+  --color-line-strong: #3a3e4f;
+
+  /* Accents */
+  --color-accent: #d4ff3a;            /* arcade-cabinet acid yellow */
+  --color-accent-fg: #0a0b10;
+  --color-amber: #ffb547;
+  --color-pink: #ff5cad;
+  --color-cyan: #66e6ff;
+  --color-good: #57d29c;
+  --color-bad: #ff5b6e;
+
+  /* Tile feedback (Word Volley) */
+  --color-tile-green: #57d29c;
+  --color-tile-yellow: #ffd246;
+  --color-tile-grey: #2a2d3a;
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  /* Motion */
+  --motion-fast: 120ms;
+  --motion-mid: 220ms;
+  --motion-slow: 360ms;
+  --ease-arcade: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --bg: var(--color-bg);
+    --fg: var(--color-fg);
+  }
+  html, body {
+    background: var(--bg);
+    color: var(--fg);
+  }
+  body {
+    font-family: var(--font-body);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-accent-fg);
+  }
+  /* Always-visible focus ring for keyboards */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* Decorative scanline backdrop. Subtle; respects reduced motion. */
+.bg-arcade-grid {
+  background-image:
+    radial-gradient(circle at 50% -10%, rgba(212, 255, 58, 0.08), transparent 60%),
+    linear-gradient(180deg, transparent 0, rgba(255,255,255,0.02) 100%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Tile color helpers used in Word Volley */
+.tile-green { background: var(--color-tile-green); color: #0a0b10; border-color: var(--color-tile-green); }
+.tile-yellow { background: var(--color-tile-yellow); color: #0a0b10; border-color: var(--color-tile-yellow); }
+.tile-grey { background: var(--color-tile-grey); color: var(--color-fg-muted); border-color: var(--color-line-strong); }
+.tile-empty { background: transparent; color: var(--color-fg); border-color: var(--color-line-strong); }
+.tile-pending { background: var(--color-bg-elevated); color: var(--color-fg); border-color: var(--color-fg-muted); animation: tile-pop var(--motion-fast) var(--ease-arcade); }
+
+@keyframes tile-pop {
+  0% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+
+@keyframes tile-flip {
+  0% { transform: rotateX(0deg); }
+  50% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0deg); }
+}
+
+.tile-revealed {
+  animation: tile-flip var(--motion-mid) var(--ease-arcade) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile-revealed,
+  .tile-pending {
+    animation: none;
+  }
+}
+
+/* Drift 2049 tile colors */
+.t-2 { background: #1c1f2b; color: var(--color-fg); }
+.t-4 { background: #232737; color: var(--color-fg); }
+.t-8 { background: #ffb547; color: #0a0b10; }
+.t-16 { background: #ff8a3d; color: #0a0b10; }
+.t-32 { background: #ff5b6e; color: #0a0b10; }
+.t-64 { background: #ff5cad; color: #0a0b10; }
+.t-128 { background: #57d29c; color: #0a0b10; }
+.t-256 { background: #66e6ff; color: #0a0b10; }
+.t-512 { background: #d4ff3a; color: #0a0b10; }
+.t-1024 { background: #d4ff3a; color: #0a0b10; box-shadow: 0 0 0 2px rgba(212,255,58,0.4); }
+.t-2048 { background: linear-gradient(135deg, #d4ff3a, #66e6ff); color: #0a0b10; box-shadow: 0 0 0 3px rgba(212,255,58,0.5); }

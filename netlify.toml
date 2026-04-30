@@ -1,0 +1,38 @@
+# Netlify configuration for daily-arcade
+#
+# The OpenNext Next.js adapter (@netlify/plugin-nextjs) is auto-installed
+# by Netlify on first build — DO NOT pin it here. Pinning opts out of
+# automatic adapter updates that track new Next.js versions.
+#
+# Authoritative security headers live in `proxy.ts` (Routing Middleware).
+# The [[headers]] block below is defense-in-depth fallback for static assets
+# served directly from the CDN before middleware runs.
+#
+# See DECISIONS.md ADRs 1-5 (2026-04-30) for pivot rationale.
+
+[build]
+  # --webpack required: Turbopack-built middleware.js references
+  # `./chunks/[turbopack]_runtime.js` which @netlify/plugin-nextjs's edge-function
+  # bundler cannot resolve (brackets in path + Windows path-join bug).
+  # See deploy logs 2026-04-30. Revisit when @netlify/plugin-nextjs gains
+  # Turbopack-output support.
+  command = "next build --webpack"
+  publish = ".next"
+
+# Scheduled function: daily seed warming.
+# The function lives at netlify/functions/daily-warm.mts and calls
+# /api/cron/daily-warm with bearer auth. See ADR-2.
+[functions."daily-warm"]
+  schedule = "0 0 * * *"
+
+# Defense-in-depth security headers for non-middleware paths
+# (static assets, images, fonts). Middleware in `proxy.ts` is authoritative
+# for HTML / RSC / Server Action responses.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
