@@ -1,8 +1,11 @@
 /**
  * Word Volley target list. 5-letter common-but-not-trivial words.
- * Production list to grow to ≥ 2,500 entries; this MVP set is ~360.
+ * This is the *answer pool* — the daily target is sampled from here only.
  * Curated to avoid offensive terms; ASCII uppercase only.
+ *
+ * For the wider guess-validation dictionary see `./word-valid-guesses.ts`.
  */
+import { VALID_GUESSES } from "./word-valid-guesses";
 
 // prettier-ignore
 export const WORD_TARGETS: readonly string[] = [
@@ -137,5 +140,5 @@ export const WORD_TARGETS: readonly string[] = [
   "YIELD","YOUNG","YOUTH","YUMMY","ZEBRA","ZESTY","ZONED",
 ];
 
-/** Set lookup for valid 5-letter guesses. Tolerates any uppercase 5-letter word in our target list. */
-export const WORD_TARGET_SET = new Set(WORD_TARGETS);
+/** Set lookup for valid 5-letter guesses — union of curated targets + open-source dictionary. */
+export const VALID_GUESS_SET: ReadonlySet<string> = new Set<string>([...WORD_TARGETS, ...VALID_GUESSES]);

@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import { gradeGuess, scoreFromGuesses, shareGrid, type Tile } from "@/lib/games/word-volley";
-import { WORD_TARGET_SET } from "@/lib/content/word-targets";
+import { VALID_GUESS_SET } from "@/lib/content/word-targets";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { ShareResult } from "@/components/share-result";
@@ -88,8 +88,8 @@ export function WordVolley({ target, date, initialHandle, turnstileSiteKey }: Pr
           return prev;
         }
         const guess = cur.letters.join("");
-        if (!WORD_TARGET_SET.has(guess)) {
-          push("Not in our word list", "error");
+        if (!VALID_GUESS_SET.has(guess)) {
+          push("Not in word list", "error");
           return prev;
         }
         const grades = gradeGuess(guess, target);
