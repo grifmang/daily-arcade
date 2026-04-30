@@ -38,8 +38,12 @@ export function proxy(req: NextRequest) {
 
 export const config = {
   matcher: [
-    // Skip static, og, _next; cover everything else.
-    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.webmanifest|sw.js).*)",
+    // Skip static asset paths only. Previously this also excluded
+    // manifest.webmanifest, which left the manifest response without CSP /
+    // X-Frame-Options / Referrer-Policy / Permissions-Policy in production
+    // — the netlify.toml [[headers]] block only partially covered it.
+    // AppSec Pass 3 (2026-04-30) caught this on the live deploy.
+    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|sw.js).*)",
   ],
 };
 

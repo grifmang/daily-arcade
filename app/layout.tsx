@@ -25,7 +25,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://daily-arcade.vercel.app"),
+  metadataBase: new URL("https://daily-arcade.netlify.app"),
   title: {
     default: "Daily Arcade — three games. one streak. every day.",
     template: "%s — Daily Arcade",

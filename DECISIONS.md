@@ -452,3 +452,47 @@ Code is production-grade modulo the documented PostgresStore swap and the BotID 
 - *Keep both libraries, accept they no-op on Netlify:* rejected. Dead code; weakens CSP justification for the script-src origins.
 - *Replace immediately with a different RUM (Sentry, PostHog, etc.):* rejected for MVP scope. Fast Follow.
 
+---
+
+## [2026-04-30] Pivot ADR-6 — Build with `next build --webpack` (defer Turbopack)
+
+**From:** Principal Engineer (forced by deploy reality)
+
+**What:** `netlify.toml` `[build] command` is set to `next build --webpack` (not the default `next build`, which uses Turbopack on Next 16). All other build assumptions are unchanged.
+
+**Why:** During the first attempt to deploy via `netlify deploy --build` from a local Windows machine, the Netlify edge-function bundler (`@netlify/edge-bundler`, invoked by `@netlify/plugin-nextjs`) failed to resolve a Turbopack-emitted middleware import. Turbopack writes the routing-middleware bundle as `middleware.js` referencing `./chunks/[turbopack]_runtime.js` — the literal square brackets in the chunk filename, combined with a path-join bug in the Netlify bundler on Windows, caused the edge function to fail to compile. The parallel issue with `@netlify/blobs` auth from a local CLI run reinforced that local-CLI deploy was not the right path. We migrated to GitHub-driven CI/CD (Linux builders, see ADR-7 below), which still required `--webpack` because the bundler issue is platform-orthogonal — Turbopack output is structurally incompatible with the current adapter regardless of OS. Webpack output produces a flat middleware bundle the adapter resolves cleanly. Build time on Netlify Linux runners with `--webpack`: ~32s.
+
+**Alternatives rejected:**
+- *Pin a newer `@netlify/plugin-nextjs` that handles Turbopack output:* the adapter is auto-installed and tracks new Next.js releases automatically; pinning would opt out of every other improvement, and there is no public roadmap commitment for Turbopack-output support yet.
+- *Stay on default Turbopack and accept the broken middleware:* rejected — middleware is where our security headers (CSP, HSTS, etc.) live. A non-functional Edge Function would silently drop CSP for every response.
+- *Revert middleware to a non-Edge-Function path (apply headers via `[[headers]]` in `netlify.toml` instead):* rejected. The `[[headers]]` block applies only to static assets, not to dynamically-rendered HTML / RSC / Server Action responses. We need middleware for the authoritative CSP. We keep the `[[headers]]` block as defense-in-depth fallback, not as a replacement.
+
+**Operational impact:** none for users. Build time is comparable. `npm run dev` still uses Turbopack locally for fast iteration; only the production build differs.
+
+**Revisit:** when `@netlify/plugin-nextjs` (or its successor OpenNext adapter) lands documented Turbopack-output support, drop `--webpack` from `netlify.toml`. Track via the OpenNext-Netlify GitHub repo. Until then, the inline comment in `netlify.toml` documents the constraint.
+
+---
+
+## [2026-04-30] Pivot ADR-7 — Deploy via GitHub-connected Netlify (drop local CLI)
+
+**From:** Principal Engineer + DevOps
+
+**What:** Production and preview deploys go through Netlify's GitHub integration. `git push origin main` to https://github.com/grifmang/daily-arcade triggers a Netlify build on Linux runners; the `Production` deploy auto-promotes. PRs and feature branches produce Deploy Previews. Local `netlify deploy --build` is **not** the supported deploy path going forward.
+
+**Why:** The local-CLI deploy attempt from Windows failed twice — once on the Turbopack bundler issue (resolved by ADR-6), then on `@netlify/blobs` authentication. The blob-auth issue stemmed from the local CLI invoking the runtime cache layer (which needs Netlify-issued credentials) without the same env-injection path Linux build runners get. Rather than debug Windows-CLI corner cases that won't recur in the team workflow, we adopted the standard GitHub-connected pattern: Linux runners, deterministic environment, deploy log retained per build, and the canonical CI/CD shape Netlify documents and tests against.
+
+**Alternatives rejected:**
+- *Fix the Windows CLI path:* rejected as low-value. Future deploys belong in CI/CD anyway; spending hours patching a one-off local issue would have moved the launch by a day for no durable benefit.
+- *Use a third-party CI (GitHub Actions calling Netlify CLI):* rejected. Adds a layer; Netlify's native GitHub integration already gives us deploy-previews-per-PR, status checks, and rollback semantics. No reason to re-implement.
+
+**Operational impact:**
+- Repository visibility: **public** at https://github.com/grifmang/daily-arcade. RUNBOOK now warns contributors against pasting secrets in code review.
+- Future deploys: `git push origin main`. RUNBOOK Phase-8 section is rewritten in this same edit pass.
+- Local `netlify deploy` retained only as an emergency escape hatch (for the Windows-CLI maintainers to investigate later); not in the routine workflow.
+
+**Live state at sign-off:**
+- Site name: `daily-arcade`. Live URL: https://daily-arcade.netlify.app/
+- Site ID: `6a9b822d-6fa1-47df-bfd8-aa5fab4dbe18`
+- Latest deploy ID at this ADR's timestamp: `69f3e723a3e15943711e65e8`
+- Production env scope contains all 8 expected vars (parent confirmed): `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `SHARE_SIGNING_SECRET`, `CRON_SECRET`, `IP_HASH_SALT_BASE`, `DATABASE_URL`, `DATABASE_URL_UNPOOLED`, `NETLIFY_NEXT_SKEW_PROTECTION`. Deploy-preview + branch-deploy contexts use Cloudflare always-pass test Turnstile keys (per ADR-1's dev-fallback contract).
+

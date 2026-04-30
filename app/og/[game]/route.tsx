@@ -75,7 +75,7 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ game: strin
         </div>
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", color: "#6f6e64", fontFamily: "ui-monospace, monospace", fontSize: 22 }}>
-          <span>same puzzle for everyone — daily-arcade.vercel.app</span>
+          <span>same puzzle for everyone — daily-arcade.netlify.app</span>
           <span>resets 00:00 utc</span>
         </div>
       </div>

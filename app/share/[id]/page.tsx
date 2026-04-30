@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const ogUrl = `/og/${rec.gameId}?id=${encodeURIComponent(rec.id)}`;
   return {
     title: `${rec.handle} · ${GAME_LABELS[rec.gameId as GameId]} ${rec.date}`,
-    description: `${rec.handle} scored ${rec.score} on ${GAME_LABELS[rec.gameId as GameId]} (${rec.date}). Play your own → daily-arcade.vercel.app`,
+    description: `${rec.handle} scored ${rec.score} on ${GAME_LABELS[rec.gameId as GameId]} (${rec.date}). Play your own → daily-arcade.netlify.app`,
     openGraph: {
       title: `${rec.handle} on ${GAME_LABELS[rec.gameId as GameId]}`,
       description: `Score ${rec.score} · ${rec.date}`,

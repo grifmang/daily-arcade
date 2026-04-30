@@ -2,15 +2,20 @@
 
 **Audience:** future-you at 2 AM, or whoever is on-call.
 **Maintained by:** DevOps + Principal Engineer.
-**Last revised:** 2026-04-30 for Netlify deploy target. The 2026-04-29 v1 of this runbook targeted Vercel; that history is preserved in git.
+**Last revised:** 2026-04-30 for Netlify deploy target + GitHub-driven CI/CD. The 2026-04-29 v1 of this runbook targeted Vercel; that history is preserved in git.
 
 ---
 
 ## At a glance
 
 - **Stack:** Next.js 16 / Node 22+ on **Netlify** (OpenNext adapter, auto-installed)
-- **DB (production):** Neon Postgres (direct project) — gated until provisioned; in-memory fallback otherwise
-- **Bot protection:** Cloudflare Turnstile on `submitScore` and `claimHandle` Server Actions
+- **Deploy flow:** **GitHub → Netlify**. `git push origin main` triggers an auto-deploy (per ADR-7, 2026-04-30).
+- **Repository:** https://github.com/grifmang/daily-arcade — **PUBLIC**. Never paste secrets in code review, issues, PRs, or commit messages.
+- **Live URL (production):** https://daily-arcade.netlify.app/
+- **Site ID (Netlify):** `6a9b822d-6fa1-47df-bfd8-aa5fab4dbe18`
+- **Build command:** `next build --webpack` (Turbopack output is incompatible with the current Netlify edge bundler — see ADR-6).
+- **DB (production):** Neon Postgres (direct project) — currently using InMemoryStore in code paths until PostgresStore is wired (production-grade gate, see Pass 3 below).
+- **Bot protection:** Cloudflare Turnstile on `submitScore` and `claimHandle` Server Actions.
 - **Daily reset:** 00:00 UTC. `netlify/functions/daily-warm.mts` (Netlify Scheduled Function) fires the bearer-authenticated `/api/cron/daily-warm` route handler.
 - **No third-party error tracker yet.** Netlify Function logs are the source of truth.
 
@@ -18,29 +23,56 @@
 
 ## Pre-flight checklist (before first deploy)
 
-These four items are user-side and not scriptable. Confirm each before starting the deploy flow:
+These items are user-side and not scriptable. Confirm each before starting the deploy flow:
 
-1. **Netlify CLI authorized** — `netlify login` (interactive). Verify with `netlify status`.
-2. **Netlify site exists** — site name `daily-arcade`, intended production hostname `daily-arcade.netlify.app` (custom domain optional, post-launch).
-3. **Cloudflare Turnstile site provisioned** — both `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` available. Free at unlimited scale; create at the Cloudflare dashboard.
-4. **Neon project provisioned** — `DATABASE_URL` and `DATABASE_URL_UNPOOLED` (pooled and unpooled connection strings) available. Direct project, not Marketplace-installed.
+1. **GitHub repo connected to Netlify site** — once-only, done via the Netlify UI. The site reads `netlify.toml` from the repo root and runs `next build --webpack` on Linux runners.
+2. **Netlify site name + hostname** — site name `daily-arcade`, production hostname `daily-arcade.netlify.app` (custom domain optional, post-launch).
+3. **Cloudflare Turnstile site provisioned** — both `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` set in Netlify env. Free at unlimited scale; create at the Cloudflare dashboard.
+4. **Neon project provisioned** — `DATABASE_URL` and `DATABASE_URL_UNPOOLED` (pooled and unpooled connection strings) set in Netlify env. Direct project, not Marketplace-installed.
 
 ---
 
-## First-time deploy (preview)
+## Routine deploy (GitHub-driven)
 
-The **Netlify CLI** is required. Verify with `netlify --version` (we have used CLI 17.x).
+**The supported path is `git push origin main` to https://github.com/grifmang/daily-arcade.** Netlify watches the repo and:
+
+- Pushes to `main` → production deploy on https://daily-arcade.netlify.app/.
+- Pushes to a feature branch → Deploy Preview at `<branch-name>--daily-arcade.netlify.app/` (uses test Turnstile keys per ADR-1).
+- Pull requests → Deploy Preview with status checks reported back to the PR.
+
+Before pushing, run `npm run predeploy` locally as a tripwire. CI on Netlify will rebuild from scratch regardless.
 
 ```bash
-# from projects/daily-arcade
-netlify link                 # interactive — pick scope, name "daily-arcade"
-netlify env:list             # confirm the env scope is correct
-netlify deploy --build       # creates a preview URL
+git status                       # ensure clean tree
+npm run predeploy                # typecheck + lint + test + build + bundle:check
+git push origin main             # triggers Netlify build (Linux, ~32s)
+# watch the deploy in the Netlify dashboard or via:
+netlify deploy --status
 ```
 
-If `netlify link` errors with no team/scope: the user account has no team scope. Open the Netlify dashboard once, create or accept a team, then re-run.
+### Local Netlify CLI: emergency escape hatch only
 
-For Auto-mode runs without configured CLI auth, the orchestrator surfaces this and stops before deploy.
+`netlify deploy --build` from a developer machine is **not** the routine path. We attempted it once on 2026-04-30 and hit two blockers (Turbopack bundler bug + `@netlify/blobs` auth from local CLI) — see ADR-7. It is retained only for emergency-debug scenarios and may continue to fail on Windows. If you genuinely need it, work around the auth issue by running `netlify env:get` first and ensure your local environment matches what CI gets.
+
+### Setting environment variables (one-time)
+
+```bash
+# Production scope (these are already set on the live site as of 2026-04-30; included for reference and rotation)
+netlify env:set SHARE_SIGNING_SECRET "$(openssl rand -hex 64)"
+netlify env:set CRON_SECRET           "$(openssl rand -hex 32)"
+netlify env:set IP_HASH_SALT_BASE     "$(openssl rand -hex 64)"
+netlify env:set DATABASE_URL          "<from Neon>"
+netlify env:set DATABASE_URL_UNPOOLED "<from Neon>"
+netlify env:set TURNSTILE_SITE_KEY    "<from Cloudflare Turnstile dashboard>"
+netlify env:set TURNSTILE_SECRET_KEY  "<from Cloudflare Turnstile dashboard>" --secret
+netlify env:set NETLIFY_NEXT_SKEW_PROTECTION "true"
+
+netlify env:list                      # verify all eight present
+```
+
+Deploy-preview and branch-deploy contexts use the Cloudflare always-pass test Turnstile keys (set automatically by `lib/env.ts` when `NODE_ENV !== "production"`); production uses the real ones.
+
+Use `--secret` (or the UI's "Contains secret values" toggle) on `TURNSTILE_SECRET_KEY` and any other server-only secret you do not want surfaced in build logs.
 
 ### Setting environment variables (one-time)
 
@@ -61,39 +93,69 @@ Use `--secret` (or the UI's "Contains secret values" toggle) on `TURNSTILE_SECRE
 
 ---
 
-## First-time deploy (production)
+## Production deploy (preview-grade currently live)
 
-**Pre-flight gate (AppSec, Pass 3 runtime):**
+**Current status (as of 2026-04-30, AppSec Pass 3 runtime):** the live site is **preview-grade**, not production-grade. PostgresStore is not yet wired; data evaporates on cold start. Promotion to production-grade is gated on the PostgresStore swap (see SECURITY_REVIEW.md Pass 3).
 
-1. `DATABASE_URL` and `DATABASE_URL_UNPOOLED` set in Production env. Without them the app falls back to InMemoryStore — **not safe for production.**
-2. `SHARE_SIGNING_SECRET`, `CRON_SECRET`, `IP_HASH_SALT_BASE` set in Production env (each unique per environment).
-3. `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` set in Production env (the secret marked as a secret).
-4. `npm run predeploy` green (typecheck + lint + test + build + bundle:check). The bundle-check step asserts that `TURNSTILE_SECRET_KEY` does not appear in any client bundle.
-5. Cron schedule confirmed: `netlify functions:list` shows `daily-warm` with `Scheduled` badge and `0 0 * * *`. (Note: scheduled functions only run on **published** deploys, never on Deploy Previews.)
-6. Custom domain (optional) attached + DNS verified.
+**Pre-flight gate (every deploy):**
+
+1. `npm run predeploy` green locally (typecheck + lint + test + build + bundle:check). The bundle-check step asserts that `TURNSTILE_SECRET_KEY` does not appear in any client bundle.
+2. PR reviewed; status checks (Netlify Deploy Preview) green.
+3. Cron schedule confirmed: Netlify dashboard → Functions → `daily-warm` shows `Scheduled` badge and `0 0 * * *`. (Note: scheduled functions only run on **published** deploys, never on Deploy Previews.)
+4. Custom domain (optional) attached + DNS verified.
+
+**Production-grade gate (additional, before declaring the site production):**
+
+5. `DATABASE_URL` and `DATABASE_URL_UNPOOLED` set in Production env, **and** PostgresStore wired in `lib/store.ts`. Without both, `lib/store.ts` continues to use InMemoryStore — leaderboard data evaporates on every function cold start.
+6. `SHARE_SIGNING_SECRET`, `CRON_SECRET`, `IP_HASH_SALT_BASE` set in Production env (each unique per environment).
+7. `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` set in Production env (the secret marked as `Contains secret values`).
 
 **Promote:**
 ```bash
-netlify deploy --build --prod
+git push origin main
 ```
 
-**Watch (first 30 minutes):**
+That's it. Netlify builds on Linux runners and auto-publishes the production deploy to https://daily-arcade.netlify.app/.
+
+**Watch (first 30 minutes after a production push):**
 ```bash
-netlify logs:function       # tail Netlify Function logs
-netlify functions:list      # confirm daily-warm scheduled
+# tail Netlify Function logs (linked CLI required)
+netlify logs:function
+
+# confirm scheduled functions
+netlify functions:list
+
+# inspect the latest deploy
+netlify api listSiteDeploys --data '{"site_id": "6a9b822d-6fa1-47df-bfd8-aa5fab4dbe18"}' | jq '.[0]'
 ```
 
 Verify on the production URL:
-- `GET /` returns 200
-- `GET /` response headers include CSP (with `https://challenges.cloudflare.com` in `script-src`/`connect-src`/`frame-src` and **no** `va.vercel-scripts.com` or `vitals.vercel-insights.com`), HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy
-- `GET /api/cron/daily-warm` returns 401 without bearer
-- Submit a test entry on each of the three games — confirm the Turnstile widget appears in the dialog (or is invisible and auto-passes for the legitimate user) and the leaderboard accepts the entry
+- `curl -I https://daily-arcade.netlify.app/` returns 200 and CSP / HSTS / X-Frame-Options / X-Content-Type-Options / Referrer-Policy / Permissions-Policy. CSP must include `https://challenges.cloudflare.com` in `script-src`/`connect-src`/`frame-src` and must NOT include `va.vercel-scripts.com` or `vitals.vercel-insights.com`.
+- `curl -I https://daily-arcade.netlify.app/manifest.webmanifest` returns the same security-header set (the matcher fix from 2026-04-30 covers this route).
+- `curl https://daily-arcade.netlify.app/api/cron/daily-warm` returns 401.
+- Submit a test entry on each of the three games — confirm the Turnstile widget appears in the dialog (or is invisible and auto-passes for the legitimate user) and the leaderboard accepts the entry.
+- `curl -sL https://daily-arcade.netlify.app/g/word-volley | grep -oE "0x4AAAAAA[A-Za-z0-9_-]+"` returns the production Turnstile site key (proves prod env is wired).
 
 ---
 
 ## Rollback
 
-Netlify keeps every deployment immutable.
+Netlify keeps every deployment immutable. Two paths:
+
+### Fast path — Netlify dashboard
+Dashboard → Deploys → find the previous known-good deploy → click "Publish deploy". Instant repointing.
+
+### CLI path
+```bash
+netlify api listSiteDeploys --data '{"site_id": "6a9b822d-6fa1-47df-bfd8-aa5fab4dbe18"}' | jq '.[0:5]'
+netlify rollback                             # rolls back to the previous published deploy
+```
+
+### Git path (creates a new deploy from a previous commit)
+```bash
+git revert <bad-commit-sha>
+git push origin main                          # Netlify will deploy the revert as a fresh build
+```
 
 ```bash
 netlify api listSiteDeploys --data '{"site_id": "<site-id>"}' | jq '.[0:5]'
@@ -161,9 +223,9 @@ Common causes:
 2. Confirm we're using `DATABASE_URL` (pooled) for runtime, `DATABASE_URL_UNPOOLED` only for migrations
 
 **Mitigate:**
-1. Force a deploy redeploy (Netlify rebuilds connection pools on cold start; `netlify deploy --build`)
-2. If sustained: bump Neon plan or add Redis cache layer in front of leaderboard reads
-3. As emergency: switch traffic 100% to fine-grained cache reads (already a 60s TTL; bump to 5 min in `actions.ts` `getLeaderboard`)
+1. Force a redeploy (Netlify rebuilds connection pools on cold start). For routine: `git commit --allow-empty -m "force redeploy" && git push`. For emergency only: `netlify deploy --build --prod` (caveat: local CLI is the escape-hatch path per ADR-7).
+2. If sustained: bump Neon plan or add Redis cache layer in front of leaderboard reads.
+3. As emergency: switch traffic 100% to fine-grained cache reads (already a 60s TTL; bump to 5 min in `actions.ts` `getLeaderboard`).
 
 ### S6 — Third-party integration outage (Neon, Cloudflare Turnstile)
 - **Neon outage:** see S5; the in-memory fallback is a 30-min mitigation.
@@ -248,6 +310,12 @@ netlify functions:invoke daily-warm
 ## Useful one-liners
 
 ```bash
+# routine deploy
+git push origin main
+
+# pre-deploy gate (run locally before pushing)
+npm run predeploy
+
 # verify all eight production envs are present
 netlify env:list
 
@@ -266,9 +334,19 @@ netlify functions:invoke daily-warm
 # manually warm production seed via the route handler bearer
 curl -H "Authorization: Bearer $CRON_SECRET" https://daily-arcade.netlify.app/api/cron/daily-warm
 
-# inspect the published deploy
+# inspect the published site + latest deploy
 netlify api getSite | jq
+netlify api listSiteDeploys --data '{"site_id": "6a9b822d-6fa1-47df-bfd8-aa5fab4dbe18"}' | jq '.[0]'
 
-# pre-deploy gate (run locally before promoting)
-npm run predeploy
+# rollback to the previous published deploy
+netlify rollback
+
+# emergency forced redeploy (no code changes)
+git commit --allow-empty -m "force redeploy" && git push origin main
+
+# header audit — what AppSec Pass 3 ran
+for path in / /g/word-volley /g/drift-2049 /g/snap-trivia /leaderboard/word-volley /about /manifest.webmanifest /api/cron/daily-warm; do
+  echo "===== $path =====";
+  curl -sI "https://daily-arcade.netlify.app$path" | grep -iE "^(HTTP|content-security-policy|strict-transport-security|x-frame-options|x-content-type-options|referrer-policy|permissions-policy)";
+done
 ```
