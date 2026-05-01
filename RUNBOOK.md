@@ -296,6 +296,23 @@ netlify functions:invoke daily-warm
 
 ---
 
+## Content sources
+
+The Snap Trivia bank in `lib/content/trivia.ts` is sourced from
+[Open Trivia DB](https://opentdb.com), under their free-use license
+(attribution required, no warranty). To regrow the bank:
+
+1. Mint a session token: `curl https://opentdb.com/api_token.php?command=request`
+2. Pull batches across the 7 source categories at easy + medium difficulty
+3. Run the filter pass per `docs/superpowers/specs/2026-04-30-arcade-polish-design.md` Feature 1
+4. Replace the array in `lib/content/trivia.ts` and re-run `npm test`
+
+The Word Volley dictionary in `lib/content/word-valid-guesses.ts` is sourced
+from the open-source [tabatkins/wordle-list](https://github.com/tabatkins/wordle-list)
+(used as a 5-letter word dictionary, not redistributed).
+
+---
+
 ## Who to ping
 
 - **App down or data integrity:** Principal Engineer
