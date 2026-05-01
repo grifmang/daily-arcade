@@ -187,6 +187,8 @@ export async function submitScore(input: unknown): Promise<SubmitResult> {
     signature,
     metadata,
     createdAt: Date.now(),
+    rankAtSubmit: rank,
+    totalAtSubmit: total,
   });
 
   return {

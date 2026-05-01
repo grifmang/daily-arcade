@@ -51,4 +51,13 @@ export interface ShareRecord {
   signature: string;
   metadata: Record<string, unknown>;
   createdAt: number;
+  /**
+   * Submit-time snapshot of leaderboard rank (1-indexed) and total
+   * submissions for (gameId, date) at the moment of submit. Optional
+   * because pre-2026-04-30 share records don't have these — the OG
+   * render falls through to the "no badge" branch when both are null.
+   * See ARCADE-POLISH spec Feature 2.
+   */
+  rankAtSubmit?: number | null;
+  totalAtSubmit?: number | null;
 }

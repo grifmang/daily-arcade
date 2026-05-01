@@ -89,6 +89,30 @@ describe("submitScore — drift-2049 replay verification", () => {
     expect(res.score).toBe(0);
   });
 
+  it("persists rankAtSubmit and totalAtSubmit on the share record", async () => {
+    const { submitScore } = await import("./actions");
+    const { store } = await import("./store");
+    const { utcDateString } = await import("./utils");
+    const today = utcDateString();
+    headerStore.set("x-forwarded-for", "203.0.113.42");
+    const res = await submitScore({
+      gameId: "drift-2049",
+      date: today,
+      handle: "RANKED",
+      metadata: { moves: [] },
+      turnstileToken: "test",
+    });
+    expect(res.ok).toBe(true);
+    expect(typeof res.rank).toBe("number");
+    expect(typeof res.total).toBe("number");
+    expect(res.shareId).toBeTruthy();
+
+    const stored = await store().getShare(res.shareId!);
+    expect(stored).not.toBeNull();
+    expect(stored!.rankAtSubmit).toBe(res.rank);
+    expect(stored!.totalAtSubmit).toBe(res.total);
+  });
+
   it("rejects malformed moves", async () => {
     const { submitScore } = await import("./actions");
     const { utcDateString } = await import("./utils");

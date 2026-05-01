@@ -3,9 +3,25 @@ import { NextRequest } from "next/server";
 import { store } from "@/lib/store";
 import { verify, sharePayload } from "@/lib/sign";
 import { ALL_GAMES, GAME_LABELS, GAME_GLYPHS, type GameId } from "@/lib/types";
+import { computeBadge, type BadgeTier } from "@/lib/og-badge";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+function badgeStyle(tier: BadgeTier | null): React.CSSProperties {
+  switch (tier) {
+    case "hero":
+      return { fontSize: 64, fontWeight: 800, color: "#d4ff3a", letterSpacing: 2, textTransform: "uppercase" };
+    case "prominent-accent":
+      return { fontSize: 36, fontWeight: 700, color: "#d4ff3a", letterSpacing: 2, textTransform: "uppercase" };
+    case "prominent":
+      return { fontSize: 36, fontWeight: 700, color: "#f3f0e6", letterSpacing: 2, textTransform: "uppercase" };
+    case "plain":
+      return { fontSize: 28, fontWeight: 600, color: "#a3a191", letterSpacing: 2, textTransform: "uppercase" };
+    default:
+      return { display: "none" };
+  }
+}
 
 export async function GET(req: NextRequest, ctx: { params: Promise<{ game: string }> }) {
   const { game } = await ctx.params;
@@ -30,6 +46,11 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ game: strin
   });
   const valid = await verify(payload, rec.signature);
   if (!valid) return new Response("Invalid signature", { status: 400 });
+
+  const badge = computeBadge({
+    rankAtSubmit: rec.rankAtSubmit,
+    totalAtSubmit: rec.totalAtSubmit,
+  });
 
   return new ImageResponse(
     (
@@ -63,6 +84,11 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ game: strin
           <div style={{ fontSize: 24, color: "#a3a191", letterSpacing: 4, textTransform: "uppercase", fontFamily: "ui-monospace, monospace" }}>
             {rec.date} · {GAME_LABELS[rec.gameId as GameId]}
           </div>
+          {badge.text && (
+            <div style={{ display: "flex", ...badgeStyle(badge.tier) }}>
+              {badge.text}
+            </div>
+          )}
           <div style={{ fontSize: 110, fontWeight: 800, lineHeight: 1, letterSpacing: -2 }}>
             <span style={{ color: "#d4ff3a", fontSize: 90, marginRight: 16 }}>{GAME_GLYPHS[rec.gameId as GameId]}</span>
             {rec.handle}
