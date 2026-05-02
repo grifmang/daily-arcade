@@ -70,6 +70,7 @@ export function applyHolds(
   const finalHand = finalCards as unknown as Hand;
 
   // Wild mode iff this is the Deuces paytable; otherwise standard mode.
+  // Reference-equality contract: see paytable.ts header.
   const wildRank = paytable === DEUCES_PAYTABLE ? Rank.TWO : null;
   const handRank = evaluateHand(finalHand, { wildRank });
   const payout = computePayout(handRank, paytable, bet);

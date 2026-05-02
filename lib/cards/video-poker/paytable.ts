@@ -3,6 +3,15 @@
 //
 // These values are widely-published facts about standard casino paytables;
 // they encode no copyrightable creative expression.
+//
+// LOAD-BEARING: the paytable constants are looked up by reference identity
+// in two places — `TOP_TIER_BY_PAYTABLE.get(paytable)` below (for the bet=5
+// Royal Flush bonus) and `paytable === DEUCES_PAYTABLE` in round.ts (for
+// wild-mode evaluator routing). Do NOT spread, shallow-copy, or hand-roll a
+// Paytable-shaped value — pass these constants directly. If you need a
+// third paytable variant, add it as a new exported constant here, register
+// it in TOP_TIER_BY_PAYTABLE if it has a top-tier bet-5 bonus, and update
+// round.ts's wild-mode detection if it uses wilds.
 
 import { HandRank } from "./types";
 
