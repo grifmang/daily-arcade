@@ -37,6 +37,21 @@ export {
 export type { BonusResult, BonusSpinTrace, RunBonusOpts } from "./bonus";
 export { createSeededRng, createCryptoRng } from "./rng";
 export type { SlotRng } from "./rng";
+export { playSpin } from "./play";
+export type { PlayResult } from "./play";
+export {
+  CREDITS_KEY,
+  STATS_KEY,
+  DEFAULT_CREDITS,
+  EMPTY_STATS,
+  loadCredits,
+  saveCredits,
+  loadStats,
+  saveStats,
+  recordSpinStat,
+  resetCredits,
+} from "./credits";
+export type { SlotStats } from "./credits";
 
 export interface BaseSpinResult {
   /** The 5x4 grid sampled from the base reels. */

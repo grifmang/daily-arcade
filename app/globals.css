@@ -140,3 +140,156 @@
 .t-512 { background: #d4ff3a; color: #0a0b10; }
 .t-1024 { background: #d4ff3a; color: #0a0b10; box-shadow: 0 0 0 2px rgba(212,255,58,0.4); }
 .t-2048 { background: linear-gradient(135deg, #d4ff3a, #66e6ff); color: #0a0b10; box-shadow: 0 0 0 3px rgba(212,255,58,0.5); }
+
+/* ----- Tideforge Pearls (slot game) -----
+ * Maritime supernatural palette: deep Prussian blue + obsidian + bronze + cyan-white
+ * + iridescent pearl-violet for the hero. Visuals are CSS-only / inline SVG.
+ */
+.bg-tide-deep {
+  /* Layered "storm + deep water" backdrop. Subtle; respects reduced motion. */
+  background-color: #06121f;
+  background-image:
+    radial-gradient(circle at 80% -10%, rgba(102, 230, 255, 0.10), transparent 55%),
+    radial-gradient(circle at 15% 110%, rgba(180, 110, 255, 0.10), transparent 55%),
+    linear-gradient(180deg, #06121f 0, #0a1828 100%);
+}
+
+.tide-cell {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(8, 18, 32, 0.65);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1rem, 4vw, 1.4rem);
+  letter-spacing: -0.02em;
+  position: relative;
+  overflow: hidden;
+}
+
+.tide-cell-tier { color: #b9d6ff; }
+.tide-tier {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+.tide-angler { color: #ff9bd6; }
+.tide-squid  { color: #b48cff; }
+.tide-coela  { color: #66e6ff; }
+.tide-manta  { color: #88a4c0; }
+
+.tide-cell-royal {
+  color: #d2a86b;
+  background: linear-gradient(180deg, rgba(50, 35, 18, 0.5), rgba(20, 14, 8, 0.5));
+}
+.tide-royal {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-display);
+}
+.tide-royal-low  { color: #c89657; }
+.tide-royal-high { color: #ffd28a; }
+
+.tide-cell-pearl {
+  color: #fff;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255,255,255,0.6), transparent 55%),
+    linear-gradient(180deg, #2c1f4a, #16243f);
+  border-color: rgba(180, 130, 255, 0.6);
+  box-shadow: 0 0 14px rgba(180, 130, 255, 0.35) inset;
+}
+.tide-pearl-orb {
+  position: relative;
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #e8c8ff 30%, #a86bff 70%, #5b2eaa 100%);
+  box-shadow: 0 0 12px rgba(180, 130, 255, 0.7), 0 0 0 1px rgba(255,255,255,0.25) inset;
+}
+.tide-pearl-core {
+  position: absolute;
+  inset: 25% auto auto 22%;
+  width: 22%;
+  height: 22%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  filter: blur(0.5px);
+}
+
+.tide-cell-wild {
+  color: #66e6ff;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(102, 230, 255, 0.18), transparent 60%),
+    linear-gradient(180deg, #0b1d2c, #06121f);
+  border-color: rgba(102, 230, 255, 0.6);
+  box-shadow: 0 0 10px rgba(102, 230, 255, 0.35) inset;
+}
+.tide-wild-bolt {
+  filter: drop-shadow(0 0 4px rgba(102, 230, 255, 0.7));
+}
+
+.tide-cell-scat {
+  color: #e8b76a;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(255, 200, 120, 0.22), transparent 55%),
+    linear-gradient(180deg, #1d1408, #110a04);
+  border-color: rgba(232, 183, 106, 0.55);
+}
+.tide-bell {
+  filter: drop-shadow(0 0 3px rgba(232, 183, 106, 0.6));
+}
+
+.tide-cell-winning {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+  animation: tide-win-flash 600ms var(--ease-arcade) both;
+}
+.tide-cell-converting {
+  animation: tide-convert 360ms var(--ease-arcade) both;
+}
+
+@keyframes tide-win-flash {
+  0%   { box-shadow: 0 0 0 0 rgba(212, 255, 58, 0.0) inset; }
+  40%  { box-shadow: 0 0 22px 0 rgba(212, 255, 58, 0.85) inset; }
+  100% { box-shadow: 0 0 0 0 rgba(212, 255, 58, 0.0) inset; }
+}
+@keyframes tide-convert {
+  0%   { transform: scale(1); filter: brightness(1); }
+  50%  { transform: scale(1.08); filter: brightness(1.6); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.tide-spin-glow {
+  animation: tide-spin-pulse 320ms var(--ease-arcade) both;
+}
+@keyframes tide-spin-pulse {
+  0%   { opacity: 0.55; transform: translateY(2px); }
+  100% { opacity: 1;    transform: translateY(0); }
+}
+
+.tide-meter-track {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.tide-meter-fill {
+  background: linear-gradient(90deg, #5b2eaa, #a86bff, #e8c8ff);
+  box-shadow: 0 0 10px rgba(180, 130, 255, 0.45);
+  transition: width var(--motion-mid) var(--ease-arcade);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tide-cell-winning,
+  .tide-cell-converting,
+  .tide-spin-glow {
+    animation: none;
+  }
+  .tide-meter-fill {
+    transition: none;
+  }
+}

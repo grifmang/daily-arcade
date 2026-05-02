@@ -1,7 +1,7 @@
 // Bonus state machine for Tideforge Pearls.
 // Spec: docs/superpowers/specs/slots-tideforge-pearls.md section 6
 import { Sym, type Grid, type SymbolId } from "./types";
-import { BONUS_REELS, STRIP_LEN } from "./reels";
+import { BONUS_REELS } from "./reels";
 import { evaluateWays } from "./ways";
 import type { SlotRng } from "./rng";
 
