@@ -26,7 +26,12 @@ function prefersReducedMotion(): boolean {
   try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; }
 }
 
+let renderCount = 0;
 export function JacksOrBetterClient() {
+  renderCount++;
+  if (renderCount < 30 || renderCount % 50 === 0) {
+    console.log("[render]", renderCount);
+  }
   const { push } = useToast();
   const [credits, setCredits] = React.useState<number>(DEFAULT_CREDITS);
   const [stats, setStats] = React.useState<SessionStats>(() => ({ ...EMPTY_STATS, rankHits: {} }));
@@ -59,15 +64,24 @@ export function JacksOrBetterClient() {
   const canDraw = phase === "dealt";
 
   function deal() {
-    if (!canDeal) return;
+    console.log("[deal] entry, canDeal=", canDeal, "credits=", credits, "bet=", bet, "phase=", phase);
+    if (!canDeal) { console.log("[deal] canDeal=false, returning"); return; }
+    console.log("[deal] step 1: setCredits");
     setCredits(c => c - bet);
-    const r = startRound(createCryptoRng());
+    console.log("[deal] step 2: createCryptoRng");
+    const rng = createCryptoRng();
+    console.log("[deal] step 3: startRound");
+    const r = startRound(rng);
+    console.log("[deal] step 4: startRound returned, hand[0]=", r.hand[0], "remainingDeckLen=", r.remainingDeck.length);
     setRound(r);
+    console.log("[deal] step 5: setHolds");
     setHolds([false, false, false, false, false]);
     setFinalHand(null);
     setLastRank(null);
     setLastWin(0);
+    console.log("[deal] step 6: setPhase('dealt')");
     setPhase("dealt");
+    console.log("[deal] DONE — function returning");
   }
 
   function toggleHold(i: number) {
