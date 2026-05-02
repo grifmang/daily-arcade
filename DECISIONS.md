@@ -617,4 +617,121 @@ Code is production-grade modulo the documented PostgresStore swap and the BotID 
 **To:** Principal Engineer (architecture delta) → Principal Engineer (Tideforge math design spec)
 **Status:** Brand-cleanse + theme selection approved. ADRs S1–S6 locked. Proceeding to architecture delta.
 
+---
+
+## [2026-05-01] Card Parlor — kickoff
+
+**From:** Brainstorming session (Claude with grifmang)
+
+**Scope:** Add a `/cards/` section to daily-arcade with two playable
+video-poker variants — 9/6 Jacks or Better and NSUD Deuces Wild —
+sharing a pure-logic engine. User explicitly chose a separate `/cards/`
+section over folding video poker into `/slots/` (which would have been
+the alternative; both options were on the table).
+
+**Spec:** `docs/superpowers/specs/2026-05-01-card-parlor-design.md`
+
+Following ADRs C1–C6 establish the integration boundaries.
+
+---
+
+## [2026-05-01] ADR-C1 — Card games live under `/cards/<slug>`, separate from `/slots/`
+
+**Decision:** New section `/cards/` with index page + two game routes
+(`/cards/jacks-or-better`, `/cards/deuces-wild`). The home grid (three
+daily puzzles) stays unchanged. A second discreet footer link
+"card parlor" provides the only nav into `/cards/`, alongside the
+existing "arcade lounge" link.
+
+**Why:** User explicitly chose separation over folding video poker
+into `/slots/`. The conceptual distinction (reel-spin slots vs
+card-faced slots) deserves separate routing even though both share
+the lounge model.
+
+**Consequences:** Two indexes (`/slots`, `/cards`); two footer links.
+The home page stays "today's three puzzles" — secondary destinations
+are reached only via footer.
+
+---
+
+## [2026-05-01] ADR-C2 — No streak impact
+
+**Decision:** Card games are off-streak entertainment. The streak
+counter remains daily-puzzle-exclusive; playing video poker neither
+extends nor breaks a streak.
+
+**Why:** Same reasoning as ADR-S2. Streak is the daily ritual primitive;
+diluting it with off-streak modes weakens its meaning.
+
+**Consequences:** No imports from `lib/hooks/use-streak.ts` in any
+`app/cards/` or `lib/cards/` file. No `recordPlay()` or `markCompleted()`
+calls.
+
+---
+
+## [2026-05-01] ADR-C3 — No leaderboard, no submit, no Turnstile, no OG, no DB
+
+**Decision:** Card games do not introduce any new server-side surface.
+- No new Server Actions
+- No new Route Handlers under `/api/`
+- No DB writes (`lib/store.ts` not modified)
+- No Turnstile invocations
+- No OG image routes for `/cards/` paths
+
+**Why:** Same reasoning as ADR-S3. The slot lounge proved this boundary
+holds for unlimited-play personal entertainment; cards inherit it.
+
+**Consequences:** AppSec surface for `/cards/` is near-zero — same as
+the slot lounge. The CSP in `proxy.ts` is unchanged.
+
+---
+
+## [2026-05-01] ADR-C4 — Play-money credits in localStorage, per game
+
+**Decision:** Each card game gets its own localStorage credit balance
+and session stats:
+- `cards:jacks-or-better:credits` (default 1000)
+- `cards:jacks-or-better:stats`
+- `cards:deuces-wild:credits` (default 1000)
+- `cards:deuces-wild:stats`
+
+Each game has a manual "Reset Balance" button. localStorage is
+editable in DevTools — risk-accepted, same as the slot lounge.
+
+**Why:** Same reasoning as ADR-S4. Per-game balances let the user
+explore each game independently without one drain affecting the other.
+
+**Consequences:** Copy uses "credits" only — no real-money framing.
+The reset confirmation explicitly disclaims real money.
+
+---
+
+## [2026-05-01] ADR-C5 — No daily-seed integration
+
+**Decision:** Per-hand `crypto.getRandomValues` RNG, fresh per hand.
+The daily seed engine remains daily-puzzle-exclusive.
+
+**Why:** Same reasoning as ADR-S5. The two systems should not couple.
+
+**Consequences:** No imports from `lib/seed.ts` in any `app/cards/`
+or `lib/cards/` file.
+
+---
+
+## [2026-05-01] ADR-C6 — Sequential ship cycles
+
+**Decision:** Three deploys.
+1. **Deploy 1** — ADRs + arch + math spec + shared engine + Jacks or
+   Better UI. Deuces Wild card on `/cards/` index shows "Coming Soon".
+2. **Deploy 2** — Deuces Wild UI. Index card flips from "Coming Soon"
+   to a live link.
+3. **Deploy 3** — Docs delta (RUNBOOK + README updates) and final
+   cross-feature review.
+
+**Why:** Same reasoning as ADR-S6. Ship the foundation + first game,
+prove it works in production, then layer the second variant onto the
+proven engine.
+
+**Consequences:** A failed Deuces deploy does not regress JoB. Each
+deploy is independently revertable.
 

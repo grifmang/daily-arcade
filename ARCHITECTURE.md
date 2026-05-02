@@ -592,3 +592,115 @@ The architecture is locked; the math is what the design spec resolves. Open ques
 
 Thornwood Path's design spec is deferred until Tideforge Pearls is live. Its open questions will mirror the above, plus the metamorphic-meter calibration (how often each meter fills, base-game cash-symbol density, board-traversal expected length, hold-and-spin sub-feature payout distribution, jackpot wheel tier weights and values).
 
+---
+
+## 15 — Card Parlor subsystem
+
+The card parlor is a sibling lounge to the slots subsystem (Section 14). It hosts video-poker variants; gameplay loop is unlimited-play with play-money credits, no leaderboard, no streak impact, no server writes.
+
+### 15.1 Routing
+- `/cards/` — index page (server-prerendered static)
+- `/cards/jacks-or-better` — JoB game route (server wrapper + client island)
+- `/cards/deuces-wild` — Deuces Wild game route (server wrapper + client island)
+
+The home page (`/`) and the slot lounge (`/slots/...`) are unchanged. Footer in `components/arcade-shell.tsx` carries TWO secondary links: "arcade lounge" → `/slots`, "card parlor" → `/cards`.
+
+### 15.2 Subsystem ownership
+| Concern | Owner |
+|---|---|
+| Card / hand types | `lib/cards/video-poker/types.ts` |
+| RNG | `lib/cards/video-poker/rng.ts` (port of the slot SlotRng pattern) |
+| Deck operations | `lib/cards/video-poker/deck.ts` |
+| Hand evaluation | `lib/cards/video-poker/evaluate.ts` |
+| Paytables | `lib/cards/video-poker/paytable.ts` |
+| Round state machine | `lib/cards/video-poker/round.ts` |
+| Credit / stats persistence | `lib/cards/video-poker/credits.ts` |
+| Public API | `lib/cards/video-poker/index.ts` (barrel) |
+| Variant client UIs | `app/cards/<slug>/<slug>-client.tsx` |
+| Shared display components | `components/cards/*.tsx` |
+
+### 15.3 What card games do NOT add
+This is the load-bearing list AppSec mini-pass will check against.
+
+- No new Server Actions
+- No new Route Handlers (no `/api/cards/` paths)
+- No `lib/store.ts` modifications, no DB tables
+- No Turnstile invocations
+- No OG image routes for cards
+- No new cron jobs
+- No new env vars (`lib/env.ts`, `.env.example` unchanged)
+- No outbound HTTPS at runtime (the engine is fully client-side)
+- No CSP relaxations (`proxy.ts` unchanged)
+
+### 15.4 localStorage state schema
+- `cards:jacks-or-better:credits` — number (default 1000)
+- `cards:jacks-or-better:stats` — `SessionStats` JSON shape
+- `cards:deuces-wild:credits` — number (default 1000)
+- `cards:deuces-wild:stats` — `SessionStats` JSON shape
+
+`SessionStats` shape (same shape used by the slot subsystem, re-implemented here for module independence):
+
+```ts
+interface SessionStats {
+  handsPlayed: number;
+  totalWagered: number;
+  totalWon: number;
+  bestSingleWin: number;
+  // Per-rank hit counters for visible "rare hand" stats
+  rankHits: Partial<Record<HandRank, number>>;
+}
+```
+
+### 15.5 RNG model contract
+- **Runtime:** `createCryptoRng()` wrapping `crypto.getRandomValues`, pulled fresh for each hand. No daily seed.
+- **Tests:** `createSeededRng(seed: bigint)` using xoshiro256** for deterministic test fixtures. Same `SlotRng` interface as runtime (drop-in replaceable).
+
+The RNG implementation is intentionally a port of the slot RNG — identical interface, identical implementation. If a third consumer appears, both modules can be migrated to a shared `lib/util/rng.ts` in a single refactor; until then, two-copy-one-shape is the YAGNI call.
+
+### 15.6 Round state machine (the load-bearing logic)
+```
+dealing    — RNG draws 5 cards from a freshly shuffled 52-card deck
+holding    — player toggles HOLD on 0..5 cards; primary action: DRAW
+drawing    — held cards stay; un-held cards replaced from same deck (next 5−heldCount)
+evaluating — final hand classified by `evaluateHand`; paytable applied; credits updated
+done       — UI displays result; primary action: DEAL (transitions back to dealing)
+```
+
+The deck is shuffled per round (not per phase). The draw step pulls from positions 5..(5 + 5 − heldCount − 1) of the same shuffled deck. This is the standard physical-cabinet behavior.
+
+### 15.7 Hand evaluator
+Two evaluation modes, gated by `options.wildRank`:
+- **Standard** (`wildRank: null`) — JoB uses this. 9-rank hierarchy topping at Royal Flush, with Jacks-or-better as the minimum paying hand.
+- **Wild** (`wildRank: Rank.TWO`) — Deuces uses this. 10-rank hierarchy with Wild Royal Flush, Five of a Kind, and Four Deuces as additional ranks. Minimum paying hand is Three of a Kind (no pair pays).
+
+The evaluator returns the highest-paying classification only; it never double-classifies a hand. Tie-breaking is unnecessary for paytable application but the evaluator is deterministic anyway.
+
+### 15.8 UI client island shape
+Per game, one client island (`app/cards/<slug>/<slug>-client.tsx`) following the Tideforge client pattern:
+- React state for round phase, current deck, current hand, hold flags, current bet, current win, animating state
+- Effects for card-flip animation timing (gated by reduced-motion)
+- ARIA-live region for win announcements ("You win 25 credits.")
+- Real `<button>` elements with focus-visible rings
+- `aria-busy` during animation; `aria-disabled` when out of credits
+- localStorage round-trip on every credit / stats update
+
+### 15.9 A11y commitments
+- No autoplay (every hand requires a button click)
+- No auto-hold (the player picks holds explicitly)
+- `prefers-reduced-motion: reduce` collapses card-flip and win animations to instant reveal, both via CSS keyframe override and via JS timer zero-out
+- Tab order: bet selector → 5 hold buttons → DEAL/DRAW → reset/paytable
+- Color contrast: card faces high-contrast against cabinet background; WCAG AA minimum
+
+### 15.10 Performance budget
+- Client island ≤60KB gzipped per game
+- First-deal latency ≤50ms after DEAL is pressed
+- No new dependencies — shipping React 19 + Tailwind 4 + the existing `cn()` utility
+
+### 15.11 Trust boundary delta
+None. The card parlor adds no new arrows on the trust boundary diagram in Section 4 — it touches only the client device.
+
+### 15.12 Cross-references
+- ADRs C1–C6 (`DECISIONS.md`, 2026-05-01) — integration boundaries
+- Spec `docs/superpowers/specs/2026-05-01-card-parlor-design.md` — design rationale
+- Math spec `docs/superpowers/specs/cards-video-poker-engine.md` — locked paytable values + golden vectors
+
