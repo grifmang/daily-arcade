@@ -38,16 +38,22 @@ export function JacksOrBetterClient() {
   const [lastRank, setLastRank] = React.useState<HandRank | null>(null);
   const [lastWin, setLastWin] = React.useState<number>(0);
   const reduced = React.useMemo(() => prefersReducedMotion(), []);
+  // `hydrated` flips true after the mount effect overwrites the SSR defaults
+  // with whatever's in localStorage. The save effects below skip the pre-
+  // hydration commits so we never overwrite a returning player's stored
+  // balance with the SSR `DEFAULT_CREDITS = 1000` placeholder.
+  const hydrated = React.useRef(false);
 
   // Hydrate from localStorage on mount.
   React.useEffect(() => {
     setCredits(loadCredits(SLUG));
     setStats(loadStats(SLUG));
+    hydrated.current = true;
   }, []);
 
-  // Persist credits / stats.
-  React.useEffect(() => { saveCredits(SLUG, credits); }, [credits]);
-  React.useEffect(() => { saveStats(SLUG, stats); }, [stats]);
+  // Persist credits / stats — gated on hydration so the SSR placeholder render never writes back.
+  React.useEffect(() => { if (hydrated.current) saveCredits(SLUG, credits); }, [credits]);
+  React.useEffect(() => { if (hydrated.current) saveStats(SLUG, stats); }, [stats]);
 
   const canDeal = phase !== "dealt" && credits >= bet;
   const canDraw = phase === "dealt";
