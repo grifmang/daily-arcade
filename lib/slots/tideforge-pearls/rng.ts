@@ -106,12 +106,17 @@ export function createCryptoRng(): SlotRng {
       if (!Number.isInteger(maxExclusive) || maxExclusive < 1) {
         throw new Error(`nextInt: maxExclusive must be a positive integer (got ${maxExclusive})`);
       }
-      // max === 1 is the trivial case; the rejection loop below would hang because
-      // `0x100000000 % 1 === 0` and the truncated `limit` would be 0.
+      // Trivial case.
       if (maxExclusive === 1) return 0;
       // Unbiased rejection sampling on u32.
+      // CAREFUL: do NOT apply `>>> 0` to `limit`. When `0x100000000 % max === 0`
+      // (i.e. max is a power of 2 like 2, 4, 8, 16, 32, ...), `limit` would be
+      // exactly 2^32, which `>>> 0` truncates to 0 — making `v >= limit` always
+      // true and the loop infinite. The Tideforge call sites only use nextInt(60)
+      // so they never trip this in practice, but the bug was latent here and
+      // would surface if any consumer called with a power-of-2 size.
       const max = maxExclusive >>> 0;
-      const limit = (0x100000000 - (0x100000000 % max)) >>> 0;
+      const limit = 0x100000000 - (0x100000000 % max);
       let v: number;
       do {
         v = nextU32();

@@ -53,4 +53,23 @@ describe("rng — seeded determinism (spec §7)", () => {
       expect(crypto.nextInt(1)).toBe(0);
     }
   });
+
+  it("nextInt(power-of-2) terminates fast — regression against the >>> 0 truncation bug", () => {
+    // Same latent bug as the cards RNG: when max is a power of 2,
+    // `0x100000000 % max === 0`, so `limit = 2^32`, and `>>> 0` truncates that to 0,
+    // making the rejection loop infinite. Tideforge's call sites only use nextInt(60)
+    // so they never tripped this in production, but lock the regression at the source.
+    const seeded = createSeededRng(123n);
+    const crypto = createCryptoRng();
+    for (const max of [2, 4, 8, 16, 32, 64, 128, 1024, 65536]) {
+      for (let i = 0; i < 50; i++) {
+        const s = seeded.nextInt(max);
+        const c = crypto.nextInt(max);
+        expect(s).toBeGreaterThanOrEqual(0);
+        expect(s).toBeLessThan(max);
+        expect(c).toBeGreaterThanOrEqual(0);
+        expect(c).toBeLessThan(max);
+      }
+    }
+  });
 });

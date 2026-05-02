@@ -53,4 +53,23 @@ describe("rng — seeded determinism (spec §8)", () => {
       expect(crypto.nextInt(1)).toBe(0);
     }
   });
+
+  it("nextInt(power-of-2) terminates fast — regression against the >>> 0 truncation bug", () => {
+    // Regression: when max is a power of 2 (2, 4, 8, ..., 32, ...), `0x100000000 % max === 0`,
+    // so `limit` is exactly 2^32. Applying `>>> 0` truncates 2^32 to 0, which makes
+    // `v >= limit` always true and the rejection loop infinite.
+    // Card-shuffle's Fisher-Yates calls nextInt(32) etc., which surfaced this in the field.
+    const seeded = createSeededRng(123n);
+    const crypto = createCryptoRng();
+    for (const max of [2, 4, 8, 16, 32, 64, 128, 1024, 65536]) {
+      for (let i = 0; i < 50; i++) {
+        const s = seeded.nextInt(max);
+        const c = crypto.nextInt(max);
+        expect(s).toBeGreaterThanOrEqual(0);
+        expect(s).toBeLessThan(max);
+        expect(c).toBeGreaterThanOrEqual(0);
+        expect(c).toBeLessThan(max);
+      }
+    }
+  });
 });
