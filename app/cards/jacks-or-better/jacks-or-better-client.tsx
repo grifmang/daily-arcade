@@ -127,113 +127,119 @@ export function JacksOrBetterClient() {
 
   return (
     <>
-      {/* ── VP Cabinet shell — fills viewport, no scroll ── */}
-      <div
-        className="cabinet-vp flex flex-col"
-        style={{
-          width:  "min(100vw, 720px)",
-          height: "min(100dvh, 580px)",
-          margin: "0 auto",
-          minHeight: "480px",
-        }}
-      >
-        {/* ── PAYTABLE ── */}
-        <div className="flex-none border-b border-[var(--cabinet-vp-border)]">
-          <PaytablePanel
-            paytable={JOB_PAYTABLE}
-            bet={bet}
-            topTierRank={HandRank.ROYAL_FLUSH}
-            highlightRank={lastRank ?? null}
-          />
-        </div>
-
-        {/* ── PHASE BANNER ── */}
-        <div
-          className="flex-none flex items-center justify-center border-b border-[var(--cabinet-vp-border)]"
-          style={{ padding: "4px 8px", minHeight: "24px" }}
-        >
-          <span className="phase-banner-vp">{phaseLabel}</span>
-        </div>
-
-        {/* ── CARD AREA ── */}
-        <div
-          className="flex-1 flex flex-col justify-center"
-          style={{ padding: "4px 12px 6px" }}
-        >
-          <CardRow
-            cards={displayCards}
-            highlights={displayHighlights}
-            holds={holds}
-            onToggleHold={toggleHold}
-            holdDisabled={phase !== "dealt"}
-          />
-        </div>
-
-        {/* ── READOUT STRIP ── */}
-        <div
-          className="flex-none flex items-center justify-between border-t border-[var(--cabinet-vp-border)]"
-          style={{ padding: "4px 10px", gap: "6px", background: "var(--cabinet-vp-inner)" }}
-        >
-          {/* WIN */}
-          <div className={cn("readout-vp", "readout-vp-win")} style={{ flex: 1 }}>
-            <span className="readout-vp-label">WIN</span>
-            <span className="readout-vp-value">
-              {phase === "drawn" && lastWin > 0 ? lastWin : "—"}
-            </span>
+      {/* ── Outer wrapper centers the cabinet in the viewport with breathing-room ── */}
+      <div className="cabinet-vp-wrap">
+        {/* ── VP Cabinet shell — sized via .cabinet-vp-shell (clamp-driven) ── */}
+        <div className="cabinet-vp cabinet-vp-shell">
+          {/* ── PAYTABLE ── */}
+          <div className="flex-none border-b border-[var(--cabinet-vp-border)]">
+            <PaytablePanel
+              paytable={JOB_PAYTABLE}
+              bet={bet}
+              topTierRank={HandRank.ROYAL_FLUSH}
+              highlightRank={lastRank ?? null}
+            />
           </div>
 
-          {/* BET */}
-          <div className="readout-vp" style={{ flex: 1 }}>
-            <span className="readout-vp-label">BET</span>
-            <span className="readout-vp-value">{bet}</span>
-          </div>
-
-          {/* CREDITS */}
-          <div className="readout-vp" style={{ flex: 1.4 }}>
-            <span className="readout-vp-label">CREDITS</span>
-            <span className="readout-vp-value" style={{ fontSize: "clamp(0.7rem, 2.5vw, 1rem)" }}>
-              {credits}
-            </span>
-          </div>
-        </div>
-
-        {/* ── CONTROL BUTTON STRIP ── */}
-        <div
-          className="flex-none flex items-center justify-between border-t border-[var(--cabinet-vp-border)]"
-          style={{ padding: "5px 8px", gap: "6px", background: "var(--cabinet-vp-inner)" }}
-        >
-          {/* MENU button */}
-          <button
-            type="button"
-            onClick={() => setMenuOpen(o => !o)}
-            aria-expanded={menuOpen}
-            aria-controls="vp-menu-panel"
-            className="btn-vp"
+          {/* ── PHASE BANNER ── */}
+          <div
+            className="flex-none flex items-center justify-center border-b border-[var(--cabinet-vp-border)]"
+            style={{
+              padding: "clamp(4px, 0.6vw, 10px) clamp(8px, 1vw, 16px)",
+              minHeight: "clamp(24px, 3vw, 36px)",
+            }}
           >
-            MENU
-          </button>
-
-          {/* Bet controls */}
-          <div className="flex items-center gap-1.5">
-            <BetSelector bet={bet} onChange={setBet} disabled={phase === "dealt"} vpMode />
+            <span className="phase-banner-vp">{phaseLabel}</span>
           </div>
 
-          {/* Primary action */}
-          <button
-            type="button"
-            onClick={primaryAction}
-            disabled={primaryDisabled}
-            className={cn("btn-vp btn-vp-primary", primaryDisabled && "opacity-45")}
-            aria-label={phase === "dealt" ? "Draw replacement cards" : "Deal new hand"}
+          {/* ── CARD AREA ── grows to fill remaining vertical space */}
+          <div
+            className="flex-1 flex flex-col justify-center"
+            style={{ padding: "clamp(4px, 0.8vw, 16px) clamp(12px, 2vw, 32px) clamp(6px, 1vw, 18px)" }}
           >
-            {primaryLabel}
-          </button>
-        </div>
+            <CardRow
+              cards={displayCards}
+              highlights={displayHighlights}
+              holds={holds}
+              onToggleHold={toggleHold}
+              holdDisabled={phase !== "dealt"}
+            />
+          </div>
 
-        {/* ── FOOTER ── */}
-        <div className="footer-vp flex-none">
-          <span>JACKS OR BETTER</span>
-          <span>{PHASE_LABEL[phase]}</span>
+          {/* ── READOUT STRIP ── */}
+          <div
+            className="flex-none flex items-center justify-between border-t border-[var(--cabinet-vp-border)]"
+            style={{
+              padding: "clamp(4px, 0.6vw, 10px) clamp(10px, 1.2vw, 18px)",
+              gap: "clamp(6px, 0.8vw, 14px)",
+              background: "var(--cabinet-vp-inner)",
+            }}
+          >
+            {/* WIN */}
+            <div className={cn("readout-vp", "readout-vp-win")} style={{ flex: 1 }}>
+              <span className="readout-vp-label">WIN</span>
+              <span className="readout-vp-value">
+                {phase === "drawn" && lastWin > 0 ? lastWin : "—"}
+              </span>
+            </div>
+
+            {/* BET */}
+            <div className="readout-vp" style={{ flex: 1 }}>
+              <span className="readout-vp-label">BET</span>
+              <span className="readout-vp-value">{bet}</span>
+            </div>
+
+            {/* CREDITS */}
+            <div className="readout-vp" style={{ flex: 1.4 }}>
+              <span className="readout-vp-label">CREDITS</span>
+              <span className="readout-vp-value">
+                {credits}
+              </span>
+            </div>
+          </div>
+
+          {/* ── CONTROL BUTTON STRIP ── */}
+          <div
+            className="flex-none flex items-center justify-between border-t border-[var(--cabinet-vp-border)]"
+            style={{
+              padding: "clamp(5px, 0.7vw, 12px) clamp(8px, 1.2vw, 18px)",
+              gap: "clamp(6px, 1vw, 16px)",
+              background: "var(--cabinet-vp-inner)",
+            }}
+          >
+            {/* MENU button */}
+            <button
+              type="button"
+              onClick={() => setMenuOpen(o => !o)}
+              aria-expanded={menuOpen}
+              aria-controls="vp-menu-panel"
+              className="btn-vp"
+            >
+              MENU
+            </button>
+
+            {/* Bet controls */}
+            <div className="flex items-center" style={{ gap: "clamp(6px, 0.8vw, 12px)" }}>
+              <BetSelector bet={bet} onChange={setBet} disabled={phase === "dealt"} vpMode />
+            </div>
+
+            {/* Primary action */}
+            <button
+              type="button"
+              onClick={primaryAction}
+              disabled={primaryDisabled}
+              className={cn("btn-vp btn-vp-primary", primaryDisabled && "opacity-45")}
+              aria-label={phase === "dealt" ? "Draw replacement cards" : "Deal new hand"}
+            >
+              {primaryLabel}
+            </button>
+          </div>
+
+          {/* ── FOOTER ── */}
+          <div className="footer-vp flex-none">
+            <span>JACKS OR BETTER</span>
+            <span>{PHASE_LABEL[phase]}</span>
+          </div>
         </div>
       </div>
 

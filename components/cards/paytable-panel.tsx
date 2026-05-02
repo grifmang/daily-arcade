@@ -72,8 +72,10 @@ export function PaytablePanel({ paytable, bet, topTierRank, highlightRank }: Pay
       <div role="row" className="contents">
         <div
           role="columnheader"
-          className={cn("paytable-vp-cell paytable-vp-name", "bg-[var(--paytable-vp-header-bg)]")}
-          style={{ fontSize: "0.55rem", letterSpacing: "0.08em", color: "var(--paytable-vp-dim)" }}
+          className={cn(
+            "paytable-vp-cell paytable-vp-name paytable-vp-cell-header",
+            "bg-[var(--paytable-vp-header-bg)]",
+          )}
         >
           HAND
         </div>
@@ -82,11 +84,10 @@ export function PaytablePanel({ paytable, bet, topTierRank, highlightRank }: Pay
             key={b}
             role="columnheader"
             className={cn(
-              "paytable-vp-cell",
+              "paytable-vp-cell paytable-vp-cell-header",
               "bg-[var(--paytable-vp-header-bg)]",
               b === bet && "paytable-vp-active-col",
             )}
-            style={{ fontSize: "0.55rem", letterSpacing: "0.06em" }}
           >
             BET {b}
           </div>

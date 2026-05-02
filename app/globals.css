@@ -394,6 +394,19 @@
     #0a0b10;
 }
 
+/* ── VP Cabinet outer wrapper (gives breathing-room around the cabinet) ── */
+.cabinet-vp-wrap {
+  /* Centers the cabinet, gives margin from viewport edges. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100dvh;
+  /* Comfortable padding scales with viewport — never crowds the cabinet. */
+  padding: clamp(8px, 2.5vw, 32px);
+  box-sizing: border-box;
+}
+
 /* ── VP Cabinet outer shell ───────────────────────────────────────────── */
 .cabinet-vp {
   background-color: var(--cabinet-vp-bg);
@@ -401,8 +414,24 @@
     radial-gradient(ellipse at 50% 0%, rgba(31, 58, 122, 0.7) 0%, transparent 60%),
     radial-gradient(ellipse at 50% 100%, rgba(10, 28, 74, 0.9) 0%, transparent 50%);
   border: 2px solid var(--cabinet-vp-border);
+  border-radius: 6px;
   color: var(--paytable-vp-text);
   font-family: var(--font-mono);
+}
+
+/* Sized variant — used for the main cabinet shell. The modal-menu reuses
+   .cabinet-vp without sizing. */
+.cabinet-vp-shell {
+  /* Width: grows comfortably on desktop, stays sensible on mobile.
+     Floor 320px ensures it doesn't break on narrow phones; cap 1080px
+     keeps it from going full-bleed on large desktops. */
+  width: clamp(320px, 96vw, 1080px);
+  /* Height: fills most of the viewport on tall screens, stays bounded. */
+  height: clamp(480px, 94dvh, 760px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
 }
 
 /* ── VP Paytable grid ────────────────────────────────────────────────── */
@@ -414,8 +443,8 @@
 }
 
 .paytable-vp-cell {
-  padding: 2px 4px;
-  font-size: 0.6rem;
+  padding: clamp(2px, 0.4vw, 6px) clamp(4px, 0.6vw, 10px);
+  font-size: clamp(0.6rem, 0.85vw + 0.35rem, 0.95rem);
   line-height: 1.5;
   text-align: right;
   color: var(--paytable-vp-dim);
@@ -434,6 +463,12 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.paytable-vp-cell-header {
+  font-size: clamp(0.55rem, 0.5vw + 0.4rem, 0.8rem);
+  letter-spacing: 0.08em;
+  color: var(--paytable-vp-dim);
 }
 
 .paytable-vp-active-col {
@@ -501,11 +536,11 @@
   background-color: var(--card-vp-held-banner);
   color: var(--card-vp-held-banner-fg);
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: clamp(0.6rem, 0.6vw + 0.45rem, 0.85rem);
   font-weight: 700;
   letter-spacing: 0.1em;
   text-align: center;
-  padding: 1px 0;
+  padding: clamp(1px, 0.2vw, 4px) 0;
   border-radius: 2px;
 }
 
@@ -519,12 +554,14 @@
   border: 1px solid var(--cabinet-vp-border);
   border-radius: 4px;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: clamp(0.7rem, 0.5vw + 0.55rem, 0.95rem);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
-  padding: 6px 10px;
+  padding: clamp(6px, 0.7vw, 12px) clamp(10px, 1.4vw, 22px);
+  /* Real touch target on mobile, comfortable click target on desktop. */
+  min-height: 36px;
   transition: background-color var(--motion-fast) var(--ease-arcade),
               transform var(--motion-fast) var(--ease-arcade);
   white-space: nowrap;
@@ -552,8 +589,8 @@
   background-color: var(--button-vp-primary-bg);
   color: var(--button-vp-primary-fg);
   border-color: var(--button-vp-primary-bg);
-  font-size: 0.8rem;
-  padding: 6px 16px;
+  font-size: clamp(0.8rem, 0.6vw + 0.6rem, 1.1rem);
+  padding: clamp(6px, 0.8vw, 14px) clamp(16px, 2.2vw, 32px);
 }
 
 .btn-vp-primary:hover:not(:disabled) {
@@ -570,13 +607,13 @@
   background-color: var(--cabinet-vp-inner);
   border: 1px solid var(--cabinet-vp-border);
   border-radius: 3px;
-  padding: 2px 8px;
+  padding: clamp(2px, 0.4vw, 6px) clamp(8px, 1vw, 16px);
   min-width: 60px;
 }
 
 .readout-vp-label {
   font-family: var(--font-mono);
-  font-size: 0.5rem;
+  font-size: clamp(0.5rem, 0.4vw + 0.4rem, 0.75rem);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--paytable-vp-dim);
@@ -585,7 +622,7 @@
 
 .readout-vp-value {
   font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: clamp(1rem, 1vw + 0.65rem, 1.6rem);
   font-weight: 700;
   color: var(--paytable-vp-text);
   line-height: 1.2;
@@ -600,7 +637,7 @@
 /* ── VP phase banner ────────────────────────────────────────────────── */
 .phase-banner-vp {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: clamp(0.65rem, 0.6vw + 0.45rem, 0.95rem);
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -615,9 +652,9 @@
   justify-content: space-between;
   background-color: var(--cabinet-vp-inner);
   border-top: 1px solid var(--cabinet-vp-border);
-  padding: 3px 8px;
+  padding: clamp(3px, 0.5vw, 8px) clamp(8px, 1.2vw, 18px);
   font-family: var(--font-mono);
-  font-size: 0.55rem;
+  font-size: clamp(0.55rem, 0.4vw + 0.4rem, 0.75rem);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;

@@ -69,23 +69,23 @@ export function CardFace({ card, highlight, className, onClick, held, disabled }
         className="absolute top-[5%] left-[8%] flex flex-col items-center leading-none"
         aria-hidden="true"
       >
-        <span className="font-bold text-[clamp(0.7rem,2.2vw,1.1rem)] leading-none">{rankLabel}</span>
-        <span className="text-[clamp(0.6rem,1.8vw,0.9rem)] leading-none">{suitGlyph}</span>
+        <span className="font-bold text-[clamp(0.85rem,2.4vw,1.6rem)] leading-none">{rankLabel}</span>
+        <span className="text-[clamp(0.7rem,2vw,1.3rem)] leading-none">{suitGlyph}</span>
       </div>
       {/* Center suit glyph */}
       <div
         className="absolute inset-0 flex items-center justify-center"
         aria-hidden="true"
       >
-        <span className="text-[clamp(1.4rem,4.5vw,2.2rem)] leading-none">{suitGlyph}</span>
+        <span className="text-[clamp(1.8rem,5vw,3.4rem)] leading-none">{suitGlyph}</span>
       </div>
       {/* Bottom-right rank + suit (rotated) */}
       <div
         className="absolute bottom-[5%] right-[8%] flex flex-col items-center leading-none rotate-180"
         aria-hidden="true"
       >
-        <span className="font-bold text-[clamp(0.7rem,2.2vw,1.1rem)] leading-none">{rankLabel}</span>
-        <span className="text-[clamp(0.6rem,1.8vw,0.9rem)] leading-none">{suitGlyph}</span>
+        <span className="font-bold text-[clamp(0.85rem,2.4vw,1.6rem)] leading-none">{rankLabel}</span>
+        <span className="text-[clamp(0.7rem,2vw,1.3rem)] leading-none">{suitGlyph}</span>
       </div>
     </>
   );
