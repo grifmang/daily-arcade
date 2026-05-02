@@ -40,6 +40,7 @@ export function ArcadeShell({ children }: { children: React.ReactNode }) {
           <span>Daily Arcade · same puzzle for everyone · resets at 00:00 UTC</span>
           <span className="flex items-center gap-4">
             <Link href="/slots" className="hover:text-[var(--color-fg)]">arcade lounge</Link>
+            <Link href="/cards" className="hover:text-[var(--color-fg)]">card parlor</Link>
             <Link href="/about" className="hover:text-[var(--color-fg)]">about</Link>
           </span>
         </div>
