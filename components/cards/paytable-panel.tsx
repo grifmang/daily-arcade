@@ -5,62 +5,130 @@ import { cn } from "@/lib/utils";
 
 export interface PaytablePanelProps {
   paytable: Paytable;
-  /** Currently-active bet (1-5). All paytable rows scale to this bet for display. */
+  /** Currently-active bet (1-5). Highlights the matching column in red. */
   bet: number;
-  /** Top-tier rank (Royal Flush in JoB, Natural Royal Flush in Deuces) — gets the 5-coin bonus highlight. */
+  /** Top-tier rank (Royal Flush in JoB) — shows 4000 at bet=5 column. */
   topTierRank: HandRank;
   /** When non-null, this row glows (the player's last winning rank). */
   highlightRank: HandRank | null;
 }
 
+// Short display names that fit the compact paytable grid.
+const SHORT_NAMES: Partial<Record<HandRank, string>> = {
+  [HandRank.ROYAL_FLUSH]:         "ROYAL FLUSH",
+  [HandRank.NATURAL_ROYAL_FLUSH]: "ROYAL FLUSH",
+  [HandRank.STRAIGHT_FLUSH]:      "STR FLUSH",
+  [HandRank.FOUR_OF_A_KIND]:      "4 OF A KIND",
+  [HandRank.FULL_HOUSE]:          "FULL HOUSE",
+  [HandRank.FLUSH]:               "FLUSH",
+  [HandRank.STRAIGHT]:            "STRAIGHT",
+  [HandRank.THREE_OF_A_KIND]:     "3 OF A KIND",
+  [HandRank.TWO_PAIR]:            "2 PAIR",
+  [HandRank.JACKS_OR_BETTER]:     "JACKS OR BETTER",
+  // Deuces Wild extras
+  [HandRank.FIVE_OF_A_KIND]:      "5 OF A KIND",
+  [HandRank.FOUR_DEUCES]:         "4 DEUCES",
+  [HandRank.WILD_ROYAL_FLUSH]:    "WILD ROYAL",
+};
+
+// Ordered rows for JoB paytable (top to bottom, best to worst).
+const JOB_ROW_ORDER: HandRank[] = [
+  HandRank.ROYAL_FLUSH,
+  HandRank.STRAIGHT_FLUSH,
+  HandRank.FOUR_OF_A_KIND,
+  HandRank.FULL_HOUSE,
+  HandRank.FLUSH,
+  HandRank.STRAIGHT,
+  HandRank.THREE_OF_A_KIND,
+  HandRank.TWO_PAIR,
+  HandRank.JACKS_OR_BETTER,
+];
+
+// Full ordered list covering all hands (Deuces Wild variants included).
+const ALL_ROW_ORDER: HandRank[] = [
+  HandRank.NATURAL_ROYAL_FLUSH,
+  HandRank.FOUR_DEUCES,
+  HandRank.WILD_ROYAL_FLUSH,
+  HandRank.FIVE_OF_A_KIND,
+  ...JOB_ROW_ORDER,
+];
+
 export function PaytablePanel({ paytable, bet, topTierRank, highlightRank }: PaytablePanelProps) {
-  // Ordered list of paying ranks for this paytable, top-down (best to worst).
-  const ROWS: HandRank[] = [
-    HandRank.NATURAL_ROYAL_FLUSH,
-    HandRank.WILD_ROYAL_FLUSH,
-    HandRank.ROYAL_FLUSH,
-    HandRank.FOUR_DEUCES,
-    HandRank.FIVE_OF_A_KIND,
-    HandRank.STRAIGHT_FLUSH,
-    HandRank.FOUR_OF_A_KIND,
-    HandRank.FULL_HOUSE,
-    HandRank.FLUSH,
-    HandRank.STRAIGHT,
-    HandRank.THREE_OF_A_KIND,
-    HandRank.TWO_PAIR,
-    HandRank.JACKS_OR_BETTER,
-  ];
-  const visibleRows = ROWS.filter(r => paytable[r] > 0);
+  const visibleRows = ALL_ROW_ORDER.filter(r => paytable[r] > 0);
+
+  // For each rank, compute payout at each bet level 1-5.
+  function payAtBet(rank: HandRank, b: number): number {
+    if (b === 5 && rank === topTierRank) return 4000;
+    return paytable[rank] * b;
+  }
 
   return (
-    <div className="paytable-panel rounded-md border border-[var(--paytable-border)] bg-[var(--paytable-bg)] p-3 sm:p-4">
-      <table className="w-full text-xs sm:text-sm font-mono">
-        <thead>
-          <tr className="text-[var(--paytable-header-fg)]">
-            <th className="text-left">hand</th>
-            <th className="text-right">pay</th>
-          </tr>
-        </thead>
-        <tbody>
-          {visibleRows.map(rank => {
-            const isTopAtMaxBet = rank === topTierRank && bet === 5;
-            const payout = isTopAtMaxBet ? 4000 : paytable[rank] * bet;
-            return (
-              <tr
-                key={rank}
+    <div
+      className="paytable-vp-grid"
+      role="table"
+      aria-label="Paytable — payout per bet level"
+    >
+      {/* Header row */}
+      <div role="row" className="contents">
+        <div
+          role="columnheader"
+          className={cn("paytable-vp-cell paytable-vp-name", "bg-[var(--paytable-vp-header-bg)]")}
+          style={{ fontSize: "0.55rem", letterSpacing: "0.08em", color: "var(--paytable-vp-dim)" }}
+        >
+          HAND
+        </div>
+        {[1, 2, 3, 4, 5].map(b => (
+          <div
+            key={b}
+            role="columnheader"
+            className={cn(
+              "paytable-vp-cell",
+              "bg-[var(--paytable-vp-header-bg)]",
+              b === bet && "paytable-vp-active-col",
+            )}
+            style={{ fontSize: "0.55rem", letterSpacing: "0.06em" }}
+          >
+            BET {b}
+          </div>
+        ))}
+      </div>
+
+      {/* Data rows */}
+      {visibleRows.map(rank => {
+        const isWinRow = highlightRank === rank;
+        const label = SHORT_NAMES[rank] ?? HAND_RANK_NAME[rank];
+        return (
+          <div
+            key={rank}
+            role="row"
+            className={cn("contents", isWinRow && "paytable-vp-row-win")}
+            aria-selected={isWinRow}
+          >
+            <div
+              role="cell"
+              className={cn(
+                "paytable-vp-cell paytable-vp-name",
+                isWinRow && "paytable-vp-row-win",
+              )}
+            >
+              {label}
+            </div>
+            {[1, 2, 3, 4, 5].map(b => (
+              <div
+                key={b}
+                role="cell"
                 className={cn(
-                  "paytable-row",
-                  highlightRank === rank && "paytable-row-active",
-                  isTopAtMaxBet && "paytable-row-bonus",
+                  "paytable-vp-cell",
+                  b === bet && "paytable-vp-active-col",
+                  isWinRow && b !== bet && "paytable-vp-row-win",
                 )}
               >
-                <td className="text-left py-0.5">{HAND_RANK_NAME[rank]}</td>
-                <td className="text-right tabular-nums py-0.5">{payout}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                {payAtBet(rank, b)}
+              </div>
+            ))}
+          </div>
+        );
+      })}
     </div>
   );
 }

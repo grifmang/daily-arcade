@@ -301,18 +301,50 @@
 */
 
 :root {
-  /* Shared card visuals */
+  /* Shared card visuals (legacy + VP cabinet tokens) */
   --card-face-bg: #f3f0e6;
   --card-back-bg: #1a1f3a;
   --card-suit-red: #c1331a;
   --card-suit-black: #0a0b10;
 
-  /* Paytable panel */
+  /* Paytable panel (legacy) */
   --paytable-bg: #0a0b10;
   --paytable-border: #2a2f4a;
   --paytable-header-fg: #a3a191;
+
+  /* ── Video-Poker Cabinet tokens (cabinet-vp-*) ──────────────────────── */
+  --cabinet-vp-bg:          #0a1c4a;   /* deep navy field                */
+  --cabinet-vp-border:      #1f3a7a;   /* lighter navy border            */
+  --cabinet-vp-inner:       #071430;   /* darkest inset areas            */
+
+  /* ── Paytable (paytable-vp-*) ───────────────────────────────────────── */
+  --paytable-vp-text:       #ffd33a;   /* golden yellow row labels       */
+  --paytable-vp-dim:        #c8a420;   /* dimmer gold for non-active cols */
+  --paytable-vp-active-bg:  #c62828;   /* red active-bet column          */
+  --paytable-vp-active-fg:  #ffffff;   /* white text on red column       */
+  --paytable-vp-row-glow:   #fff394;   /* pale yellow win-row highlight  */
+  --paytable-vp-header-bg:  #0d2260;   /* slightly lighter row for header */
+
+  /* ── Cards (card-vp-*) ───────────────────────────────────────────────── */
+  --card-vp-face-bg:        #f5ecd9;   /* cream card face                */
+  --card-vp-suit-red:       #c1331a;   /* heart / diamond red            */
+  --card-vp-suit-black:     #0a0b10;   /* spade / club black             */
+  --card-vp-held-banner:    #ffd33a;   /* HELD banner golden yellow      */
+  --card-vp-held-banner-fg: #0a1c4a;   /* navy text on HELD banner       */
+  --card-vp-border:         #c8aa82;   /* warm card border               */
+  --card-vp-hold-ring:      #ffd33a;   /* outline when held              */
+  --card-vp-win-glow:       #ffd33a;   /* glow on winning cards          */
+  --card-vp-back-bg:        #1a2e6e;   /* navy card back                 */
+
+  /* ── Buttons (button-vp-*) ───────────────────────────────────────────── */
+  --button-vp-bg:           #1f3a7a;
+  --button-vp-fg:           #ffd33a;
+  --button-vp-primary-bg:   #ffd33a;
+  --button-vp-primary-fg:   #0a1c4a;
+  --button-vp-hover-bg:     #2a4e9e;
 }
 
+/* ── Legacy card-face states (preserved for shared usage) ─────────────── */
 .card-face-hold {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
@@ -343,7 +375,8 @@
   font-weight: bold;
 }
 
-/* JoB cabinet palette */
+/* ── Legacy cabinet palettes (preserved for Deuces Wild) ─────────────── */
+/* JoB cabinet palette — legacy; new layout uses cabinet-vp-* */
 .cabinet-job {
   --color-accent-cabinet: #e6c200;  /* gold */
   background:
@@ -361,6 +394,244 @@
     #0a0b10;
 }
 
+/* ── VP Cabinet outer shell ───────────────────────────────────────────── */
+.cabinet-vp {
+  background-color: var(--cabinet-vp-bg);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(31, 58, 122, 0.7) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(10, 28, 74, 0.9) 0%, transparent 50%);
+  border: 2px solid var(--cabinet-vp-border);
+  color: var(--paytable-vp-text);
+  font-family: var(--font-mono);
+}
+
+/* ── VP Paytable grid ────────────────────────────────────────────────── */
+.paytable-vp-grid {
+  display: grid;
+  /* col 0 = hand name, cols 1-5 = bet amounts */
+  grid-template-columns: minmax(0, 1.7fr) repeat(5, minmax(0, 1fr));
+  border-bottom: 1px solid var(--cabinet-vp-border);
+}
+
+.paytable-vp-cell {
+  padding: 2px 4px;
+  font-size: 0.6rem;
+  line-height: 1.5;
+  text-align: right;
+  color: var(--paytable-vp-dim);
+  border-right: 1px solid var(--cabinet-vp-border);
+}
+
+.paytable-vp-cell:last-child {
+  border-right: none;
+}
+
+.paytable-vp-name {
+  text-align: left;
+  color: var(--paytable-vp-text);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.paytable-vp-active-col {
+  background-color: var(--paytable-vp-active-bg);
+  color: var(--paytable-vp-active-fg) !important;
+  font-weight: 700;
+}
+
+.paytable-vp-row-win {
+  background-color: rgba(255, 243, 148, 0.18);
+}
+
+.paytable-vp-row-win .paytable-vp-name {
+  color: var(--paytable-vp-row-glow);
+}
+
+.paytable-vp-row-win .paytable-vp-active-col {
+  background-color: var(--paytable-vp-active-bg);
+  color: #fff394 !important;
+}
+
+/* ── VP Card face ────────────────────────────────────────────────────── */
+.card-vp-face {
+  background-color: var(--card-vp-face-bg);
+  border: 1px solid var(--card-vp-border);
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transition: transform var(--motion-fast) var(--ease-arcade),
+              box-shadow var(--motion-fast) var(--ease-arcade);
+}
+
+.card-vp-face:hover:not([aria-pressed="true"]) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.card-vp-face[aria-pressed="true"] {
+  outline: 2px solid var(--card-vp-hold-ring);
+  outline-offset: 2px;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(255, 211, 58, 0.35);
+}
+
+.card-vp-face-win {
+  animation: card-vp-win-flash 600ms ease-out both;
+}
+
+.card-vp-back {
+  background-color: var(--card-vp-back-bg);
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.04) 0px,
+    rgba(255,255,255,0.04) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  border: 1px solid var(--cabinet-vp-border);
+  border-radius: 5px;
+}
+
+/* ── VP HELD banner (above card) ────────────────────────────────────── */
+.card-vp-held-banner {
+  background-color: var(--card-vp-held-banner);
+  color: var(--card-vp-held-banner-fg);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: center;
+  padding: 1px 0;
+  border-radius: 2px;
+}
+
+/* ── VP button base ──────────────────────────────────────────────────── */
+.btn-vp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--button-vp-bg);
+  color: var(--button-vp-fg);
+  border: 1px solid var(--cabinet-vp-border);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 6px 10px;
+  transition: background-color var(--motion-fast) var(--ease-arcade),
+              transform var(--motion-fast) var(--ease-arcade);
+  white-space: nowrap;
+}
+
+.btn-vp:hover:not(:disabled) {
+  background-color: var(--button-vp-hover-bg);
+}
+
+.btn-vp:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn-vp:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-vp:focus-visible {
+  outline: 2px solid var(--card-vp-hold-ring);
+  outline-offset: 2px;
+}
+
+.btn-vp-primary {
+  background-color: var(--button-vp-primary-bg);
+  color: var(--button-vp-primary-fg);
+  border-color: var(--button-vp-primary-bg);
+  font-size: 0.8rem;
+  padding: 6px 16px;
+}
+
+.btn-vp-primary:hover:not(:disabled) {
+  filter: brightness(1.1);
+  background-color: var(--button-vp-primary-bg);
+}
+
+/* ── VP readout strips ───────────────────────────────────────────────── */
+.readout-vp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cabinet-vp-inner);
+  border: 1px solid var(--cabinet-vp-border);
+  border-radius: 3px;
+  padding: 2px 8px;
+  min-width: 60px;
+}
+
+.readout-vp-label {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--paytable-vp-dim);
+  line-height: 1.2;
+}
+
+.readout-vp-value {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--paytable-vp-text);
+  line-height: 1.2;
+  tabular-nums: true;
+  font-variant-numeric: tabular-nums;
+}
+
+.readout-vp-win .readout-vp-value {
+  color: #ff6b6b;
+}
+
+/* ── VP phase banner ────────────────────────────────────────────────── */
+.phase-banner-vp {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--paytable-vp-text);
+}
+
+/* ── VP footer strip ────────────────────────────────────────────────── */
+.footer-vp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--cabinet-vp-inner);
+  border-top: 1px solid var(--cabinet-vp-border);
+  padding: 3px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--paytable-vp-text);
+}
+
+/* ── Animations ──────────────────────────────────────────────────────── */
+@keyframes card-vp-win-flash {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 211, 58, 0); }
+  40%  { box-shadow: 0 0 14px 4px rgba(255, 211, 58, 0.75); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 211, 58, 0); }
+}
+
+/* Legacy flash animations (retained for any other consumers) */
 @keyframes card-win-flash {
   0% { box-shadow: 0 0 0 0 rgba(212, 255, 58, 0); }
   50% { box-shadow: 0 0 12px 4px rgba(212, 255, 58, 0.7); }
@@ -376,4 +647,9 @@
   .card-face-win { animation: none; }
   .card-face-wild { animation: none; }
   .paytable-row { transition: none; }
+  .card-vp-face { transition: none; }
+  .card-vp-face-win { animation: none; }
+  .card-vp-face:hover:not([aria-pressed="true"]) { transform: none; }
+  .card-vp-face[aria-pressed="true"] { transform: none; }
+  .btn-vp { transition: none; }
 }

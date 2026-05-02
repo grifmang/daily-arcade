@@ -11,13 +11,9 @@ import {
 import { CardRow } from "@/components/cards/card-row";
 import { PaytablePanel } from "@/components/cards/paytable-panel";
 import { BetSelector } from "@/components/cards/bet-selector";
-import { HoldToggle } from "@/components/cards/hold-toggle";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 
 const SLUG = "jacks-or-better";
-const CABINET_CLASS = "cabinet-job";
 
 type Phase = "idle" | "dealt" | "drawn";
 
@@ -26,32 +22,36 @@ function prefersReducedMotion(): boolean {
   try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; }
 }
 
+// Human-readable phase labels shown in the cabinet footer / phase banner.
+const PHASE_LABEL: Record<Phase, string> = {
+  idle:  "INSERT COIN",
+  dealt: "HOLDING",
+  drawn: "GAME OVER",
+};
+
 export function JacksOrBetterClient() {
-  const { push } = useToast();
   const [credits, setCredits] = React.useState<number>(DEFAULT_CREDITS);
-  const [stats, setStats] = React.useState<SessionStats>(() => ({ ...EMPTY_STATS, rankHits: {} }));
-  const [bet, setBet] = React.useState<number>(5);
-  const [phase, setPhase] = React.useState<Phase>("idle");
-  const [round, setRound] = React.useState<RoundStart | null>(null);
-  const [holds, setHolds] = React.useState<readonly boolean[]>([false, false, false, false, false]);
+  const [stats, setStats]     = React.useState<SessionStats>(() => ({ ...EMPTY_STATS, rankHits: {} }));
+  const [bet, setBet]         = React.useState<number>(5);
+  const [phase, setPhase]     = React.useState<Phase>("idle");
+  const [round, setRound]     = React.useState<RoundStart | null>(null);
+  const [holds, setHolds]     = React.useState<readonly boolean[]>([false, false, false, false, false]);
   const [finalHand, setFinalHand] = React.useState<Hand | null>(null);
-  const [lastRank, setLastRank] = React.useState<HandRank | null>(null);
-  const [lastWin, setLastWin] = React.useState<number>(0);
+  const [lastRank, setLastRank]   = React.useState<HandRank | null>(null);
+  const [lastWin, setLastWin]     = React.useState<number>(0);
+  const [menuOpen, setMenuOpen]   = React.useState<boolean>(false);
   const reduced = React.useMemo(() => prefersReducedMotion(), []);
-  // `hydrated` flips true after the mount effect overwrites the SSR defaults
-  // with whatever's in localStorage. The save effects below skip the pre-
-  // hydration commits so we never overwrite a returning player's stored
-  // balance with the SSR `DEFAULT_CREDITS = 1000` placeholder.
+  void reduced;
+
+  // Hydration ref: prevents SSR default from overwriting stored credits on mount.
   const hydrated = React.useRef(false);
 
-  // Hydrate from localStorage on mount.
   React.useEffect(() => {
     setCredits(loadCredits(SLUG));
     setStats(loadStats(SLUG));
     hydrated.current = true;
   }, []);
 
-  // Persist credits / stats — gated on hydration so the SSR placeholder render never writes back.
   React.useEffect(() => { if (hydrated.current) saveCredits(SLUG, credits); }, [credits]);
   React.useEffect(() => { if (hydrated.current) saveStats(SLUG, stats); }, [stats]);
 
@@ -87,7 +87,6 @@ export function JacksOrBetterClient() {
   }
 
   function performReset() {
-    if (!confirm("Reset balance to 1000? No real money here — credits are play-money entertainment only.")) return;
     resetCredits(SLUG);
     resetStats(SLUG);
     setCredits(DEFAULT_CREDITS);
@@ -97,7 +96,7 @@ export function JacksOrBetterClient() {
     setFinalHand(null);
     setLastRank(null);
     setLastWin(0);
-    push("Balance reset to 1000.", "default");
+    setMenuOpen(false);
   }
 
   // Display hand: dealt cards before draw; final hand after.
@@ -114,92 +113,246 @@ export function JacksOrBetterClient() {
     return null;
   });
 
-  const primaryButtonLabel = phase === "dealt" ? "Draw" : "Deal";
-  const primaryButtonAction = phase === "dealt" ? draw : deal;
-  const primaryButtonDisabled = phase === "dealt" ? false : !canDeal;
+  const primaryLabel  = phase === "dealt" ? "DRAW" : "DEAL";
+  const primaryAction = phase === "dealt" ? draw : deal;
+  const primaryDisabled = phase === "dealt" ? false : !canDeal;
 
-  // Reduced-motion is honored both via the CSS @media query (zeroing
-  // animation/transition) and here at the JS layer: the `reduced` flag is
-  // computed once on mount so future timer-driven beats can short-circuit.
-  // No timer-driven beats exist in the JoB UI today, but the hook is in place
-  // for future deal/flip animations.
-  void reduced;
+  const phaseLabel = phase === "idle"
+    ? "DEAL TO START"
+    : phase === "dealt"
+      ? "SELECT HOLDS — THEN DRAW"
+      : lastRank != null && lastRank !== HandRank.NONE
+        ? `${HAND_RANK_NAME[lastRank].toUpperCase()} — WIN ${lastWin}`
+        : "NO WIN";
 
   return (
-    <section className={cn("space-y-5 rounded-[var(--radius-lg)] p-4 sm:p-6", CABINET_CLASS)}>
-      <header className="space-y-1">
-        <p className="text-xs uppercase tracking-[0.25em] text-[var(--color-fg-dim)] font-mono">card parlor · video poker</p>
-        <h1 className="font-display text-3xl sm:text-4xl font-bold tracking-tight">
-          Jacks <span className="text-[#e6c200]">or Better</span>
-        </h1>
-        <p className="text-sm text-[var(--color-fg-muted)]">
-          9/6 paytable. Play money — no real currency, no leaderboard. Five cards, hold what you want, draw the rest.
-        </p>
-      </header>
-
-      <PaytablePanel
-        paytable={JOB_PAYTABLE}
-        bet={bet}
-        topTierRank={HandRank.ROYAL_FLUSH}
-        highlightRank={lastRank ?? null}
-      />
-
-      <div className="grid grid-cols-3 gap-2 text-xs sm:text-sm font-mono">
-        <div className="rounded-sm border border-[var(--color-line)] p-2 sm:p-3">
-          <span className="block text-[10px] uppercase tracking-widest text-[var(--color-fg-dim)]">balance</span>
-          <span className="block text-lg sm:text-xl tabular-nums text-[var(--color-fg)]">{credits}</span>
+    <>
+      {/* ── VP Cabinet shell — fills viewport, no scroll ── */}
+      <div
+        className="cabinet-vp flex flex-col"
+        style={{
+          width:  "min(100vw, 720px)",
+          height: "min(100dvh, 580px)",
+          margin: "0 auto",
+          minHeight: "480px",
+        }}
+      >
+        {/* ── PAYTABLE ── */}
+        <div className="flex-none border-b border-[var(--cabinet-vp-border)]">
+          <PaytablePanel
+            paytable={JOB_PAYTABLE}
+            bet={bet}
+            topTierRank={HandRank.ROYAL_FLUSH}
+            highlightRank={lastRank ?? null}
+          />
         </div>
-        <div className="rounded-sm border border-[var(--color-line)] p-2 sm:p-3">
-          <span className="block text-[10px] uppercase tracking-widest text-[var(--color-fg-dim)]">bet</span>
-          <span className="block text-lg sm:text-xl tabular-nums text-[var(--color-fg)]">{bet}</span>
+
+        {/* ── PHASE BANNER ── */}
+        <div
+          className="flex-none flex items-center justify-center border-b border-[var(--cabinet-vp-border)]"
+          style={{ padding: "4px 8px", minHeight: "24px" }}
+        >
+          <span className="phase-banner-vp">{phaseLabel}</span>
         </div>
-        <div className="rounded-sm border border-[var(--color-line)] p-2 sm:p-3">
-          <span className="block text-[10px] uppercase tracking-widest text-[var(--color-fg-dim)]">last win</span>
-          <span className="block text-lg sm:text-xl tabular-nums text-[var(--color-accent)]">
-            {phase === "drawn" ? `+${lastWin}` : "—"}
-          </span>
+
+        {/* ── CARD AREA ── */}
+        <div
+          className="flex-1 flex flex-col justify-center"
+          style={{ padding: "4px 12px 6px" }}
+        >
+          <CardRow
+            cards={displayCards}
+            highlights={displayHighlights}
+            holds={holds}
+            onToggleHold={toggleHold}
+            holdDisabled={phase !== "dealt"}
+          />
+        </div>
+
+        {/* ── READOUT STRIP ── */}
+        <div
+          className="flex-none flex items-center justify-between border-t border-[var(--cabinet-vp-border)]"
+          style={{ padding: "4px 10px", gap: "6px", background: "var(--cabinet-vp-inner)" }}
+        >
+          {/* WIN */}
+          <div className={cn("readout-vp", "readout-vp-win")} style={{ flex: 1 }}>
+            <span className="readout-vp-label">WIN</span>
+            <span className="readout-vp-value">
+              {phase === "drawn" && lastWin > 0 ? lastWin : "—"}
+            </span>
+          </div>
+
+          {/* BET */}
+          <div className="readout-vp" style={{ flex: 1 }}>
+            <span className="readout-vp-label">BET</span>
+            <span className="readout-vp-value">{bet}</span>
+          </div>
+
+          {/* CREDITS */}
+          <div className="readout-vp" style={{ flex: 1.4 }}>
+            <span className="readout-vp-label">CREDITS</span>
+            <span className="readout-vp-value" style={{ fontSize: "clamp(0.7rem, 2.5vw, 1rem)" }}>
+              {credits}
+            </span>
+          </div>
+        </div>
+
+        {/* ── CONTROL BUTTON STRIP ── */}
+        <div
+          className="flex-none flex items-center justify-between border-t border-[var(--cabinet-vp-border)]"
+          style={{ padding: "5px 8px", gap: "6px", background: "var(--cabinet-vp-inner)" }}
+        >
+          {/* MENU button */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen(o => !o)}
+            aria-expanded={menuOpen}
+            aria-controls="vp-menu-panel"
+            className="btn-vp"
+          >
+            MENU
+          </button>
+
+          {/* Bet controls */}
+          <div className="flex items-center gap-1.5">
+            <BetSelector bet={bet} onChange={setBet} disabled={phase === "dealt"} vpMode />
+          </div>
+
+          {/* Primary action */}
+          <button
+            type="button"
+            onClick={primaryAction}
+            disabled={primaryDisabled}
+            className={cn("btn-vp btn-vp-primary", primaryDisabled && "opacity-45")}
+            aria-label={phase === "dealt" ? "Draw replacement cards" : "Deal new hand"}
+          >
+            {primaryLabel}
+          </button>
+        </div>
+
+        {/* ── FOOTER ── */}
+        <div className="footer-vp flex-none">
+          <span>JACKS OR BETTER</span>
+          <span>{PHASE_LABEL[phase]}</span>
         </div>
       </div>
 
-      <div className="space-y-2">
-        <CardRow cards={displayCards} highlights={displayHighlights} motif="classic" />
-        <div className="grid grid-cols-5 gap-2 sm:gap-3">
-          {[0, 1, 2, 3, 4].map(i => (
-            <HoldToggle
-              key={i}
-              held={holds[i] ?? false}
-              onToggle={() => toggleHold(i)}
-              disabled={phase !== "dealt"}
-              position={i + 1}
-            />
-          ))}
+      {/* ── MENU PANEL (modal-style, overlays cabinet) ── */}
+      {menuOpen && (
+        <div
+          id="vp-menu-panel"
+          role="dialog"
+          aria-label="Game menu"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{ background: "rgba(0,0,0,0.75)" }}
+          onClick={e => { if (e.target === e.currentTarget) setMenuOpen(false); }}
+        >
+          <div
+            className="cabinet-vp rounded-lg"
+            style={{
+              width: "min(360px, 90vw)",
+              padding: "20px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "12px",
+            }}
+          >
+            <h2
+              className="phase-banner-vp text-center"
+              style={{ fontSize: "0.85rem", letterSpacing: "0.2em", marginBottom: "4px" }}
+            >
+              MENU
+            </h2>
+
+            {/* Session stats */}
+            <dl
+              className="grid grid-cols-2 gap-y-1 gap-x-4"
+              style={{ fontSize: "0.65rem", fontFamily: "var(--font-mono)" }}
+            >
+              <dt style={{ color: "var(--paytable-vp-dim)" }}>Hands played</dt>
+              <dd style={{ color: "var(--paytable-vp-text)", textAlign: "right" }}>{stats.handsPlayed}</dd>
+              <dt style={{ color: "var(--paytable-vp-dim)" }}>Total wagered</dt>
+              <dd style={{ color: "var(--paytable-vp-text)", textAlign: "right" }}>{stats.totalWagered}</dd>
+              <dt style={{ color: "var(--paytable-vp-dim)" }}>Total won</dt>
+              <dd style={{ color: "var(--paytable-vp-text)", textAlign: "right" }}>{stats.totalWon}</dd>
+              <dt style={{ color: "var(--paytable-vp-dim)" }}>Net</dt>
+              <dd
+                style={{
+                  textAlign: "right",
+                  color: stats.totalWon - stats.totalWagered >= 0
+                    ? "var(--paytable-vp-text)"
+                    : "#ff6b6b",
+                }}
+              >
+                {stats.totalWon - stats.totalWagered >= 0 ? "+" : ""}
+                {stats.totalWon - stats.totalWagered}
+              </dd>
+              <dt style={{ color: "var(--paytable-vp-dim)" }}>Best win</dt>
+              <dd style={{ color: "var(--paytable-vp-text)", textAlign: "right" }}>{stats.bestSingleWin}</dd>
+            </dl>
+
+            {/* Disclaimer */}
+            <p
+              style={{
+                fontSize: "0.55rem",
+                color: "var(--paytable-vp-dim)",
+                fontFamily: "var(--font-mono)",
+                lineHeight: 1.5,
+                borderTop: "1px solid var(--cabinet-vp-border)",
+                paddingTop: "8px",
+              }}
+            >
+              Play money only. No real currency. No leaderboard. Credits reset to{" "}
+              {DEFAULT_CREDITS} for entertainment purposes.
+            </p>
+
+            {/* Actions */}
+            <div className="flex items-center justify-between gap-3">
+              <button
+                type="button"
+                onClick={performReset}
+                className="btn-vp"
+                aria-label="Reset balance to 1000 and clear session stats"
+                style={{ flex: 1 }}
+              >
+                RESET BALANCE
+              </button>
+              <button
+                type="button"
+                onClick={() => setMenuOpen(false)}
+                className="btn-vp btn-vp-primary"
+                aria-label="Close menu"
+                style={{ flex: 1 }}
+              >
+                CLOSE
+              </button>
+            </div>
+
+            {/* Nav links */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontSize: "0.55rem",
+                fontFamily: "var(--font-mono)",
+                color: "var(--paytable-vp-dim)",
+                borderTop: "1px solid var(--cabinet-vp-border)",
+                paddingTop: "6px",
+              }}
+            >
+              <Link href="/cards" className="underline hover:text-[var(--paytable-vp-text)]">
+                Card Parlor
+              </Link>
+              <Link href="/" className="underline hover:text-[var(--paytable-vp-text)]">
+                Today&rsquo;s Puzzles
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
 
-      <div className="flex flex-wrap items-center gap-3">
-        <BetSelector bet={bet} onChange={setBet} disabled={phase === "dealt"} />
-        <Button onClick={primaryButtonAction} disabled={primaryButtonDisabled}>
-          {primaryButtonLabel}
-        </Button>
-        {credits < bet && phase !== "dealt" && (
-          <span className="text-xs text-[var(--color-fg-muted)]">Out of credits — reset balance below.</span>
-        )}
-      </div>
-
-      <details className="rounded-[var(--radius-md)] border border-[var(--color-line)] bg-[var(--color-bg-elevated)] p-3 sm:p-4">
-        <summary className="cursor-pointer text-sm font-mono text-[var(--color-fg-muted)]">session stats</summary>
-        <dl className="grid grid-cols-2 gap-3 mt-3 text-xs sm:text-sm font-mono tabular-nums">
-          <div><dt className="text-[var(--color-fg-dim)]">hands played</dt><dd>{stats.handsPlayed}</dd></div>
-          <div><dt className="text-[var(--color-fg-dim)]">total wagered</dt><dd>{stats.totalWagered}</dd></div>
-          <div><dt className="text-[var(--color-fg-dim)]">total won</dt><dd>{stats.totalWon}</dd></div>
-          <div><dt className="text-[var(--color-fg-dim)]">net</dt><dd className={cn(stats.totalWon - stats.totalWagered >= 0 ? "text-[var(--color-accent)]" : "text-[var(--card-suit-red)]")}>{stats.totalWon - stats.totalWagered}</dd></div>
-          <div className="col-span-2"><dt className="text-[var(--color-fg-dim)]">best single win</dt><dd>{stats.bestSingleWin}</dd></div>
-        </dl>
-        <div className="mt-3">
-          <Button onClick={performReset} variant="outline">Reset balance</Button>
-        </div>
-      </details>
-
+      {/* ── ARIA live region for screen-reader win announcements ── */}
       <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
         {phase === "drawn" && lastRank != null && (
           lastRank === HandRank.NONE
@@ -207,10 +360,6 @@ export function JacksOrBetterClient() {
             : `${HAND_RANK_NAME[lastRank]} — you win ${lastWin} credits.`
         )}
       </div>
-
-      <p className="text-xs text-[var(--color-fg-dim)] font-mono pt-2">
-        <Link className="underline" href="/cards">← card parlor</Link> · <Link className="underline" href="/">today&#39;s puzzles</Link>
-      </p>
-    </section>
+    </>
   );
 }
