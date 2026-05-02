@@ -396,3 +396,199 @@ Key metrics to log per route:
 - **localStorage streaks** — non-authoritative; even if forged, it only affects the user's own client display
 - **Share URL signature secret** — must be in env, scoped per environment, rotatable without invalidating active shares (use key-id versioning if rotating)
 - **Turnstile secret key** — server-only; must never appear in client bundles or RSC output. Verify with bundle-inspect before deploy.
+
+---
+
+## 14. Slots subsystem (added 2026-05-01)
+
+> **Status:** design-time delta for the slots feature. Two games ship sequentially: **Tideforge Pearls** (1,024-ways collection mechanic) then **Thornwood Path** (board-walk metamorphic-meter mechanic). See `DECISIONS.md` ADRs S1–S6 dated 2026-05-01 for the integration rationale.
+
+### 14.1 Why this is a separate section
+
+Slots break the daily-arcade gameplay grammar by design. The existing three games share: daily seed, once-per-day completion, emoji-grid share, shared streak, server-validated leaderboard. Slots have **none** of those affordances — they are unlimited-spin, non-deterministic, non-shareable, off-streak entertainment. This section captures only the surfaces where slots differ from the rest of the app; everything not mentioned here is unchanged.
+
+### 14.2 Subsystem ownership
+
+| Subsystem | Owner | Notes |
+|---|---|---|
+| **Slots route group** (`/slots`, `/slots/<slug>`) | senior-fullstack | Index page + per-game pages, RSC shells, client islands for the spin UI |
+| **Slot math: Tideforge Pearls** | senior-backend | `lib/slots/tideforge-pearls/*` — pure logic, reel strips, paytable, bonus engine, RNG; Vitest unit + Monte Carlo harness |
+| **Slot math: Thornwood Path** | senior-backend | `lib/slots/thornwood-path/*` — same shape, different mechanic |
+| **Slots UI primitives** | frontend-experience | Reel-strip animation, win-line flash, meter fills, board-walk animation; honors `prefers-reduced-motion` |
+| **Slot credit storage** | senior-fullstack | `lib/slots/credits.ts` — localStorage wrapper, per-game keying, default + reset |
+| **Slots a11y** | frontend-experience + qa | No autoplay, no auto-spin, reduced-motion paths, ARIA live announcements for wins, keyboard-operable spin button |
+
+### 14.3 Routing additions
+
+| Route | Render | Purpose |
+|---|---|---|
+| `/slots` | RSC (static) | Index page listing both slot games with brief copy |
+| `/slots/tideforge-pearls` | RSC shell + client island | Game 1 |
+| `/slots/thornwood-path` | RSC shell + client island | Game 2 (added in second ship cycle) |
+
+A discreet "Arcade Lounge" link is added to the global nav (or footer — TBD by frontend during build). The home page (`/`) and its today's-three-puzzles grid are **not modified**.
+
+### 14.4 What slots do NOT add
+
+This list is load-bearing for AppSec Pass 4 and for the threat-model delta. Slots **do not** add:
+
+- No new Server Actions
+- No new Route Handlers (no `/api/slots/*`)
+- No new database tables, columns, or indexes
+- No new Postgres writes from any code path
+- No new Turnstile invocations
+- No new HMAC-signed URLs
+- No new OG image routes
+- No new cron jobs
+- No new env vars
+- No new outbound HTTPS to third parties
+- No new CSP relaxations
+
+The existing CSP, the existing two Server Actions (`submitScore`, `claimHandle`), the existing OG route, and the existing cron route all remain exactly as they are. The slots feature is a pure-client feature on top of the existing routing and design-system primitives.
+
+### 14.5 Local-only state schema (browser, no DB schema needed)
+
+Slots add the following keys to `localStorage`. None are read or written server-side.
+
+```
+localStorage["slots:tideforge-pearls:credits"]  = number   // default 1000
+localStorage["slots:tideforge-pearls:stats"]    = {        // optional, lightweight personal stats
+  spinsPlayed: number,
+  totalWagered: number,
+  totalWon: number,
+  bonusesTriggered: number,
+  bestSingleWin: number,
+  lastResetAt: string  // ISO timestamp
+}
+localStorage["slots:thornwood-path:credits"]    = number   // default 1000
+localStorage["slots:thornwood-path:stats"]      = {...}    // same shape
+
+localStorage["slots:settings"] = {
+  reducedMotion: 'auto' | 'on' | 'off',  // 'auto' respects prefers-reduced-motion
+  soundEnabled: boolean                   // default false; sound deferred to Polish
+}
+```
+
+`stats` is **personal-only**, never submitted, never shared. The "Reset Balance" button in each game's UI restores `credits` to 1000 and zeros the `stats` block, recording `lastResetAt`.
+
+### 14.6 RNG model
+
+Slots use a per-spin random source. The contract is:
+
+```ts
+// lib/slots/rng.ts
+export interface SlotRng {
+  next(): number;          // returns [0, 1)
+  nextInt(maxExclusive: number): number;
+}
+```
+
+Production implementation wraps `crypto.getRandomValues` for high-entropy spin outcomes. Test implementation accepts an injected seed and runs xoshiro256** deterministically — this is what the Monte Carlo simulation harness uses to drive millions of spins per RTP run reproducibly.
+
+**Slots do NOT consume `seedForDate`.** The daily-seed engine remains exclusively for daily-puzzle determinism. See ADR-S5.
+
+### 14.7 Math module shape (for both games)
+
+Each slot game ships as a self-contained module under `lib/slots/<slug>/`:
+
+```
+lib/slots/tideforge-pearls/
+  index.ts            // public API: createGame(rng) → { spin, getState, applyAction, ... }
+  reels.ts            // reel strips per game state (base, bonus, post-conversion)
+  paytable.ts         // symbol payouts in coins per matched-way length
+  ways.ts             // 1024-ways evaluator (game 1) — pure function
+  bonus.ts            // free-spins state machine + collection meter
+  types.ts            // SymbolId, ReelStripId, BonusState, SpinResult, etc.
+  rtp-sim.ts          // Monte Carlo harness — runs N spins, returns hit freq, RTP, vol stats
+  index.test.ts       // golden-vector unit tests
+  rtp-sim.test.ts     // sim-target validation: assert RTP in [target ± 0.3%] over 5M spins
+```
+
+```
+lib/slots/thornwood-path/
+  index.ts
+  basegame.ts         // cash-collect base mechanic
+  meters.ts           // four meters (3 metamorphic + 1 free-games)
+  bonus.ts            // board-walk state machine (40 nodes, hold-and-spin sub-feature, jackpot wheel)
+  paytable.ts
+  types.ts
+  rtp-sim.ts
+  ...tests
+```
+
+The math module is **the load-bearing engineering work**. UI is downstream. No UI ticket starts until the math RTP simulation hits its target band.
+
+### 14.8 UI client island shape
+
+Each game's page is an RSC shell that mounts a single client island:
+
+```tsx
+// app/slots/tideforge-pearls/page.tsx
+import { TideforgePearls } from '@/components/slots/tideforge-pearls/Game';
+export default function Page() {
+  return (
+    <main>
+      <h1>Tideforge Pearls</h1>
+      <TideforgePearls />
+    </main>
+  );
+}
+```
+
+The client island holds:
+- The local state (credits, current spin result, bonus state, meter fills)
+- The math module instance (constructed once, persists across spins)
+- The reel-strip animation (CSS transforms, GPU-accelerated; reduced-motion path renders the result frame directly)
+- The spin button, bet selector, balance readout, paytable modal, reset button
+
+**Accessibility commitments (enforced in Polish phase):**
+- No autoplay, no auto-spin (spin button must be user-clicked every time)
+- `prefers-reduced-motion: reduce` swaps reel animations for instant snap-to-result
+- ARIA live region announces `"Win: X credits"` on every winning spin (politeness `polite`)
+- Spin button is keyboard-operable; focus ring is the existing global `:focus-visible` style
+- Color is not the sole win indicator (a winning combination also flashes a high-contrast outline)
+
+### 14.9 Caching / SW behavior
+
+Slots are added to the Serwist precache list as part of the static shell. Reel-strip art and symbol assets (when introduced as SVG bundles) are CDN-immutable and SW-cached. There is no per-day or per-user dynamic content for slots, so no cache-tag invalidation is needed.
+
+### 14.10 Trust boundary delta
+
+```
+[Untrusted: browser/PWA]
+   |
+   | (slots are entirely client-side)
+   |
+   +-- localStorage (credits, stats) — non-authoritative, DevTools-editable, accepted
+   |
+   +-- per-spin crypto.getRandomValues — local entropy, no server hop
+   |
+   +-- no Server Actions, no Route Handlers, no DB, no third-party hops
+```
+
+The trust boundary diagram in §8 is **unchanged** for slots. No new arrows.
+
+### 14.11 Performance budget for slots
+
+| Metric | Target |
+|---|---|
+| First spin latency (after page load) | ≤ 50ms |
+| Spin-to-spin frame budget | 16ms (60fps) for the win-flash; reel anim runs at GPU-compositor cost only |
+| Slot page LCP (mobile, 4G) | ≤ 2.0s (same as rest of app) |
+| Slot client-island JS (gzipped) | ≤ 60KB per game |
+
+The math module is intentionally small and tree-shakeable. No external animation library — CSS transforms only.
+
+### 14.12 Open questions for Phase 3 (math design spec)
+
+The architecture is locked; the math is what the design spec resolves. Open questions to be answered in `docs/superpowers/specs/slots-tideforge-pearls.md`:
+
+- Exact reel-strip composition per game state (base, bonus pre-threshold-4, bonus post-4, post-7, post-13, post-15)
+- Exact paytable per symbol per way length (3-of-a-kind, 4-of-a-kind, 5-of-a-kind)
+- Exact wild-multiplier distribution within bonus
+- Exact scatter density for the 8/15/20-spin trigger frequencies
+- Monte Carlo target: 5M spins, RTP within [94.0%, 94.5%], hit frequency within [22%, 28%], bonus trigger rate within [1/120, 1/180]
+- Volatility class verification (high — feast-or-famine bonus profile)
+
+Thornwood Path's design spec is deferred until Tideforge Pearls is live. Its open questions will mirror the above, plus the metamorphic-meter calibration (how often each meter fills, base-game cash-symbol density, board-traversal expected length, hold-and-spin sub-feature payout distribution, jackpot wheel tier weights and values).
+

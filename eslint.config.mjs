@@ -23,6 +23,8 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "node_modules/**",
+    // Local Monte Carlo / math-iteration scripts; gitignored, never deployed.
+    ".scratch/**",
   ]),
 ]);
 

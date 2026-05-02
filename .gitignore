@@ -43,3 +43,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local scratch (Monte Carlo sim harnesses, ad-hoc scripts; never deployed)
+/.scratch/
+
+# private research notes — never deployed, never committed
+/plans/

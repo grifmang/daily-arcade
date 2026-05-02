@@ -496,3 +496,125 @@ Code is production-grade modulo the documented PostgresStore swap and the BotID 
 - Latest deploy ID at this ADR's timestamp: `69f3e723a3e15943711e65e8`
 - Production env scope contains all 8 expected vars (parent confirmed): `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `SHARE_SIGNING_SECRET`, `CRON_SECRET`, `IP_HASH_SALT_BASE`, `DATABASE_URL`, `DATABASE_URL_UNPOOLED`, `NETLIFY_NEXT_SKEW_PROTECTION`. Deploy-preview + branch-deploy contexts use Cloudflare always-pass test Turnstile keys (per ADR-1's dev-fallback contract).
 
+---
+
+## [2026-05-01] Slots feature kickoff — scope and brand-cleanse mandate
+
+**From:** Principal Engineer
+
+**What:** Add two slot-machine mini-games to daily-arcade as a siloed off-streak entertainment feature. Game 1 is **Tideforge Pearls** (1,024-ways collection mechanic, maritime supernatural theme). Game 2 is **Thornwood Path** (board-walk metamorphic-meter mechanic, fairytale forest theme). Both ship sequentially — Tideforge first, Thornwood only after Tideforge is live with a green test baseline.
+
+**Brand-cleanse mandate (load-bearing constraint):** Mechanics were extracted from two private research notes describing trademarked commercial products. Themes, names, symbol sets, palettes, and copy are fully original and chosen to be visually and lexically distant from the source material. **No source product names, character names, or asset URLs appear in the codebase, comments, commit messages, or test names.** Research files are referenced only as "private research notes" if at all. No external assets pulled from the source URLs — all visual assets are emoji, CSS-only, generated SVG, or original.
+
+**Scope of the slots feature (siloed):**
+- New routes under `/slots/<slug>` — does not touch home grid, does not touch existing game routes
+- No streak impact (existing `useStreak` unchanged)
+- No leaderboard, no submit Server Action, no Turnstile, no OG image route, no DB writes
+- localStorage-only credit balance per game (play money, manual reset)
+- No daily-seed integration
+
+**Phase plan:**
+1. Brand-cleanse + theme selection — done (this ADR set)
+2. Architecture delta — Section 14 appended to `ARCHITECTURE.md`
+3. Math design spec — `docs/superpowers/specs/slots-tideforge-pearls.md` first, then `slots-thornwood-path.md` after Game 1 is live
+4. Implementation — pure logic module + Vitest math tests first; UI second
+5. A11y + reduced-motion pass
+6. AppSec note — surface is small (no submit pipeline); document
+7. Test + deploy via existing `git push origin main` flow
+8. Docs delta (RUNBOOK + README)
+
+---
+
+## [2026-05-01] ADR-S1 — Slots live under `/slots/<slug>`, not on the home grid
+
+**Decision:** Slots are reachable at `/slots` (index page listing both games) and `/slots/tideforge-pearls`, `/slots/thornwood-path` (the games themselves). The home page (`/`) and its "today's three puzzles" grid are not modified. A discreet "Arcade Lounge" link is added to the global nav (or footer) that points to `/slots`.
+
+**Why:** The existing three games share a tight gameplay grammar — daily seed, once-per-day completion, emoji-grid share, shared streak, leaderboard. Slots break every one of those affordances by design. Mixing them onto the home grid would dilute the "today's puzzle ritual" framing that the daily-arcade brand is built on. A separate section preserves each surface's clarity.
+
+**Alternatives rejected:**
+- *Slots on the home grid alongside the daily three:* rejected. Confuses the daily ritual with unlimited-spin entertainment; users would expect leaderboards and shares on the slots, which we are explicitly not building.
+- *Slots as a separate site:* rejected. Overkill — the user wants slots they like the feel of inside their existing arcade, not a separate URL.
+
+**Revisit when:** never expected. If the user asks to surface slots more prominently, we'd add a card to the home page below the daily three rather than mixing the grids.
+
+---
+
+## [2026-05-01] ADR-S2 — Slots do not affect the daily streak
+
+**Decision:** Playing slots — even completing a bonus, hitting a jackpot, or running the credit balance to zero — does not increment the streak counter, does not break the streak, does not extend the streak. The streak remains exclusively tied to completing one of the three daily puzzles per UTC day.
+
+**Why:** The streak is the daily-arcade brand's core retention mechanic — it represents a daily ritual around solvable, finite puzzles. Slots are infinite-spin entertainment with no "completion" event. Letting slot play satisfy the streak would devalue the streak; letting slot play break the streak would punish casual entertainment. The cleanest answer is full independence.
+
+**Alternatives rejected:**
+- *Slots-as-completion (any spin counts):* rejected. Trivializes the streak.
+- *Slots-as-bonus (spin once per day to extend streak):* rejected. Adds a daily-limit affordance to a fundamentally unlimited surface, contradicting the slot UX.
+- *Per-game streak segmentation:* rejected. Already deferred to Fast Follow per ADR-004; not a slots-scope decision.
+
+---
+
+## [2026-05-01] ADR-S3 — Slots have no leaderboard, no submit Server Action, no Turnstile, no OG share image
+
+**Decision:** Slots write nothing to Postgres, invoke no Server Actions, render no OG images, and require no Turnstile gating. The server-side write surface for the entire app remains exactly the two existing actions (`submitScore`, `claimHandle`) that the daily-puzzle leaderboards use. AppSec Pass 4 will be a near-trivial confirmation that the slots route group introduces no new write paths.
+
+**Why:** A slot leaderboard would compare bankroll growth across users with non-deterministic outcomes — meaningless as a competitive surface. The existing leaderboard infrastructure exists to rank daily-puzzle skill within a shared seed; slots have no shared seed and no skill component. Removing the entire submit pipeline for slots eliminates the bot-protection surface, the rate-limit surface, the HMAC-share surface, and the IP-hash surface in one stroke.
+
+**Alternatives rejected:**
+- *"Biggest single win" leaderboard:* rejected. Encourages farming and adds a write path with no real competitive meaning.
+- *Daily slots streak (longest play session):* rejected. Cross-cuts ADR-S2 and adds a write path.
+- *Personal high-score in localStorage with no server submit:* allowed by default (it's just localStorage; same posture as the existing streak storage). Will be addressed in the architecture delta as part of the local state schema.
+
+---
+
+## [2026-05-01] ADR-S4 — Play-money credits in localStorage per game, with manual reset
+
+**Decision:** Each slot game maintains its own credit balance under `localStorage["slots:<slug>:credits"]` (e.g., `slots:tideforge-pearls:credits`). Default starting balance is 1,000 credits. Each game UI exposes a manual "Reset Balance" button that restores credits to the default. There is no real-money framing anywhere in copy — no "deposit," no "withdraw," no "buy chips," no currency symbols implying real value. Credits are dimensionless.
+
+**Why:** This mirrors the existing local-state pattern (`useStreak`, completed map). Per-game keying lets the user blow their balance on one game without losing progress on the other. localStorage is editable in DevTools, which means a determined user can give themselves a billion credits — risk-accepted, because slots are personal entertainment with no leaderboard, no shareable result, and no gated content. The "cheat" affects only their own experience.
+
+**Risk-accepted:** localStorage credit balance is trivially editable in browser DevTools. We do not care. Documented here so AppSec Pass 4 has nothing to flag.
+
+**Alternatives rejected:**
+- *Server-side credit balance:* rejected. Would require auth (which is Fast Follow per ADR-001-adjacent decisions) and adds a write path that ADR-S3 explicitly forbids.
+- *Sealed/signed localStorage values:* rejected. Theatre — the seed and the signing key would have to live in the client to validate spins client-side, defeating the point.
+- *No credit system at all (free-spin mode):* rejected. The boom-or-bust feel of the slot mechanic depends on having a balance that can rise and fall; without it, hits feel weightless.
+
+---
+
+## [2026-05-01] ADR-S5 — No daily-seed integration for slots
+
+**Decision:** Slots use a fresh per-spin PRNG seeded from `crypto.getRandomValues()` (browser) or `Math.random()` fallback. They do **not** consume the existing `seedForDate(date)` from `lib/seed.ts`. There is no "daily lucky multiplier," no "today's hot reel," no daily-shared slot configuration of any kind.
+
+**Why:** The daily-seed engine exists to guarantee that all players see the same puzzle on the same day, which is what makes the share-grid grammar work. Slots have no share-grid, no comparison, and no fairness-via-shared-seed claim. Forcing slots through `seedForDate` would either make every spin deterministic (defeating the slot UX) or require a per-spin entropy source on top of the date seed (the date seed contributes nothing). Cleanest answer is to keep the two systems fully independent.
+
+**Risk-accepted:** Per-spin PRNG means we cannot reproduce a specific spin server-side for support purposes. Acceptable — there is no support pipeline for slots and no disputed-outcome path because there are no real-money outcomes.
+
+**Alternatives rejected:**
+- *Daily lucky multiplier (1.1×–1.5× tied to date):* rejected. Brand cohesion gain is small; complexity cost is real (would need to pipe the seed into the slot's RTP math, breaking the per-game RTP simulation harness's independence).
+- *Daily promo spin (one free spin per day):* rejected. Adds a daily-limit affordance to a fundamentally unlimited surface, contradicting the slot UX.
+- *Use `seedForDate` as the per-spin entropy seed prefix:* rejected. Same complexity cost, no user-visible benefit.
+
+**Revisit when:** never expected. If brand cohesion becomes a felt need, a future ADR can add a daily-themed visual flourish (different background art per UTC day, etc.) without entangling the math.
+
+---
+
+## [2026-05-01] ADR-S6 — Each slot game ships in its own commit/PR cycle
+
+**Decision:** Tideforge Pearls is fully designed, implemented, math-verified via Monte Carlo simulation, UI-built, a11y-passed, tested, and deployed before any work begins on Thornwood Path. Bundling both into a single ship cycle is forbidden.
+
+**Why:** Tideforge's 1,024-ways math is well-understood and the Monte Carlo simulation harness will verify RTP within a tight band before any UI work — low integration risk. Thornwood's metamorphic-meter system is mathematically more novel (eight bonus shapes, four meters, board traversal with two named sub-features) and the RTP target is undisclosed in the source — higher integration risk. Shipping Tideforge first lets us validate the slot subsystem (route shape, credit storage, reduced-motion handling, the no-leaderboard architecture) on the simpler game; Thornwood inherits a proven pattern.
+
+**Alternatives rejected:**
+- *Ship both at once in one big PR:* rejected. Doubles review surface, doubles regression risk on the existing 51-test baseline, and any bug in the shared slot scaffolding would block both games at once.
+- *Build both math modules first, then both UIs:* rejected. Same problem — pushes integration risk to the end of the cycle.
+
+**Operational note:** the test baseline (51 at the start of slots work) must remain green or higher at every commit boundary. Tideforge will likely add ~30-50 math tests; Thornwood another ~30-50.
+
+---
+
+## [2026-05-01] Phase 1 → Phase 2 handoff (slots feature)
+
+**From:** Principal Engineer
+**To:** Principal Engineer (architecture delta) → Principal Engineer (Tideforge math design spec)
+**Status:** Brand-cleanse + theme selection approved. ADRs S1–S6 locked. Proceeding to architecture delta.
+
+
