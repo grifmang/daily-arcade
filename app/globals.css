@@ -518,6 +518,15 @@
   animation: card-vp-win-flash 600ms ease-out both;
 }
 
+/* Wild-2 accent: subtle cool-blue/teal pulse on dealt 2s.
+   Stays inside the cabinet-vp navy palette — no separate color scheme.
+   The yellow hold outline takes precedence visually because aria-pressed
+   styling layers on top of this animation. */
+.card-vp-face-wild {
+  box-shadow: 0 0 0 1px rgba(95, 179, 212, 0.55) inset;
+  animation: card-vp-wild-pulse 1800ms ease-in-out infinite;
+}
+
 .card-vp-back {
   background-color: var(--card-vp-back-bg);
   background-image: repeating-linear-gradient(
@@ -680,12 +689,25 @@
   50% { box-shadow: 0 0 8px 2px rgba(120, 200, 255, 0.4); }
 }
 
+/* VP-cabinet wild pulse: cool teal accent within the navy cabinet palette. */
+@keyframes card-vp-wild-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 1px rgba(95, 179, 212, 0.55) inset,
+                0 0 0 0   rgba(95, 179, 212, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 1px rgba(95, 179, 212, 0.55) inset,
+                0 0 8px 2px rgba(95, 179, 212, 0.45);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card-face-win { animation: none; }
   .card-face-wild { animation: none; }
   .paytable-row { transition: none; }
   .card-vp-face { transition: none; }
   .card-vp-face-win { animation: none; }
+  .card-vp-face-wild { animation: none; }
   .card-vp-face:hover:not([aria-pressed="true"]) { transform: none; }
   .card-vp-face[aria-pressed="true"] { transform: none; }
   .btn-vp { transition: none; }

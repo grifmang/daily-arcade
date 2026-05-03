@@ -46,21 +46,23 @@ export default function CardsIndex() {
         </li>
 
         <li>
-          <div
-            aria-disabled="true"
-            className="opacity-70 flex items-center justify-between gap-4 p-5 sm:p-6 rounded-[var(--radius-lg)] border border-dashed border-[var(--color-line)] bg-[var(--color-bg-elevated)]"
+          <Link
+            href="/cards/deuces-wild"
+            className="group relative flex items-center justify-between gap-4 p-5 sm:p-6 rounded-[var(--radius-lg)] border border-[var(--color-line)] bg-[var(--color-bg-elevated)] hover:border-[var(--color-line-strong)] transition-colors"
           >
             <div className="min-w-0">
-              <p className="text-xs uppercase tracking-widest text-[var(--color-fg-dim)] font-mono">NSUD paytable · coming soon</p>
+              <p className="text-xs uppercase tracking-widest text-[var(--color-fg-dim)] font-mono">NSUD paytable</p>
               <h2 className="font-display font-semibold text-xl sm:text-2xl mt-1">
-                Deuces <span className="text-[var(--color-fg-dim)]">Wild</span>
+                Deuces <span className="text-[#5fb3d4]">Wild</span>
               </h2>
               <p className="text-sm text-[var(--color-fg-muted)] mt-1">
                 Four wild 2s, no pair pays, but five-of-a-kind and natural royals do.
               </p>
             </div>
-            <span className="font-mono text-sm text-[var(--color-fg-dim)]">pending</span>
-          </div>
+            <span className="font-mono text-sm text-[var(--color-fg-dim)] group-hover:text-[var(--color-accent)]">
+              play →
+            </span>
+          </Link>
         </li>
       </ul>
 

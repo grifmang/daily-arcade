@@ -105,7 +105,8 @@ export function CardFace({ card, highlight, className, onClick, held, disabled }
         className={cn(
           "card-vp-face relative w-full",
           // aspect ratio enforced by parent container
-          highlight === "win" && "card-vp-face-win",
+          highlight === "win"  && "card-vp-face-win",
+          highlight === "wild" && "card-vp-face-wild",
           disabled && "cursor-default",
           className,
         )}

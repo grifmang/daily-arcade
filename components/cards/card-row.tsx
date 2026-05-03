@@ -46,7 +46,12 @@ export function CardRow({
     <div className="grid grid-cols-5 gap-1.5" style={{ columnGap: "clamp(4px, 1vw, 10px)" }}>
       {cards.map((card, i) => {
         const held    = holds?.[i] ?? false;
-        const isWin   = highlights?.[i] === "win";
+        const hl      = highlights?.[i] ?? null;
+        // "win" and "wild" are passed through to CardFace; "hold" is rendered
+        // via the HELD banner + the existing aria-pressed outline, not via
+        // the CardFace highlight prop.
+        const faceHl: "win" | "wild" | null =
+          hl === "win" ? "win" : hl === "wild" ? "wild" : null;
 
         return (
           <div key={i} className="flex flex-col gap-0.5">
@@ -69,7 +74,7 @@ export function CardRow({
                 ) : (
                   <CardFace
                     card={card}
-                    highlight={isWin ? "win" : null}
+                    highlight={faceHl}
                     onClick={() => onToggleHold(i)}
                     held={held}
                     disabled={holdDisabled}
