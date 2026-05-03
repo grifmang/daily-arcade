@@ -285,6 +285,49 @@ netlify functions:invoke daily-warm
 
 ---
 
+## Card Parlor subsystem
+
+The card parlor is a sibling lounge to the daily three. It runs entirely client-side: no Server Actions, no Route Handlers, no DB writes, no Turnstile, no OG, no cron. Credits + session stats live in `localStorage` per game. See ARCHITECTURE Section 15 for the full subsystem contract.
+
+### Live URLs
+- Index: https://daily-arcade.netlify.app/cards/
+- Jacks or Better: https://daily-arcade.netlify.app/cards/jacks-or-better
+- Deuces Wild: https://daily-arcade.netlify.app/cards/deuces-wild
+
+### Math reference docs
+- Design spec: `docs/superpowers/specs/2026-05-01-card-parlor-design.md` (rationale, scope, integration boundaries).
+- Math spec: `docs/superpowers/specs/cards-video-poker-engine.md` (locked paytable values, RTP figures, golden vectors).
+- Decision log: ADRs C1–C6 in `DECISIONS.md` (2026-05-01) — routing, no-streak, no-leaderboard, localStorage credits, no-daily-seed, sequential ship cycles.
+- Architecture: `ARCHITECTURE.md` Section 15 — subsystem ownership table, state machine, evaluator modes, a11y commitments, performance budget.
+
+### Paytable-adjustment procedure
+Paytables are locked constants in `lib/cards/video-poker/paytable.ts` (`JOB_PAYTABLE` for 9/6 Jacks or Better, `DEUCES_PAYTABLE` for NSUD Deuces Wild). They are looked up by reference identity in two places (top-tier bet=5 bonus map and wild-mode evaluator routing in `round.ts`) — never spread, shallow-copy, or hand-roll a Paytable-shaped value.
+
+To adjust a paytable:
+
+1. **Cross-check the proposed values against the canonical Wizard of Odds tables** for the variant in question. (Wizard of Odds is a public reference site for casino math, used here only for value verification — not a brand we are emulating. The paytable values themselves are widely-published facts that encode no copyrightable expression.)
+2. Update the constant in `lib/cards/video-poker/paytable.ts`.
+3. **Update the transcription tests in `lib/cards/video-poker/paytable.test.ts`** so each per-rank value matches the new paytable verbatim. The transcription tests exist precisely to catch silent typos in the locked constants — they must be re-locked, not deleted.
+4. Re-run the math spec's golden vectors (`lib/cards/video-poker/round.test.ts` etc.) and confirm RTP figures still match the spec, or update the math spec figures alongside the paytable change.
+5. Note the change as a new ADR in `DECISIONS.md` if the variant identity is changing (e.g. 9/6 → 8/5 JoB is a different variant; a typo correction is not).
+
+### Engine doc cross-reference
+- Subsystem: `ARCHITECTURE.md` Section 15
+- ADRs: C1 (routing) · C2 (no streak) · C3 (no submit/Turnstile/OG/DB) · C4 (localStorage credits) · C5 (no daily seed) · C6 (sequential ship cycles) — all in `DECISIONS.md` 2026-05-01
+
+### Incident response — card route hangs / freezes
+**Symptom:** loading `/cards/jacks-or-better` or `/cards/deuces-wild` produces a blank screen, infinite spinner, or browser-tab freeze on DEAL.
+
+**First suspect: the RNG.** A power-of-2 `nextInt` truncation bug previously caused an infinite loop in `lib/cards/video-poker/rng.ts` whenever `max` was a power of 2 (the card-shuffle Fisher-Yates path calls `nextInt(32)`, `nextInt(16)`, ... so it is exposed). Fixed in commit `cae0fd5` ("fix(rng): infinite loop on power-of-2 nextInt — drop >>> 0 on limit"). Look for:
+- The in-source `// CAREFUL` comment in `lib/cards/video-poker/rng.ts` documenting why `>>> 0` must NOT be applied to `limit`.
+- The regression test in `lib/cards/video-poker/rng.test.ts` (`"nextInt(power-of-2) terminates fast — regression against the >>> 0 truncation bug"`).
+
+If a card route hangs, confirm the regression test still passes (`npm test -- rng`) and that the `>>> 0` truncation has not been re-introduced anywhere on `limit`. If both check out, the freeze is elsewhere — instrument `deal()` and the client island render path next.
+
+The slot RNG (`lib/slots/.../rng.ts`) shares the same RNG shape; it only calls `nextInt(60)` so it dodges the bug, but the same `// CAREFUL` discipline applies if either RNG is ever extracted to a shared util.
+
+---
+
 ## Routine maintenance
 
 - **Quarterly:** rotate `SHARE_SIGNING_SECRET` (key-id v1 → v2). Update `lib/sign.ts` `KEY_ID = "v2"` and the verification table to accept both. Phase out v1 acceptance after 30 days.

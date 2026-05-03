@@ -4,6 +4,10 @@ A small daily-puzzle arcade. Three games — **Word Volley**, **Drift 2049**, **
 
 Same puzzle for everyone, every day. No account, no install required, no ads.
 
+A side lounge sits alongside the daily three (separate routes, no streak impact, no leaderboard, no submit):
+
+- **Card Parlor** (`/cards/`) — play-money video poker. 9/6 Jacks or Better and NSUD Deuces Wild.
+
 ---
 
 ## What this is
