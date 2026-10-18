@@ -5,5 +5,6 @@
 
 #controller-status{max-width:760px;margin:14px auto;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
 .career{max-width:760px;margin:18px auto;color:var(--muted);font-size:12px}.career summary{color:var(--accent);cursor:pointer}.career form{display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:16px 0}.career input{font:inherit;font-size:18px;letter-spacing:2px;color:var(--ink);background:var(--paper);border:1px solid var(--line);padding:9px;max-width:100%;width:15ch}.career input:focus-visible{outline:2px solid var(--accent);outline-offset:4px}.career p{overflow-wrap:anywhere}.career label{width:100%}#state{overflow-wrap:anywhere}
+#special-status{max-width:760px;margin:12px auto;color:var(--muted);font-size:12px;overflow-wrap:anywhere}#special-status:empty{display:none}
 
 .arcade-home{color:var(--accent);font-size:12px;white-space:nowrap}.arcade-home:focus-visible{outline:2px solid var(--accent);outline-offset:4px}

@@ -39,8 +39,10 @@ export class Controller {
   const pause=(held.has('start')&&held.has('select'))||(!this.custom&&active(current.buttons[3]));
   if(pause)held.add('pause');
   if(held.has('select')&&held.has('up'))held.add('password');
+  if(held.has('select')&&(held.has('a')||held.has('b')))held.add('special-password');
   const edges=new Set([...held].filter(name=>!this.previous.has(name)));this.previous=held;
   if(pause){this.onInput(new Set());if(edges.has('pause'))this.onAction('pause');return;}
+  if(edges.has('special-password')&&this.onAction('special-password')){this.onInput(new Set());return;}
   if(edges.has('password')&&this.onAction('password')){this.onInput(new Set());return;}
   this.onInput(held);for(const action of ['start','select','left','right','up','down'])if(edges.has(action))this.onAction(action);
  }

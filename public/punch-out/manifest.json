@@ -3,18 +3,18 @@
   "source": {
     "repository": "ASCII Punch Out",
     "path": "projects/ascii-punch-out/native",
-    "commit": "9d1412b897e94ff93885da87666e5e65f4740659",
+    "commit": "402fffda3a44ebfffb489f611c2831d15c30e1ef",
     "dirty": false
   },
   "transform": "daily-arcade-navigation-v2-lf",
   "files": {
     "app.css": {
-      "bytes": 4216,
-      "sha256": "9ac3b9500a83d38a0f715c57feb9aec368e94819ee97adff27b272ed8ac94997"
+      "bytes": 4358,
+      "sha256": "019a9414c008c5251fb3656f0d9533904400a76decdf67dd312db15c1a7cfeb0"
     },
     "app.mjs": {
-      "bytes": 12082,
-      "sha256": "bc8541bf4a39b6cbc85e4755034be231dc79506acdfa060b477c74aac74c3405"
+      "bytes": 13518,
+      "sha256": "263c4e01cb257f6db294ef3080fb6720e37437897534dea14f37d19639106568"
     },
     "audio-data.mjs": {
       "bytes": 59575,
@@ -53,8 +53,8 @@
       "sha256": "39cb27f73fc8dbc6a5ed51ac6a56e18602e796af1f34696f40d3c49cf4054d5e"
     },
     "controller.mjs": {
-      "bytes": 5872,
-      "sha256": "6ff58cb21797eeef2639f8c060a535f11b5a95a20c708d577ef21f4047d94d6a"
+      "bytes": 6062,
+      "sha256": "4ca3835ff5c3c6a7cda8a905fd947eab2da4141981f396972b030e44bffc32d2"
     },
     "corner-animation.mjs": {
       "bytes": 763,
@@ -69,8 +69,8 @@
       "sha256": "e3f10c94960f1e8fcac074238cdcc16e6bc920b4458830f4ed93ba5c5237e335"
     },
     "engine.mjs": {
-      "bytes": 7826,
-      "sha256": "f6f3a5dba8800653ee1ed940e467cb7ad27abb9a2c5f48f016d615ca32046eda"
+      "bytes": 8723,
+      "sha256": "1ab86e619bbf7ea6894464aac7f7e6a0d9abfd1017df27a261fe9e46ada7a4f4"
     },
     "fight-control.mjs": {
       "bytes": 15488,
@@ -85,8 +85,8 @@
       "sha256": "827d45d442e00af3a6039f99ec3714b2d1e0b653796d8efd151f6a2bcae8ede7"
     },
     "index.html": {
-      "bytes": 4326,
-      "sha256": "8e6109e283c5810fc601c4851ebfad85b5324ecb164cc18cca5493ba850285a0"
+      "bytes": 4637,
+      "sha256": "b7cb9d4683aec35d6fd682d62aba340c2d432a33f1b92eaf59bd465d14285e5e"
     },
     "input-clockwork.mjs": {
       "bytes": 3369,
@@ -125,12 +125,20 @@
       "sha256": "1363daa55cb5176902aea2f020ac3f3fe1a832d8b709f88b74bf4ed4cfd034f0"
     },
     "round-flow.mjs": {
-      "bytes": 7658,
-      "sha256": "9e8c476ae87fb2b0b5d6b11aedc15010ac829f1d7fd98c31955ad98f070de439"
+      "bytes": 8400,
+      "sha256": "fffed79e89c1886e4c161a23742657e20ca498b3245c8408b739ee77067ec028"
     },
     "round-setup.mjs": {
       "bytes": 3679,
       "sha256": "1adae23207c03f5c1cad719c3e1deebdf632e87ba5329215d0c191f45bcc78f6"
+    },
+    "special-password-art.mjs": {
+      "bytes": 273981,
+      "sha256": "acbb58d9113da4b65b545c5ef25cbad77f4b09ad705a38b7be6f93ac2551a5c0"
+    },
+    "special-password-presentation.mjs": {
+      "bytes": 2429,
+      "sha256": "1fb4d4c9472cc0fe024149da7110cba31667f0a99797aadbaf8d6d45b6177948"
     }
   }
 }

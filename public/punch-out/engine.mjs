@@ -11,7 +11,7 @@ import {PaletteState} from './palette.mjs';
 import {OriginalAudio} from './audio.mjs';
 import {initializeOriginalAudioMemory} from './audio-seeds.mjs';
 import {RingPresentation} from './ring-presentation.mjs';
-import {decodeCareerPassword} from './career-password.mjs';
+import {decodeCareerPassword,specialPassword} from './career-password.mjs';
 
 export const FRAME_RATE=60.0988138974405;
 export const FIGHTERS=FIGHT_SEEDS.map(({id,name,bank,offset})=>({id,name,bank,offset}));
@@ -62,6 +62,19 @@ export class NativeFight {
   for(const component of [this.player,this.opponent,this.control,this.combat]){if('frame'in component)component.frame=0;if(component.events)component.events.length=0;}
   this.audio.reset();this.audioEvents=[];this.flow.beginOpening();this.palette=new PaletteState({memory:m});this.ring.reset(career.fighter);this.ringStage=this.flow.stage;
   return career;
+ }
+ /** Public menu submission. The explicit chord flag represents original
+  * (A OR B) + Select; it never changes ordinary career decoding. */
+ submitPassword(password,{specialChord=false}={}) {
+  const career=this.resumePassword(password);
+  if(career)return {accepted:true,kind:career.kind,career};
+  const special=specialPassword(password);
+  if(!special)return {accepted:false,reason:'invalid'};
+  if(special.requiresChord&&!specialChord)return {accepted:false,reason:'chord-required',kind:special.kind};
+  if(special.kind==='another-world')return {accepted:false,reason:'unsupported',kind:special.kind};
+  this.failure=null;this.events=[];this.circuit.pending=null;this.memory.fill(0,0xd0,0xdc);
+  this.audio.reset();this.audioEvents=[];this.flow.beginSpecialPassword(special);this.palette=new PaletteState({memory:this.memory});
+  return {accepted:true,kind:special.kind};
  }
  renderOpponent() {
   const m=this.memory;

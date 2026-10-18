@@ -16,6 +16,7 @@ export const approved = new Set([
   'postfight-presentation.mjs', 'postfight-art.mjs',
   'ring-presentation.mjs', 'ring-art.mjs',
   'career-password.mjs',
+  'special-password-presentation.mjs', 'special-password-art.mjs',
   'audio-routines.mjs', 'audio-seeds.mjs', 'audio-output.mjs', 'audio-samples.mjs',
 ]);
 export const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');

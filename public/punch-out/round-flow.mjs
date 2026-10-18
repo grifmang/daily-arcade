@@ -1,6 +1,7 @@
 import {RoundSetup} from './round-setup.mjs';
 import {CornerPresentation} from './corner-presentation.mjs';
 import {PostfightPresentation} from './postfight-presentation.mjs';
+import {SpecialPasswordPresentation} from './special-password-presentation.mjs';
 /** Main-thread fight lifecycle recovered from DEF A90B–A9AA / BF7E–BF96.
  * Start from a captured clock-started seed, already inside A90B's wait loop.
  * Later corner-screen and circuit progression are explicit host handoffs. */
@@ -17,13 +18,20 @@ export class RoundFlow {
     this.presentation = new CornerPresentation({memory:this.memory,read}); return this;
   }
   beginOpening() {
+    this.specialPassword = null;
     this.postfight = null;
     this.result = null; this.setup.enterCorner(); this.presentation.enter();
     this.stage = 'corner'; this.memory[0x1f] = 1; return this.snapshot();
   }
   beginPostfight(pending) {
+    this.specialPassword = null;
     this.postfight = new PostfightPresentation({memory:this.memory});
     this.postfight.enter(pending); this.stage = 'postfight'; return this.snapshot();
+  }
+  beginSpecialPassword(special) {
+    this.postfight=null;this.result=null;
+    this.specialPassword=new SpecialPasswordPresentation({memory:this.memory,...special});
+    this.stage='password-special';return this.snapshot();
   }
   /** The original background builders turn NMI off while writing tile data.
    * Their two (corner) / one (ring) visible-frame spans do not clock RAM/audio. */
@@ -41,7 +49,9 @@ export class RoundFlow {
   }
   /** Original main-thread corner work, once per non-combat NMI after input. */
   presentationTick() {
-    if (this.stage === 'postfight') {
+    if (this.stage === 'password-special') {
+      this.specialPassword.tick();
+    } else if (this.stage === 'postfight') {
       this.postfight.tick();
     } else if (this.stage === 'corner') {
       // A7A6 runs in NMI even while trainer text is still blocking Start.
@@ -66,6 +76,10 @@ export class RoundFlow {
   /** Call once after each NMI/game tick, after the host decrements $1F. */
   afterFrame() {
     const m = this.memory;
+    if(this.stage==='password-special'){
+      if(this.specialPassword.completed){this.stage='handoff';this.onTransition?.({type:'special-password-complete',kind:this.specialPassword.kind,terminal:'title'});}
+      return this.snapshot();
+    }
     if (this.stage === 'postfight') {
       if (this.postfight.completed) {
         this.stage = 'handoff';
@@ -157,7 +171,7 @@ export class RoundFlow {
     return this.snapshot();
   }
   get engineRunning() { return this.memory[0x1c] === 0; }
-  snapshot() { const corner = this.stage === 'corner' || this.stage.startsWith('corner-'),postfight=this.postfight?.snapshot()??null; return {stage:this.stage, result:this.result, engineRunning:this.engineRunning, pendingSetup:this.stage === 'handoff', awaitingStart:postfight?postfight.awaitingStart:this.stage === 'corner' && !!this.presentation?.awaitingStart, completed:postfight?.completed??false,terminal:postfight?.terminal??null,presentation:postfight??(corner ? this.presentation?.snapshot() ?? null : null)}; }
+  snapshot() { const corner = this.stage === 'corner' || this.stage.startsWith('corner-'),postfight=this.specialPassword?.snapshot()??this.postfight?.snapshot()??null; return {stage:this.stage, result:this.result, engineRunning:this.engineRunning, pendingSetup:this.stage === 'handoff', awaitingStart:postfight?postfight.awaitingStart:this.stage === 'corner' && !!this.presentation?.awaitingStart, completed:postfight?.completed??false,terminal:postfight?.terminal??null,presentation:postfight??(corner ? this.presentation?.snapshot() ?? null : null)}; }
 }
 
 

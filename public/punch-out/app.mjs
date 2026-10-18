@@ -12,6 +12,7 @@ const renderPlayer=pose=>advancePlayerArt(playerArtState,pose);
 let game=new NativeFight({onOpponentRender:renderOpponent,onPlayerRender:renderPlayer,opening:true});
 const nextButton=document.querySelector('#next');
 const careerEntry=document.querySelector('#career-entry'),careerInput=document.querySelector('#career-password'),careerMessage=document.querySelector('#career-message');let passwordCursor=0;
+const specialStatus=document.querySelector('#special-status');
 for(const fighter of FIGHTERS){const option=document.createElement('option');option.value=fighter.id;option.textContent=String(fighter.id+1).padStart(2,'0')+' / '+fighter.name;select.append(option);}
 function text(str,x,y,color='#dde8d8',size=3){ctx.fillStyle=color;ctx.font=`${size}px "Courier New",monospace`;ctx.textBaseline='top';ctx.fillText(str,x,y);}
 function line(x,y,len,char,color){text(char.repeat(len),x,y,color);}
@@ -23,7 +24,7 @@ function drawCorner(presentation,palette){const colors=[...palette.background,..
  for(const item of presentation.message?.chars||[]){if(item.char===' ')continue;ctx.save();ctx.translate(item.x,item.y+offset);ctx.scale(1.6,1);text(item.char,0,0,palette.background[item.ink??1],8);ctx.restore();}
 }
 function draw(){ctx.setTransform(4,0,0,4,0,0);const m=game.memory,s=game.snapshot(),p=s.palette,b=p.background;ctx.fillStyle=b[0];ctx.fillRect(0,0,256,240);
- status.textContent=`${running?'LIVE':'PAUSED'} / ROUND ${s.round} / ${s.clock[0]}:${s.clock[1]}${s.clock[2]} / HEARTS ${s.hearts} / STARS ${s.stars}`;
+ status.textContent=s.flow.presentation?.kind?`${running?'LIVE':'PAUSED'} / ${s.flow.presentation.kind==='credits'?'CREDITS':'BUSY SIGNAL'} / ${s.flow.completed?'TITLE':s.flow.awaitingStart?'PRESS START':'PLAYING'}`:`${running?'LIVE':'PAUSED'} / ROUND ${s.round} / ${s.clock[0]}:${s.clock[1]}${s.clock[2]} / HEARTS ${s.hearts} / STARS ${s.stars}`;
  if(!p.visible.background&&!p.visible.sprite)return;
  if(s.flow.presentation&&s.flow.stage!=='fight'&&s.flow.stage!=='round-intro'&&s.flow.stage!=='round-light-wait'){drawCorner(s.flow.presentation,p);return;}
  if(p.visible.background){
@@ -52,14 +53,15 @@ function setRunning(value,controllerStart=false){
  }).catch(()=>{if(epoch===runEpoch){document.querySelector('#sound').textContent='Sound unavailable';running=true;loadingSound=false;last=0;}});
 }
 function resetArt(){activeArt=FIGHTER_ART.find(f=>f.id===game.fighter.id);artState=createFighterArtState(activeArt);playerArtState=createPlayerArtState();}
-function reset(){input.clear();touchInput.clear();controller.neutralize();startPulse=0;resultShown=null;sound.reset();game=new NativeFight({fighter:Number(select.value),onOpponentRender:renderOpponent,onPlayerRender:renderPlayer,opening:true});resetArt();nextButton.hidden=true;pause.disabled=false;setRunning(false);announcement.textContent='';pause.textContent='Start bout';draw();}
+function reset(){input.clear();touchInput.clear();controller.neutralize();startPulse=0;resultShown=null;specialStatus.textContent='';sound.reset();game=new NativeFight({fighter:Number(select.value),onOpponentRender:renderOpponent,onPlayerRender:renderPlayer,opening:true});resetArt();nextButton.hidden=true;pause.disabled=false;setRunning(false);announcement.textContent='';pause.textContent='Start bout';draw();}
 pause.addEventListener('click',()=>{if(!running&&!loadingSound&&game.frame===0)startPulse=4;setRunning(!(running||loadingSound));});document.querySelector('#restart').addEventListener('click',reset);select.addEventListener('change',reset);
 document.querySelector('#sound').addEventListener('click',event=>{const needsUnlock=sound.context?.state!=='running';sound.setMuted(needsUnlock?false:!sound.muted);event.currentTarget.textContent=sound.muted?'Sound off':'Sound on';event.currentTarget.setAttribute('aria-pressed',String(!sound.muted));if(!sound.muted)sound.unlock().then(()=>{if(!running)sound.pause();}).catch(()=>{});if(running)canvas.focus({preventScroll:true});});
 function continueResult(controllerStart=false){if(game.advanceBout()){select.value=String(game.fighter.id);resetArt();controller.neutralize();nextButton.hidden=true;pause.disabled=false;setRunning(true,controllerStart);}else if(game.flow.stage==='handoff'){select.value='0';reset();startPulse=4;setRunning(true,controllerStart);}}
 nextButton.addEventListener('click',()=>continueResult());
 const controller=new Controller({onInput:held=>{padInput=held;},onLoss:()=>{if(running||loadingSound)setRunning(false);},onSetup:()=>setRunning(false),onAction:action=>{
- if(action==='password'&&!running&&!loadingSound){careerEntry.open=true;passwordCursor=0;setRunning(false);careerMessage.textContent='Digit 1 of 10';return true;}
+ if(action==='password'&&(!running&&!loadingSound||game.flow.snapshot().terminal==='title'&&game.flow.stage==='handoff')){careerEntry.open=true;passwordCursor=0;setRunning(false);careerMessage.textContent='Digit 1 of 10';return true;}
  if(careerEntry.open){
+  if(action==='special-password'){submitCareer(true,true);return true;}
   if(action==='start'){submitCareer(true);return;}
   if(action==='select'){careerEntry.open=false;controller.neutralize();canvas.focus({preventScroll:true});return;}
   const digits=careerInput.value.replace(/\D/g,'').padEnd(10,'0').slice(0,10).split('');
@@ -74,12 +76,15 @@ const controller=new Controller({onInput:held=>{padInput=held;},onLoss:()=>{if(r
  else if(action==='select'){reset();}
  else if(action==='left'||action==='right'){select.selectedIndex=(select.selectedIndex+(action==='left'?-1:1)+select.options.length)%select.options.length;reset();}
 }});
-function submitCareer(fromController=false){
- if(!game.resumePassword(careerInput.value)){careerMessage.textContent='That password is not valid. Check all ten digits.';return;}
+function submitCareer(fromController=false,specialChord=false){
+ const result=game.submitPassword(careerInput.value,{specialChord});
+ if(!result.accepted){careerMessage.textContent=result.reason==='unsupported'?'Another World Circuit recognized. This circuit is not available yet.':result.reason==='chord-required'?'This special password requires A or B + Select. Use the special submit button, or hold a punch button and press Select on your controller.':'That password is not valid. Check all ten digits.';return;}
+ specialStatus.textContent=result.kind==='busy'?'Busy signal. The title returns after ten tones.':result.kind==='credits'?'Original credits. Press Start or Enter when the credits finish.':'';
  input.clear();touchInput.clear();controller.neutralize();sound.reset();resultShown=null;resetArt();select.value=String(game.fighter.id);nextButton.hidden=true;pause.disabled=false;careerEntry.open=false;startPulse=4;setRunning(true,fromController);
 }
 careerEntry.addEventListener('toggle',()=>{if(careerEntry.open){setRunning(false);careerMessage.textContent='Enter ten digits or use the controller.';}});
 document.querySelector('#career-form').addEventListener('submit',event=>{event.preventDefault();submitCareer();});
+document.querySelector('#career-special').addEventListener('click',()=>submitCareer(false,true));
 document.querySelector('#career-cancel').addEventListener('click',()=>{careerEntry.open=false;controller.neutralize();canvas.focus({preventScroll:true});});
 const keys={KeyZ:'b',KeyX:'a',KeyC:'select',ArrowLeft:'left',ArrowRight:'right',ArrowDown:'down',ArrowUp:'up',Enter:'start',Space:'start'};
 window.addEventListener('keydown',e=>{if(sound.context?.state==='suspended')sound.unlock().then(()=>{document.querySelector('#sound').textContent=sound.muted?'Sound off':'Sound on';if(!running)sound.pause();}).catch(()=>{});if(e.target.matches('select,button,input')||careerEntry.open)return;if(e.code==='KeyP'){e.preventDefault();if(!e.repeat&&!pause.disabled&&!game.failure)setRunning(!(running||loadingSound));return;}if(keys[e.code]){e.preventDefault();input.add(keys[e.code]);}});
@@ -95,9 +100,11 @@ function loop(now){
     const buttons=[...new Set([...input,...touchInput,...padInput])];if(startPulse){buttons.push('start');startPulse--;}
     game.step(buttons);sound.playFrame(game.audioEvents);
     const flow=game.flow.snapshot();
+    if(flow.presentation?.kind==='credits'&&flow.awaitingStart)specialStatus.textContent='Credits complete. Press Start or Enter to return to the title.';
     if(flow.stage==='handoff'){
      const result=game.circuit.pending;
-     if(resultShown!==result){resultShown=result;announcement.textContent=flow.terminal==='ending'?'':resultMessage(result);nextButton.hidden=false;nextButton.textContent=result?.type!=='next-bout'?'New career':result?.won?'Next opponent':result?.rematch?'Rematch':'Continue circuit';pause.disabled=true;}
+     const key=flow.terminal==='title'?'password-title':result;
+     if(resultShown!==key){resultShown=key;announcement.textContent=['ending','title'].includes(flow.terminal)?'':resultMessage(result);if(flow.terminal==='title')specialStatus.textContent='Title. Choose New career or open password entry. Controller: Start begins a new career.';nextButton.hidden=false;nextButton.textContent=result?.type!=='next-bout'?'New career':result?.won?'Next opponent':result?.rematch?'Rematch':'Continue circuit';pause.disabled=true;}
     }else announcement.textContent='';
    }catch(error){setRunning(false);announcement.textContent='Reconstruction stopped: '+error.message;status.textContent='Unsupported original state';break;}
    accumulator-=1000/FRAME_RATE;
