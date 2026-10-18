@@ -34,6 +34,17 @@ export default function HomePage() {
           ))}
         </ul>
 
+        <section aria-labelledby="free-play-heading" className="space-y-3">
+          <h2 id="free-play-heading" className="text-xs uppercase tracking-[0.2em] font-mono text-[var(--color-fg-muted)]">Free play</h2>
+          <a href="/punch-out" className="group flex items-center justify-between gap-4 rounded-[var(--radius-lg)] border border-[var(--color-line)] bg-[var(--color-bg-elevated)] p-5 sm:p-6 hover:border-[var(--color-line-strong)] hover:bg-[var(--color-bg-overlay)] transition-colors">
+            <span className="space-y-1">
+              <span className="block font-display font-semibold text-lg sm:text-xl">Punch-Out!! · ASCII</span>
+              <span className="block text-sm text-[var(--color-fg-muted)]">Step into the ring. Keyboard, touch, or controller. Play anytime, outside your daily streak.</span>
+            </span>
+            <span aria-hidden="true" className="text-[var(--color-accent)]">→</span>
+          </a>
+        </section>
+
         <div className="mt-4 rounded-[var(--radius-md)] border border-dashed border-[var(--color-line-strong)] p-4 text-sm text-[var(--color-fg-muted)] font-mono">
           <strong className="text-[var(--color-fg)] not-italic">no signup. no install required.</strong>{" "}
           Streaks live on this device. Share results with the emoji grid you already know.
