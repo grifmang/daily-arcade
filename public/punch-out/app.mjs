@@ -34,7 +34,7 @@ function draw(){ctx.setTransform(4,0,0,4,0,0);const m=game.memory,s=game.snapsho
   drawMatrix(s.ring.background,b);for(const part of s.ring.parts)drawMatrix(part.matrix,b,part.x,part.y);
   for(const item of s.ring.labels){ctx.save();ctx.translate(item.x,item.y);ctx.scale(1.6,1);text(item.char,0,0,b[item.ink],8);ctx.restore();}
  }
- const opponentParts=fighterArtParts(activeArt,artState);
+ const opponentParts=fighterArtParts(activeArt,artState,s.starSprite);
  if(p.visible.sprite)drawParts(opponentParts.filter(part=>!part.foreground),activeArt,p.sprite);
  if(p.visible.background)drawParts(playerArtParts(playerArtState,m[0x15]),PLAYER_ART,p.background);
  if(p.visible.sprite)drawParts(opponentParts.filter(part=>part.foreground),activeArt,p.sprite);

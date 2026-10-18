@@ -28,6 +28,7 @@ export class NativeFight {
   this.fighter=FIGHTERS.find(f=>f.id===fighter);if(!this.fighter)throw Error('Unknown original bout '+fighter);
   this.memory=new Uint8Array(memory||FIGHT_SEEDS.find(f=>f.id===fighter).memory);
   if(memory){const identity=resolveBoutIdentity(this.memory[1],this.memory[0x13e]);this.fighter=FIGHTERS[identity.combatId];}else this.memory[0x13e]=0;
+  this.committedStarSprite=this.memory.slice(0x2fc,0x300);this.spriteRowHeight=this.memory[0x10]&32?16:8;
   this.frame=0;this.events=[];this.failure=null;
   const stored=decodeCareerPassword(savedPassword);
   this.menuEnabled=!!menu;this.training=training;this.demoMode=false;this.savedPassword=stored?.kind==='career'?stored.password:null;
@@ -172,6 +173,11 @@ export class NativeFight {
   const m=this.memory;
   if(m[0xa0]){this.onOpponentRender?.({pose:m[0xa1],flags:m[0xa0],spriteMode:m[0xa2],rowHeight:m[0x80],x:m[0xb0],y:m[0xb1]});if((m[0xa0]&128)&&m[0xa1]<0xc0)m[0xa2]=0;m[0xa0]=0;m[0x17]=1;}
  }
+ commitStarSprite(acknowledged){
+  // PPUCTRL is applied in NMI; OAM DMA occurs only on the sprites acknowledgement.
+  this.spriteRowHeight=this.memory[0x10]&32?16:8;
+  if(acknowledged.includes('sprites'))this.committedStarSprite.set(this.memory.subarray(0x2fc,0x300));
+ }
  outline() {
   const m=this.memory;
   if(!m[0x9c])return;
@@ -192,8 +198,8 @@ export class NativeFight {
    if(this.flow.suppressNMI){this.audioEvents=[];this.flow.withoutNMITick();return finish();}
    this.palette.beforeFrame();
    this.ring.beforeFrame();
-   if(m[0x1d]&128){const ack=[];if(m[0x410]&128){m[0x410]=0;ack.push('tile-buffer');}if(m[0x4a0]){m[0x4a0]=0;ack.push('palette');}this.palette.commit(ack);this.ring.commit(ack);}
-   else {const ack=acknowledgeDisplays(m);this.palette.commit(ack);this.ring.commit(ack);}
+   if(m[0x1d]&128){const ack=[];if(m[0x410]&128){m[0x410]=0;ack.push('tile-buffer');}if(m[0x4a0]){m[0x4a0]=0;ack.push('palette');}this.commitStarSprite(ack);this.palette.commit(ack);this.ring.commit(ack);}
+   else {const ack=acknowledgeDisplays(m);this.commitStarSprite(ack);this.palette.commit(ack);this.ring.commit(ack);}
    m[0x1e]++;if(m[0x1f])m[0x1f]--;
    updateEntropy(m);
    if(!this.flow.engineRunning){this.audioEvents=this.audio.tick();normalizeInput(m,input);this.flow.presentationTick?.();this.handleMenuAction();this.flow.fadeTick();this.flow.afterFrame();return finish();}
@@ -218,7 +224,7 @@ export class NativeFight {
   const m=this.memory;
   return {frame:this.frame,fighter:this.fighter.id,careerId:this.circuit.pending?.previousFighter??m[1],routingCareerId:m[1],alternateFlag:m[0x13e],name:this.fighter.name,mode:this.demoMode?'attract-demo':this.flow.stage==='menu'?'menu':this.training?'training':m[0x13e]?'another-world':'career',
    round:m[6],clock:[m[0x302],m[0x304],m[0x305]],chronometer:(m[0x306]<<8)|m[0x307],
-   hp:{mac:m[0x392],opponent:m[0x399]},hearts:m[0x323]*10+m[0x324],stars:m[0x342],
+   hp:{mac:m[0x392],opponent:m[0x399]},hearts:m[0x323]*10+m[0x324],stars:m[0x342],starSprite:{oam:Array.from(this.committedStarSprite),rowHeight:this.spriteRowHeight},
    knockdowns:{mac:m[0x3d0],opponent:m[0x3d1]},count:m[0xc2],knockdown:m[5],
    mac:this.player.snapshot(),opponent:this.opponent.snapshot(),control:this.control.snapshot(),
    seed:m[0x18],entropy:m[0x19],frameCounter:m[0x1e],phase:m[0],announcer:m[0x40],flow:this.flow.snapshot(),ring:this.ring.snapshot(),palette:this.palette.snapshot(),audio:this.audio.snapshot(),audioEvents:this.audioEvents,career:this.circuit.records(),result:this.circuit.pending,failure:this.failure};
