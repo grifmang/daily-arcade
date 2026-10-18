@@ -14,7 +14,7 @@ export const approved = new Set([
   'round-setup.mjs', 'corner-presentation.mjs', 'corner-art.mjs',
   'corner-animation.mjs', 'fighter-art.mjs', 'audio.mjs', 'audio-data.mjs',
   'postfight-presentation.mjs', 'postfight-art.mjs',
-  'ring-presentation.mjs', 'ring-art.mjs',
+  'ring-presentation.mjs', 'ring-art.mjs', 'star-art.mjs',
   'career-password.mjs',
   'career-menu.mjs', 'menu-art.mjs', 'demo-art.mjs', 'demo-seed.mjs',
   'bout-identity.mjs', 'another-world-art.mjs',
