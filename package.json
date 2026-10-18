@@ -14,6 +14,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "bundle:check": "node scripts/bundle-check.mjs",
+    "punchout:sync": "node scripts/sync-punch-out.mjs",
+    "punchout:check": "node scripts/check-punch-out.mjs",
     "predeploy": "npm run typecheck && npm run lint && npm test && npm run build && npm run bundle:check"
   },
   "dependencies": {
