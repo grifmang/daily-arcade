@@ -5,7 +5,7 @@ import { budget, collect, destination, publishedNames, sha256 } from './punch-ou
 async function main() {
   const manifestBytes = await readFile(path.join(destination, 'manifest.json'));
   const manifest = JSON.parse(manifestBytes);
-  if (manifest.schema !== 1 || manifest.transform !== 'daily-arcade-navigation-v1' || manifest.source?.repository !== 'ASCII Punch Out' || manifest.source?.path !== 'projects/ascii-punch-out/native' || !/^[a-f0-9]{40,64}$/.test(manifest.source?.commit ?? '') || typeof manifest.source?.dirty !== 'boolean' || !manifest.files || typeof manifest.files !== 'object') throw new Error('Invalid native provenance manifest');
+  if (manifest.schema !== 1 || manifest.transform !== 'daily-arcade-navigation-v2-lf' || manifest.source?.repository !== 'ASCII Punch Out' || manifest.source?.path !== 'projects/ascii-punch-out/native' || !/^[a-f0-9]{40,64}$/.test(manifest.source?.commit ?? '') || manifest.source?.dirty !== false || !manifest.files || typeof manifest.files !== 'object') throw new Error('Invalid native provenance manifest');
   const files = await collect(destination);
   const expected = [...files.keys(), 'manifest.json'].sort();
   if (JSON.stringify(await publishedNames()) !== JSON.stringify(expected)) throw new Error('Unexpected or missing published files');

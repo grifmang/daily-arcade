@@ -23,6 +23,9 @@ and re-exports, and publishes only the explicit approved module names plus
 `index.html` and `app.css`. A new browser module requires a reviewed allowlist
 change in `scripts/punch-out-assets.mjs`. Missing, external, computed, and
 unapproved imports fail. CSS dependencies and unexpected HTML references fail.
+Publication normalizes text to Git's LF format before hashing; the directory's
+Git attributes retain those bytes on Windows and Linux. A final sync rejects a
+modified native source tree. Dry runs may inspect work in progress.
 The HTML transform adds a visible Daily Arcade home link and points the cabinet
 wordmark at `/punch-out/index.html`; an appended CSS rule uses the native accent
 color and keyboard focus ring for the return link. No emulator, CLI, ROM, JSON save states,

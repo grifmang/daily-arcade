@@ -10,6 +10,9 @@ async function main() {
   const source = path.resolve(args[1]);
   if (source === path.resolve(destination)) throw new Error('Source cannot be the publication directory');
   const files = await collect(source);
+  // Canonical Git text is LF on the Linux Netlify builder, regardless of the
+  // author's Windows checkout. Hash and write those same publication bytes.
+  for (const [name, bytes] of files) files.set(name, Buffer.from(bytes.toString('utf8').replace(/\r\n/g, '\n')));
   const html = files.get('index.html').toString('utf8');
   if (!html.includes('href="/native/" class="wordmark"') || !html.includes('<header>')) throw new Error('Native navigation changed: review the publication transform');
   files.set('index.html', Buffer.from(html.replace('href="/native/" class="wordmark"', 'href="/punch-out/index.html" class="wordmark"').replace('<header>', '<header><a href="/" class="arcade-home">Daily Arcade</a>')));
@@ -22,7 +25,7 @@ async function main() {
   const manifest = {
     schema: 1,
     source: { repository: 'ASCII Punch Out', path: 'projects/ascii-punch-out/native', commit, dirty: sourceDirty },
-    transform: 'daily-arcade-navigation-v1',
+    transform: 'daily-arcade-navigation-v2-lf',
     files: Object.fromEntries([...files].sort(([a], [b]) => a.localeCompare(b)).map(([name, bytes]) => [name, { bytes: bytes.length, sha256: sha256(bytes) }])),
   };
   const manifestText = JSON.stringify(manifest, null, 2) + '\n';
@@ -32,6 +35,7 @@ async function main() {
     console.log(`Dry run: ${files.size} approved files, ${totalBytes} bytes, native commit ${commit}${sourceDirty ? ' (working tree modified)' : ''}. No files written.`);
     return;
   }
+  if (sourceDirty) throw new Error('Commit the native source before publication sync');
   await mkdir(destination, { recursive: true });
   // Never erase unexplained files. An old closure must be reviewed explicitly.
   for (const name of await publishedNames()) {

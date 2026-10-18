@@ -6,35 +6,35 @@
     "commit": "9d1412b897e94ff93885da87666e5e65f4740659",
     "dirty": false
   },
-  "transform": "daily-arcade-navigation-v1",
+  "transform": "daily-arcade-navigation-v2-lf",
   "files": {
     "app.css": {
-      "bytes": 4223,
-      "sha256": "a78bdcd0cdc91c61d9487cedb4ec15dc41623fa370ce410d5242b0c467a72bc7"
+      "bytes": 4216,
+      "sha256": "9ac3b9500a83d38a0f715c57feb9aec368e94819ee97adff27b272ed8ac94997"
     },
     "app.mjs": {
       "bytes": 12082,
       "sha256": "bc8541bf4a39b6cbc85e4755034be231dc79506acdfa060b477c74aac74c3405"
     },
     "audio-data.mjs": {
-      "bytes": 59577,
-      "sha256": "14a9e35d890cb45960bbf40b01e568dce212b79c241c1da517c45067a6aa8538"
+      "bytes": 59575,
+      "sha256": "87b26210e994fd1ded87ae9db78b20461087d626e7cdd0c3a044ed9cf649ec55"
     },
     "audio-output.mjs": {
       "bytes": 8593,
       "sha256": "0f5c7aec1b399c318da9dcc2e30a37db1dd9ebc545fe0b9b7253404e7a519998"
     },
     "audio-routines.mjs": {
-      "bytes": 70874,
-      "sha256": "663a8da934df45af2399cb4a6dd6a6b6be4f63ea2b79eac37a0b82cd15b08c40"
+      "bytes": 67718,
+      "sha256": "ad5fbb4e33bb820987487010213f793672baf05b6494fcb96d7a5801683458e0"
     },
     "audio-samples.mjs": {
-      "bytes": 101108,
-      "sha256": "4b6267c32763f29dd7ac672356a0387dbea6eebee7d9068b3edb9a55ff3bbd12"
+      "bytes": 101106,
+      "sha256": "236f3e79fa4e049b3b6d3120ab0f8bf2ed45ade8c4a45518ebaa65d47852f64e"
     },
     "audio-seeds.mjs": {
-      "bytes": 2442,
-      "sha256": "760cf198fe56b7489c796258b30dd90ac8dd1cf48f721e65bf62c0dc85562a7a"
+      "bytes": 2439,
+      "sha256": "98f708f8ff3b97f7f56d632e7dabc6fa04a6ebafe3e515716e1001ce7789eede"
     },
     "audio.mjs": {
       "bytes": 1891,
@@ -45,8 +45,8 @@
       "sha256": "cc510c31ff52e29f414a8ca1beb226b1a49dd60489b856ad77670837583f5380"
     },
     "circuit-flow.mjs": {
-      "bytes": 4048,
-      "sha256": "4d881e77b21ed584d5f9de4381833dd8db16935eccd2c4ee2e92ae8ba8114b56"
+      "bytes": 4046,
+      "sha256": "c9eaabdb0114c4f00d77626a006de930f99f71d127211aef21cbdc40d1d9601f"
     },
     "combat-resolution.mjs": {
       "bytes": 17794,
@@ -57,24 +57,24 @@
       "sha256": "6ff58cb21797eeef2639f8c060a535f11b5a95a20c708d577ef21f4047d94d6a"
     },
     "corner-animation.mjs": {
-      "bytes": 770,
-      "sha256": "3bbab9f5ab63c0a9ef494d74b983f40b470b95c47743f58f58b2919d98258e27"
+      "bytes": 763,
+      "sha256": "9261806051703d6314925ac1d6ea143003f9e27ae6bb066bfbfbe1a5829fd836"
     },
     "corner-art.mjs": {
       "bytes": 5540787,
       "sha256": "4602647d2935addf8fb86c8fbdd1e0bcfbd909b229493a42c012744bb1af4be0"
     },
     "corner-presentation.mjs": {
-      "bytes": 6327,
-      "sha256": "749c11464077226eef612385e93bbd1219ed960f0d491751739c3e2449300df0"
+      "bytes": 6267,
+      "sha256": "e3f10c94960f1e8fcac074238cdcc16e6bc920b4458830f4ed93ba5c5237e335"
     },
     "engine.mjs": {
       "bytes": 7826,
       "sha256": "f6f3a5dba8800653ee1ed940e467cb7ad27abb9a2c5f48f016d615ca32046eda"
     },
     "fight-control.mjs": {
-      "bytes": 15496,
-      "sha256": "2b37c199feb91bf98fd90c82f5e83bd41cf6e04fba26157ebc73475254c7e232"
+      "bytes": 15488,
+      "sha256": "5abb2b3a8bb47fef9f7dde205c4028b12dd2c2d483e86caf6112d4c10e42af50"
     },
     "fight-seeds.mjs": {
       "bytes": 70254,
@@ -85,12 +85,12 @@
       "sha256": "827d45d442e00af3a6039f99ec3714b2d1e0b653796d8efd151f6a2bcae8ede7"
     },
     "index.html": {
-      "bytes": 4337,
-      "sha256": "ac57da8991d25889b49f3f38495865b43e29e201416f0856d579139e434c6952"
+      "bytes": 4326,
+      "sha256": "8e6109e283c5810fc601c4851ebfad85b5324ecb164cc18cca5493ba850285a0"
     },
     "input-clockwork.mjs": {
-      "bytes": 3370,
-      "sha256": "65ecffe41a5202d1fe17d493eeee2a8dad443044ec189ab56ab72171d8da4f1b"
+      "bytes": 3369,
+      "sha256": "b5f2491df123d994451757559cf4269d524afc1f9547aac6a1c9654fa81f5064"
     },
     "opponent-vm.mjs": {
       "bytes": 14059,
@@ -113,8 +113,8 @@
       "sha256": "e25895d9ecb956c08b40de5bdcd51a0628f95f6a2016f67682971bbeb5fe34a7"
     },
     "recovered-data.mjs": {
-      "bytes": 270578,
-      "sha256": "5e27dcf975991f2443e9402dca602b7cf76b5882179aa1b6a0d3e04085f24169"
+      "bytes": 270576,
+      "sha256": "97e55c1c362c47e435b5d9cd9adad69a8f042b2e07784017503a086b27b96330"
     },
     "ring-art.mjs": {
       "bytes": 915150,
@@ -125,12 +125,12 @@
       "sha256": "1363daa55cb5176902aea2f020ac3f3fe1a832d8b709f88b74bf4ed4cfd034f0"
     },
     "round-flow.mjs": {
-      "bytes": 7661,
-      "sha256": "d101307a940951e11ae3d5786de2b5d096deb34515975f312d82d00175ed9761"
+      "bytes": 7658,
+      "sha256": "9e8c476ae87fb2b0b5d6b11aedc15010ac829f1d7fd98c31955ad98f070de439"
     },
     "round-setup.mjs": {
-      "bytes": 3680,
-      "sha256": "505e948806b4c729f1a050d896785c42ab3ca7633aec75b28f03e768d6286eaf"
+      "bytes": 3679,
+      "sha256": "1adae23207c03f5c1cad719c3e1deebdf632e87ba5329215d0c191f45bcc78f6"
     }
   }
 }
