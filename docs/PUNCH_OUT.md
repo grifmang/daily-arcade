@@ -31,6 +31,13 @@ wordmark at `/punch-out/index.html`; an appended CSS rule uses the native accent
 color and keyboard focus ring for the return link. No emulator, CLI, ROM, JSON save states,
 prototype, or vendor directory is copied.
 
+The original alternate circuit uses the same native runtime. Its validated
+routing identities and offline-authored ASCII presentation are published as
+`bout-identity.mjs` and `another-world-art.mjs`; the cartridge interpreter,
+capture tools, source save states, and gameplay verification driver stay outside
+the browser import closure. Canonical `ANOTHER_WORLD_NOTES.md` describes entry,
+stored CONTINUE, routing, and capture timing limits.
+
 `public/punch-out/manifest.json` records the canonical native Git commit, whether
 the native working tree was modified, and the SHA-256 and byte length of every
 published game file. The manifest does not hash itself. The check command verifies

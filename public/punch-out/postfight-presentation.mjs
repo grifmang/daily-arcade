@@ -1,9 +1,11 @@
+import {ANOTHER_WORLD_ART} from './another-world-art.mjs';
 import {POSTFIGHT_ART} from './postfight-art.mjs';
 
 const digitGlyph=tile=>tile>=1&&tile<=10?String(tile-1):tile===255?' ':null;
 /** Original bank 7 $8FF0–90F0 password encoding. Inputs remain live career
  * digits; no captured career/password is used by the playable game. */
 export function careerPassword(memory) {
+ if(memory[0x13e])return null;
  const record=Array.from(memory.slice(0x170,0x176));
  const checksum=(record.reduce((a,b)=>a+b,0)^255)&255;
  const rank=(((((memory[9]&0x30)^0x30)-0x10)&255)>>>2)|record[3];
@@ -26,13 +28,13 @@ export function careerPassword(memory) {
 /** Game-specific authored presentation cues, recovered offline from original
  * main-thread routines. Runtime executes no cartridge code or video decoder. */
 export class PostfightPresentation {
- constructor({memory}){this.m=memory;this.cache=new Map();}
- cue(row){return typeof row==='number'?POSTFIGHT_ART.cues[row]:row;}
+ constructor({memory}){this.m=memory;this.data=memory[0x13e]?ANOTHER_WORLD_ART.postfight:POSTFIGHT_ART;this.cache=new Map();}
+ cue(row){return typeof row==='number'?this.data.cues[row]:row;}
  enter(pending){
-  this.pending=pending;this.frame=0;this.segmentIndex=0;this.index=0;this.completed=false;this.awaitingStart=false;this.holdIndex=0;this.exitLoop=null;
+  this.pending=pending;this.frame=0;this.sampledFrames=0;this.segmentIndex=0;this.index=0;this.completed=false;this.awaitingStart=false;this.holdIndex=0;this.exitLoop=null;
   const result=pending.result,gameover=pending.type==='game-over';
   this.key=`${pending.previousFighter}:${result}:${gameover?1:0}`;
-  this.sequence=(!gameover&&pending.previousRematch?POSTFIGHT_ART.sequences[this.key+':retry']:null)??POSTFIGHT_ART.sequences[this.key]??POSTFIGHT_ART.sequences[`${pending.previousFighter}:${result}:0`];
+  this.sequence=(!gameover&&pending.previousRematch?this.data.sequences[this.key+':retry']:null)??this.data.sequences[this.key]??this.data.sequences[`${pending.previousFighter}:${result}:0`];
   if(!this.sequence)throw Error('Missing original postfight presentation '+this.key);
   this.terminal=this.sequence.terminal;
   this.password=careerPassword(this.m);
@@ -42,7 +44,7 @@ export class PostfightPresentation {
   return this.snapshot();
  }
  apply(row){
-  this.row=row;const m=this.m;
+  if(this.data!==POSTFIGHT_ART&&this.row===row)return;this.row=row;const m=this.m;
   if(row.palette){m.set(row.palette,0x480);m[0x4a0]=129;}
   m[0x1b]=row.hidden?128:129;
   for(const [address,value]of row.audio??[])m[address]=value;
@@ -60,7 +62,7 @@ export class PostfightPresentation {
   if(!segment){this.completed=true;return;}
   let row=this.cue(segment.frames[this.index]);
   if(this.exitLoop&&row.phase==='password'&&!row.hidden){const pose=this.cue(this.exitLoop.frames[this.exitLoop.index++%this.exitLoop.frames.length]);row={...row,scene:pose.scene};}
-  this.apply(row);
+  this.apply(row);this.sampledFrames++;
   if(++this.index>=segment.frames.length){
    if(segment.wait){this.awaitingStart=true;this.holdIndex=0;}
    else if(this.segmentIndex===this.sequence.segments.length-1)this.completed=true;
@@ -68,7 +70,7 @@ export class PostfightPresentation {
   }
  }
  matrix(scene){
-  if(!this.cache.has(this.row.scene))this.cache.set(this.row.scene,{width:128,height:80,rows:scene.rows.map(i=>POSTFIGHT_ART.rows[i]),inks:scene.inks.map(i=>POSTFIGHT_ART.rows[i])});
+  if(!this.cache.has(this.row.scene))this.cache.set(this.row.scene,{width:128,height:80,rows:scene.rows.map(i=>this.data.rows[i]),inks:scene.inks.map(i=>this.data.rows[i])});
   return this.cache.get(this.row.scene);
  }
  labels(scene){
@@ -86,7 +88,11 @@ export class PostfightPresentation {
    const positions=[0,1,3,4,6,7];
    positions.forEach((offset,i)=>replacements.set(0x26b4+offset,i%2===0&&!this.m[0x170+i]?' ':String(this.m[0x170+i])));
   }
-  const labels=(typeof scene.labels==='number'?POSTFIGHT_ART.labels[scene.labels]:scene.labels).map(label=>typeof label==='number'?POSTFIGHT_ART.glyphs[label]:label);
+  const labels=(typeof scene.labels==='number'?this.data.labels[scene.labels]:scene.labels).map(label=>typeof label==='number'?this.data.glyphs[label]:label);
+  if(this.m[0x13e]&&this.pending.previousFighter===28&&this.pending.won&&this.pending.result!==0xfa&&[...'TIME'].every((char,i)=>labels.some(label=>label.address===0x2391+i&&label.char===char))){
+   this.clock.forEach((tile,i)=>replacements.set(0x2396+i,digitGlyph(tile)??({44:':'})[tile]??' '));
+   this.fraction.forEach((tile,i)=>replacements.set(0x239b+i,digitGlyph(tile)??' '));replacements.set(0x239f,String(this.round));
+  }
   const chars=labels.map(label=>({...label,char:replacements.get(label.address)??label.char}));
   // Original blank leading record digits still occupy a tile and can become
   // visible when the player's live career reaches ten wins/knockouts.
@@ -95,7 +101,7 @@ export class PostfightPresentation {
  }
  snapshot(){
   if(!this.row)return null;
-  const scene=POSTFIGHT_ART.scenes[this.row.scene];
-  return{frame:this.frame,phase:this.completed&&this.terminal==='ending'?'credits':this.row.phase,awaitingStart:this.awaitingStart,completed:this.completed,terminal:this.terminal,prompt:this.awaitingStart?'PUSH START':null,background:this.matrix(scene),portrait:null,message:{chars:this.labels(scene)},scroll:0,hidden:this.row.hidden,palette:Array.from(this.m.slice(0x480,0x4a0)),poseRecovered:true,password:this.password?.join('')??null};
+  const scene=this.data.scenes[this.row.scene];
+  return{frame:this.frame,sampledFrames:this.sampledFrames,phase:this.completed&&this.terminal==='ending'?'credits':this.row.phase,awaitingStart:this.awaitingStart,completed:this.completed,terminal:this.terminal,prompt:this.awaitingStart?'PUSH START':null,background:this.matrix(scene),portrait:null,message:{chars:this.labels(scene)},scroll:0,hidden:this.row.hidden,palette:Array.from(this.m.slice(0x480,0x4a0)),poseRecovered:true,password:this.password?.join('')??null};
  }
 }
