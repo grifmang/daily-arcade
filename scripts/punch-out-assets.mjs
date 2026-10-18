@@ -17,6 +17,7 @@ export const approved = new Set([
   'ring-presentation.mjs', 'ring-art.mjs',
   'career-password.mjs',
   'career-menu.mjs', 'menu-art.mjs', 'demo-art.mjs', 'demo-seed.mjs',
+  'bout-identity.mjs', 'another-world-art.mjs',
   'special-password-presentation.mjs', 'special-password-art.mjs',
   'audio-routines.mjs', 'audio-seeds.mjs', 'audio-output.mjs', 'audio-samples.mjs',
 ]);

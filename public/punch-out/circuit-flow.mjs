@@ -1,3 +1,4 @@
+import {resolveBoutIdentity} from './bout-identity.mjs';
 /** Original career records and bout routing, DEF A952–A9C8 / AE28–AE52 / AAE5–AB55.
  * Victory cards, passwords and ending graphics are presentation handoffs. */
 export class CircuitFlow {
@@ -29,6 +30,7 @@ export class CircuitFlow {
     const m = this.memory;
     if (this.pending) return this.pending;
     if (!(result & 128) || result === 255) throw new Error('CircuitFlow.finish requires a final fight result, not an active/round-ended phase');
+    resolveBoutIdentity(m[1],m[0x13e]);
     const previousFighter=m[1],previousRematch=m[10]; m[8] = m[9];
     const won = [0xfe,0xfc,0xfa].includes(result), knockout = result === 0xfe || result === 0xfc;
     if (won) {
@@ -53,7 +55,7 @@ export class CircuitFlow {
   /** AAE5's actual per-bout configuration. Call once when the result card advances. */
   initializeBout() {
     const m = this.memory;
-    if (m[1] >= 14) throw new Error('Ending sentinel has no playable original bout');
+    const identity=resolveBoutIdentity(m[1],m[0x13e]);
     m[4] = m[0x1c] = m[0x1d] = 1; m[6] = 1;
     m[9] = this.byte(0xa18d+m[1]);
     const y = (m[1] << 1) & 255;
@@ -69,7 +71,7 @@ export class CircuitFlow {
     // AB4E: first-round knockdown counters/layout, before the bout screen.
     m[0x8f] = m[0x3ca] = 0; m.set([8,1,255],0x80);
     this.pending = null;
-    return {fighter:m[1],bank:m[2],offset:m[3],rank:m[9],records:this.records()};
+    return {...identity,fighter:identity.combatId,bank:m[2],offset:m[3],rank:m[9],records:this.records()};
   }
   records() {
     const m = this.memory;

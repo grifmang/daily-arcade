@@ -1,3 +1,4 @@
+import {ANOTHER_WORLD_ART} from './another-world-art.mjs';
 import {CORNER_ART} from './corner-art.mjs';
 import {rotateRandom} from './fight-control.mjs';
 const glyph=n=>n>=1&&n<=10?String(n-1):n>=11&&n<=36?String.fromCharCode(65+n-11):({0:'0',1:'1',2:'2',3:'3',4:'4',5:'5',6:'6',7:'7',8:'8',9:'9',10:'0',37:'.',38:"'",39:'!',40:'-',41:'"',42:'"',43:',',44:':',45:'#',46:'/',47:' ',48:'?',253:' ',255:' '})[n]??' ';
@@ -34,7 +35,7 @@ export class CornerText {
 }
 export class CornerPresentation {
  constructor({memory,read}){this.m=memory;this.read=read;this.frame=0;this.text=new CornerText(memory,read);}
- enter(){const m=this.m,key=`${m[1]}:${m[6]}:${Math.min(2,m[0x3d0])}`;this.scene=CORNER_ART.scenes[key];if(!this.scene)throw Error('Missing original corner scene '+key);this.frame=0;this.text=new CornerText(m,this.read);for(const label of this.scene.labels??[]){const address=0x2000+(label.y>>>3)*32+(label.x>>>3);this.text.tiles.set(address,label.tile);this.text.fixedInks.set(address,label.ink);}const records=[m[0x170]?m[0x170]+1:255,m[0x171]+1,40,m[0x172]?m[0x172]+1:255,m[0x173]+1,255,m[0x174]?m[0x174]+1:255,m[0x175]+1];records.forEach((tile,i)=>this.text.tiles.set(0x21c2+i,tile));m.set(this.scene.oam,0x200);m.set(this.scene.palette,0x480);m.set(this.scene.scroll,0x12);m[0x4a0]=129;m[0x4b0]=0;m[0x4c8]=0;m[0x20]=m[0x21]=0;m[0x15]=0;m[0x1b]=129;m[0]=255;m[4]=1;m[0x1c]=1;m[0x1d]=255;
+ enter(){const m=this.m,key=`${m[1]}:${m[6]}:${Math.min(2,m[0x3d0])}`;this.scene=(m[0x13e]?ANOTHER_WORLD_ART.corner:CORNER_ART).scenes[key];if(!this.scene)throw Error('Missing original corner scene '+key);this.frame=0;this.text=new CornerText(m,this.read);for(const label of this.scene.labels??[]){const address=0x2000+(label.y>>>3)*32+(label.x>>>3);this.text.tiles.set(address,label.tile);this.text.fixedInks.set(address,label.ink);}const records=[m[0x170]?m[0x170]+1:255,m[0x171]+1,40,m[0x172]?m[0x172]+1:255,m[0x173]+1,255,m[0x174]?m[0x174]+1:255,m[0x175]+1];records.forEach((tile,i)=>this.text.tiles.set(0x21c2+i,tile));m.set(this.scene.oam,0x200);m.set(this.scene.palette,0x480);m.set(this.scene.scroll,0x12);m[0x4a0]=129;m[0x4b0]=0;m[0x4c8]=0;m[0x20]=m[0x21]=0;m[0x15]=0;m[0x1b]=129;m[0]=255;m[4]=1;m[0x1c]=1;m[0x1d]=255;
   if(m[6]!==1){const seed=m[0x18],index=(seed&3)|(m[0x3d0]?4:0);m[0x4be]=m[0x5f8+index];rotateRandom(m,1);m[0x4bf]=m[0x5f0+(m[0x18]&7)];rotateRandom(m,(seed>>>2)&1);this.text.request(m[0x4be]);this.phase='trainer';}
   else this.phase='opening-wait';
  }
