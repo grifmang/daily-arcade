@@ -12,6 +12,9 @@ import {OriginalAudio} from './audio.mjs';
 import {initializeOriginalAudioMemory} from './audio-seeds.mjs';
 import {RingPresentation} from './ring-presentation.mjs';
 import {decodeCareerPassword,specialPassword} from './career-password.mjs';
+import {CareerMenu} from './career-menu.mjs';
+import {careerPassword} from './postfight-presentation.mjs';
+import {DEMO_SEED} from './demo-seed.mjs';
 
 export const FRAME_RATE=60.0988138974405;
 export const FIGHTERS=FIGHT_SEEDS.map(({id,name,bank,offset})=>({id,name,bank,offset}));
@@ -20,16 +23,19 @@ const maps=Object.fromEntries(Object.entries(BANK_DATA).map(([key,segments])=>{
  const data=new Map();for(const [start,bytes] of segments)bytes.forEach((v,i)=>data.set(start+i,v));return [key,data];
 }));
 export class NativeFight {
- constructor({fighter=0,memory,onOpponentRender,onPlayerRender,opening=false}={}) {
+ constructor({fighter=0,memory,onOpponentRender,onPlayerRender,opening=false,menu=false,training=false,savedPassword=null}={}) {
   this.fighter=FIGHTERS.find(f=>f.id===fighter);if(!this.fighter)throw Error('Unknown original bout '+fighter);
   this.memory=new Uint8Array(memory||FIGHT_SEEDS.find(f=>f.id===fighter).memory);
   this.frame=0;this.events=[];this.failure=null;
+  const stored=decodeCareerPassword(savedPassword);
+  this.menuEnabled=!!menu;this.training=training;this.demoMode=false;this.savedPassword=stored?.kind==='career'?stored.password:null;
+  if(this.savedPassword)this.rememberPassword(this.savedPassword);
   this.onOpponentRender=onOpponentRender;
   if(!memory&&!opening)initializeOriginalAudioMemory(this.memory,fighter);
   this.palette=new PaletteState({memory:this.memory});
   this.audio=new OriginalAudio({memory:this.memory,read:(address,bank)=>this.read(address,bank)});this.audioEvents=[];
   this.circuit=new CircuitFlow({memory:this.memory,read:(address,bank)=>this.read(address,bank)});
-  this.flow=new RoundFlow({memory:this.memory,onTransition:event=>{this.events.push({...event,frame:this.frame});if(event.type==='circuit-result'){const pending=this.circuit.finish(event.result);this.flow.beginPostfight?.(pending);}}});
+  this.flow=new RoundFlow({memory:this.memory,onTransition:event=>{this.events.push({...event,frame:this.frame});if(event.type==='circuit-result'){const pending=this.circuit.finish(event.result);this.flow.beginPostfight?.(pending);if(pending.jogging||pending.titleSequence){const digits=careerPassword(this.memory)?.join('');if(digits&&decodeCareerPassword(digits))this.rememberPassword(digits);}}}});
   const read=address=>this.read(address,this.memory[2]);
   this.control=new FightControl({memory:this.memory,read,onGetUpDisplay:()=>this.player.prepareDisplay()});
   this.opponent=new OpponentVM({memory:this.memory,read:address=>this.read(address,this.memory[0xaf]?6:this.memory[2]),render:()=>this.renderOpponent()});
@@ -40,6 +46,7 @@ export class NativeFight {
   this.flow.configureSetup({read:(address,bank)=>this.read(address,bank),health:()=>this.combat.health()});
   if(opening){if(!memory){this.circuit.initializeBout();this.audio.reset();}this.flow.beginOpening();this.palette=new PaletteState({memory:this.memory});}
   this.ring=new RingPresentation(this.memory,fighter);this.ringStage=this.flow.stage;
+  if(menu){this.memory.fill(0);if(this.savedPassword)this.rememberPassword(this.savedPassword);this.audio.reset();this.returnToTitle({cold:menu!=='title'});}
  }
  read(address,bank=this.memory[2]) {
   address&=65535;
@@ -57,7 +64,8 @@ export class NativeFight {
  resumePassword(password) {
   const career=decodeCareerPassword(password);if(!career)return false;
   const m=this.memory;m.fill(0,0x180,0x800);m.set(career.records,0x170);m[1]=career.fighter;m.fill(0,0xd0,0xdc);
-  this.failure=null;this.events=[];this.frame=0;this.circuit.pending=null;
+  this.failure=null;this.events=[];this.frame=0;this.circuit.pending=null;this.demoMode=false;this.training=false;
+  if(career.kind==='career')this.rememberPassword(career.password); // A443 copies normal entered passwords; Tyson's special does not.
   this.circuit.initializeBout();this.fighter=FIGHTERS.find(f=>f.id===career.fighter);
   for(const component of [this.player,this.opponent,this.control,this.combat]){if('frame'in component)component.frame=0;if(component.events)component.events.length=0;}
   this.audio.reset();this.audioEvents=[];this.flow.beginOpening();this.palette=new PaletteState({memory:m});this.ring.reset(career.fighter);this.ringStage=this.flow.stage;
@@ -66,6 +74,7 @@ export class NativeFight {
  /** Public menu submission. The explicit chord flag represents original
   * (A OR B) + Select; it never changes ordinary career decoding. */
  submitPassword(password,{specialChord=false}={}) {
+  if(this.menuEnabled)return this.menuPassword(password,specialChord);
   const career=this.resumePassword(password);
   if(career)return {accepted:true,kind:career.kind,career};
   const special=specialPassword(password);
@@ -75,6 +84,71 @@ export class NativeFight {
   this.failure=null;this.events=[];this.circuit.pending=null;this.memory.fill(0,0xd0,0xdc);
   this.audio.reset();this.audioEvents=[];this.flow.beginSpecialPassword(special);this.palette=new PaletteState({memory:this.memory});
   return {accepted:true,kind:special.kind};
+ }
+ get originalInputOwned(){return this.flow.stage==='menu'||this.demoMode;}
+ rememberPassword(password){this.savedPassword=password;this.memory.set(Array.from(password,Number),0x110);}
+ returnToTitle({cold=false,interrupt=false,timer=4,host=false}={}){
+  this.menuEnabled=true;this.demoMode=false;this.training=false;this.circuit.pending=null;this.failure=null;
+  // A host return can occur while Mac is blocking, unlike the source Start
+  // interrupt (whose history is masked then). Retire combat/input workspace
+  // before the menu normalizer sees it; preserve passwords, records and sound.
+  this.memory.fill(0,0x40,0xf0);
+  if(host){this.audio.reset();this.audioEvents=[];}
+  this.menu=new CareerMenu({memory:this.memory,cold,onAction:action=>{this.menuAction=action;},savedPassword:this.savedPassword});
+  if(!cold){if(interrupt){this.menu.blockedStart=true;this.menu.play('title-return','title',16);}else this.menu.title(timer);}
+  this.menuAction=null;this.flow.beginMenu(this.menu);return true;
+ }
+ menuPassword(password,specialChord=false,fromEditor=false){
+  const career=decodeCareerPassword(password),special=career?null:specialPassword(password);
+  const rejected=reason=>{if(this.menu)this.menu.message=reason==='unsupported'?'Another World Circuit recognized; this mode is not available yet.':reason==='chord-required'?'This password requires A or B with Select.':'Invalid password.';return {accepted:false,reason,kind:special?.kind};};
+  if(!career&&!special)return rejected('invalid');
+  if(special?.requiresChord&&!specialChord)return rejected('chord-required');
+  if(special?.kind==='another-world')return rejected('unsupported');
+  if(!this.menu||this.flow.stage!=='menu')this.returnToTitle();
+  if(!fromEditor)this.memory.set(Array.from(career?.password??special.password,Number),0x120);
+  if(special?.kind==='busy'){
+   this.demoMode=false;this.circuit.pending=null;this.audio.reset();this.memory.fill(0,0xd0,0xdc);this.flow.beginSpecialPassword(special);
+  }else this.menu.dismiss(career?{type:'career',career}:{type:'credits',special});
+  return {accepted:true,kind:career?.kind??special.kind,career:career??undefined};
+ }
+ handleMenuAction(){
+  const action=this.menuAction;this.menuAction=null;if(!action)return;
+  if(action.type==='new')this.menu.dismiss({type:'new'});
+  else if(action.type==='password'){
+   const result=this.menuPassword(action.password,action.specialChord,true);
+   if(!result.accepted)this.menu.title(16,{keepMessage:true});
+  }else if(action.type==='demo')this.startDemo();
+  else if(action.type==='chosen'){
+   const choice=action.choice;
+   if(choice.type==='career')this.resumePassword(choice.career.password);
+   else if(choice.type==='credits'){this.audio.reset();this.memory.fill(0,0xd0,0xdc);this.flow.beginSpecialPassword(choice.special);}
+   else this.startNewCareer();
+  }
+ }
+ startNewCareer(){
+  const m=this.memory;this.demoMode=false;this.training=false;
+  // DEF A829: NEW clears records too; unlike Continue it starts at $0170.
+  m.fill(0,0x170,0x800);m.fill(0,0x40,0xb0);m.fill(0,0xd0,0xdc);m[1]=0;
+  this.circuit.pending=null;this.circuit.initializeBout();this.fighter=FIGHTERS[0];
+  this.audio.reset();this.audioEvents=[];this.flow.beginOpening();this.palette=new PaletteState({memory:m});this.ring.reset(0);this.ringStage=this.flow.stage;
+  for(const component of [this.player,this.opponent,this.control,this.combat]){if('frame'in component)component.frame=0;if(component.events)component.events.length=0;}
+ }
+ startDemo(){
+  const m=this.memory,passwordWorkspace=m.slice(0x100,0x170),input=m.slice(0xd0,0xdc);
+  // Original A549 clears $0170+, preserving the saved password workspace.
+  m.set(DEMO_SEED.memory);m.set(passwordWorkspace,0x100);m.set(input,0xd0);
+  // A574–A578 immediately enable both engine gates after this seed boundary.
+  m[0x1c]=m[0x1d]=0;
+  this.fighter={id:19,name:DEMO_SEED.name,bank:3,offset:0};this.demoMode=true;this.circuit.pending=null;
+  this.flow.menu=this.flow.postfight=this.flow.specialPassword=null;this.flow.result=null;this.flow.stage='demo-intro';
+  this.ring.reset(19);this.ringStage=this.flow.stage;this.palette=new PaletteState({memory:m});
+  for(const component of [this.player,this.opponent,this.control,this.combat]){if('frame'in component)component.frame=0;if(component.events)component.events.length=0;}
+ }
+ demoAfterFrame(){
+  const m=this.memory;
+  if(m[0]&128){this.demoMode=false;this.menu.play('demo-exit','title',8);this.flow.beginMenu(this.menu);return;}
+  if(this.flow.stage==='demo-intro'&&m[0]===1){m[0x1f]=2;this.flow.stage='demo-light-wait';}
+  else if(this.flow.stage==='demo-light-wait'&&!m[0x1f]){m[0x1b]=129;m[0x22]=1;this.flow.stage='demo';}
  }
  renderOpponent() {
   const m=this.memory;
@@ -93,8 +167,9 @@ export class NativeFight {
   if(this.failure)throw Error(this.failure);
   const m=this.memory;
   if(Array.isArray(input))input=input.reduce((bits,key)=>bits|(BUTTONS[key]||0),0);
+  if(this.demoMode)input&=BUTTONS.start; // Recorded demo commands own all combat input.
   this.frame++;
-  const finish=()=>{if(this.flow.stage==='round-intro'&&this.ringStage!=='round-intro')this.ring.reset(this.fighter.id);this.ringStage=this.flow.stage;return this.snapshot();};
+  const finish=()=>{if(this.menuEnabled&&this.flow.stage==='handoff'&&['title','game-over'].includes(this.flow.snapshot().terminal))this.returnToTitle();if(this.flow.stage==='round-intro'&&this.ringStage!=='round-intro')this.ring.reset(this.fighter.id);this.ringStage=this.flow.stage;return this.snapshot();};
   try {
    if(this.flow.suppressNMI){this.audioEvents=[];this.flow.withoutNMITick();return finish();}
    this.palette.beforeFrame();
@@ -103,15 +178,19 @@ export class NativeFight {
    else {const ack=acknowledgeDisplays(m);this.palette.commit(ack);this.ring.commit(ack);}
    m[0x1e]++;if(m[0x1f])m[0x1f]--;
    updateEntropy(m);
-   if(!this.flow.engineRunning){this.audioEvents=this.audio.tick();normalizeInput(m,input);this.flow.presentationTick?.();this.flow.fadeTick();this.flow.afterFrame();return finish();}
+   if(!this.flow.engineRunning){this.audioEvents=this.audio.tick();normalizeInput(m,input);this.flow.presentationTick?.();this.handleMenuAction();this.flow.fadeTick();this.flow.afterFrame();return finish();}
    this.combat.clock();this.combat.points();this.combat.health();this.combat.hearts();this.combat.stars();
    normalizeInput(m,input);
+   if(this.demoMode&&(m[0xd9]&128)){m[0xd9]&=127;this.returnToTitle({interrupt:true});this.audioEvents=this.audio.tick();return finish();}
+   // DEF A682–A690: demo mode calls A750 before the sound sequencer.
+   // The demo deliberately stops all channels instead of playing live cues.
+   if(this.demoMode)m.fill(128,0xf0,0xf4);
    this.audioEvents=this.audio.tick();
    this.control.clockEvents();this.control.selectPattern();this.control.react();this.control.patternTick();
    this.opponent.tick();this.renderOpponent();
    this.player.input();this.player.tick();this.player.prepareDisplay();
    this.combat.knockout();this.combat.hitResolution();this.control.recoveryTick();this.outline();this.control.completeStates();
-   this.flow.fadeTick();this.flow.afterFrame();
+   this.flow.fadeTick();if(this.demoMode)this.demoAfterFrame();else this.flow.afterFrame();
    this.events.push(...this.opponent.events.splice(0).map(e=>({...e,frame:this.frame})),...this.player.events.splice(0).map(e=>({...e,frame:this.frame})),...this.combat.events.splice(0).map(e=>({...e,frame:this.frame})));
    if(this.events.length>256)this.events.splice(0,this.events.length-256);
   }catch(error){this.failure=error.message;throw error;}
@@ -119,7 +198,7 @@ export class NativeFight {
  }
  snapshot() {
   const m=this.memory;
-  return {frame:this.frame,fighter:this.fighter.id,name:this.fighter.name,
+  return {frame:this.frame,fighter:this.fighter.id,name:this.fighter.name,mode:this.demoMode?'attract-demo':this.flow.stage==='menu'?'menu':this.training?'training':'career',
    round:m[6],clock:[m[0x302],m[0x304],m[0x305]],chronometer:(m[0x306]<<8)|m[0x307],
    hp:{mac:m[0x392],opponent:m[0x399]},hearts:m[0x323]*10+m[0x324],stars:m[0x342],
    knockdowns:{mac:m[0x3d0],opponent:m[0x3d1]},count:m[0xc2],knockdown:m[5],

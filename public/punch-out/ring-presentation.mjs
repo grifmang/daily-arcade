@@ -1,5 +1,7 @@
 /** Original fight scenery/HUD as authored ASCII data, with original upload cadence. */
 import {RING_ART} from './ring-art.mjs';
+import {DEMO_RING_ART} from './demo-art.mjs';
+const ART={scenes:{...RING_ART.scenes,...DEMO_RING_ART.scenes},backgrounds:{...RING_ART.backgrounds,...DEMO_RING_ART.backgrounds},glyphs:{...RING_ART.glyphs,...DEMO_RING_ART.glyphs}};
 
 const hudGroups={clock:[0x30a,0x30b,0x2070,4],hearts:[0x325,0x326,0x247d,2],stars:[0x349,0x34a,0x247a,1],points:[0x3f0,0x3f1,0x2088,6]};
 const backgroundCache=new Map();
@@ -11,7 +13,7 @@ function healthTiles(tiles,value,base,reverse){
 function background(scene,m){
  const top=m[0x13]|((m[0x14]&1)<<8),body=m[0x15]|((m[0x16]&1)<<8),key=scene.backgrounds.join('/')+'/'+top+'/'+body+'/'+scene.splitY;
  if(backgroundCache.has(key))return backgroundCache.get(key);
- const halves=scene.backgrounds.map(key=>RING_ART.backgrounds[key]),rows=[],inks=[];
+ const halves=scene.backgrounds.map(key=>ART.backgrounds[key]),rows=[],inks=[];
  for(let y=0;y<80;y++){
   const offset=Math.floor((y*3<scene.splitY?top:body)/2);let row='',ink='';
   for(let x=0;x<128;x++){const world=(x+offset)&255,half=halves[world>>>7],column=world&127;row+=half.rows[y][column];ink+=half.inks[y][column];}
@@ -28,7 +30,7 @@ function view(scene,m,tiles){
  for(const [raw,tile]of Object.entries(tiles)){
   const address=Number(raw),index=(address-0x2000)&1023,y=(index>>>5)*8,worldX=(((address-0x2000)>>>10)&1)*256+(index&31)*8;
   let x=(worldX-(y<scene.splitY?top:body)+512)&511;if(x>=504)x-=512;if(x>=256)continue;
-  const palette=scene.attributes[address]??0,bank=scene.banks[y<96?0:1],matrix=RING_ART.glyphs[`${bank}/${tile}/${palette}`];
+  const palette=scene.attributes[address]??0,bank=scene.banks[y<96?0:1],matrix=ART.glyphs[`${bank}/${tile}/${palette}`];
   if(matrix)parts.push({x,y,matrix});
  }
  return{background:background(scene,m),parts,labels,cellWidth:2,cellHeight:3,recovered:true,geometry:{topScroll:top,bodyScroll:body,splitY:scene.splitY}};
@@ -40,7 +42,7 @@ function view(scene,m,tiles){
 export class RingPresentation{
  constructor(memory,fighter=memory[1]){this.memory=memory;this.reset(fighter);}
  reset(fighter=this.memory[1]){
-  this.fighter=fighter;this.scene=RING_ART.scenes[fighter]??RING_ART.scenes[0];this.tiles={...this.scene.tiles};this.pending=new Map();this.revision=0;this.cached=null;
+  this.fighter=fighter;this.scene=ART.scenes[fighter]??ART.scenes[0];this.tiles={...this.scene.tiles};this.pending=new Map();this.revision=0;this.cached=null;
   const m=this.memory;
   healthTiles(this.tiles,m[0x393],0x80,true);healthTiles(this.tiles,m[0x39a],0x88,false);
   for(const [,source,address,length]of Object.values(hudGroups))for(let i=0;i<length;i++)this.tiles[address+i]=m[source+i];

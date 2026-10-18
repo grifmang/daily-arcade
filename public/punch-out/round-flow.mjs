@@ -18,20 +18,28 @@ export class RoundFlow {
     this.presentation = new CornerPresentation({memory:this.memory,read}); return this;
   }
   beginOpening() {
+    this.menu=null;
     this.specialPassword = null;
     this.postfight = null;
     this.result = null; this.setup.enterCorner(); this.presentation.enter();
     this.stage = 'corner'; this.memory[0x1f] = 1; return this.snapshot();
   }
   beginPostfight(pending) {
+    this.menu=null;
     this.specialPassword = null;
     this.postfight = new PostfightPresentation({memory:this.memory});
     this.postfight.enter(pending); this.stage = 'postfight'; return this.snapshot();
   }
   beginSpecialPassword(special) {
+    this.menu=null;
     this.postfight=null;this.result=null;
     this.specialPassword=new SpecialPasswordPresentation({memory:this.memory,...special});
     this.stage='password-special';return this.snapshot();
+  }
+  beginMenu(menu) {
+    this.menu=menu;this.postfight=this.specialPassword=null;this.result=null;
+    this.memory[4]=this.memory[0x1c]=1;this.memory[0x1d]=255;this.memory[0x4c8]=0;
+    this.stage='menu';return this.snapshot();
   }
   /** The original background builders turn NMI off while writing tile data.
    * Their two (corner) / one (ring) visible-frame spans do not clock RAM/audio. */
@@ -49,7 +57,8 @@ export class RoundFlow {
   }
   /** Original main-thread corner work, once per non-combat NMI after input. */
   presentationTick() {
-    if (this.stage === 'password-special') {
+    if(this.stage==='menu')this.menu.tick();
+    else if (this.stage === 'password-special') {
       this.specialPassword.tick();
     } else if (this.stage === 'postfight') {
       this.postfight.tick();
@@ -76,6 +85,7 @@ export class RoundFlow {
   /** Call once after each NMI/game tick, after the host decrements $1F. */
   afterFrame() {
     const m = this.memory;
+    if(this.stage==='menu'||this.stage.startsWith('demo'))return this.snapshot();
     if(this.stage==='password-special'){
       if(this.specialPassword.completed){this.stage='handoff';this.onTransition?.({type:'special-password-complete',kind:this.specialPassword.kind,terminal:'title'});}
       return this.snapshot();
@@ -171,7 +181,7 @@ export class RoundFlow {
     return this.snapshot();
   }
   get engineRunning() { return this.memory[0x1c] === 0; }
-  snapshot() { const corner = this.stage === 'corner' || this.stage.startsWith('corner-'),postfight=this.specialPassword?.snapshot()??this.postfight?.snapshot()??null; return {stage:this.stage, result:this.result, engineRunning:this.engineRunning, pendingSetup:this.stage === 'handoff', awaitingStart:postfight?postfight.awaitingStart:this.stage === 'corner' && !!this.presentation?.awaitingStart, completed:postfight?.completed??false,terminal:postfight?.terminal??null,presentation:postfight??(corner ? this.presentation?.snapshot() ?? null : null)}; }
+  snapshot() { const corner = this.stage === 'corner' || this.stage.startsWith('corner-'),postfight=this.specialPassword?.snapshot()??this.postfight?.snapshot()??null,menu=this.stage==='menu'?this.menu?.snapshot():null; return {stage:this.stage, result:this.result, engineRunning:this.engineRunning, pendingSetup:this.stage === 'handoff', awaitingStart:menu?menu.awaitingStart:postfight?postfight.awaitingStart:this.stage === 'corner' && !!this.presentation?.awaitingStart, completed:postfight?.completed??false,terminal:postfight?.terminal??null,presentation:menu??postfight??(corner ? this.presentation?.snapshot() ?? null : null)}; }
 }
 
 

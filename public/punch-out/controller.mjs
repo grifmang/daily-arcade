@@ -8,8 +8,8 @@ function valid(map,pad){return map&&CONTROLS.every(name=>{const b=map[name];retu
 function read(binding,pad){return binding?.type==='button'?active(pad.buttons[binding.index]):binding?.type==='axis'&&pad.axes[binding.index]*binding.sign>0.55;}
 /** Poll fresh Gamepad objects, including while the simulation is paused. */
 export class Controller {
- constructor({onInput,onAction,onLoss,onSetup}){
-  Object.assign(this,{onInput,onAction,onLoss,onSetup});this.pad=null;this.previous=new Set();this.armed=false;this.focused=true;this.capture=null;
+ constructor({onInput,onAction,onLoss,onSetup,onModeInput}){
+  Object.assign(this,{onInput,onAction,onLoss,onSetup,onModeInput});this.pad=null;this.previous=new Set();this.armed=false;this.focused=true;this.capture=null;
   this.status=document.querySelector('#controller-status');this.devices=document.querySelector('#controller-device');this.remap=document.querySelector('#controller-remap');this.defaults=document.querySelector('#controller-defaults');
   this.devices.addEventListener('change',()=>{const pad=this.pads.find(p=>String(p.index)===this.devices.value);this.choose(pad);this.onLoss();});
   this.remap.addEventListener('click',()=>{if(!this.pad)return;this.onSetup();this.capture={step:0,map:{}};this.neutralize();this.describe();});
@@ -41,6 +41,8 @@ export class Controller {
   if(held.has('select')&&held.has('up'))held.add('password');
   if(held.has('select')&&(held.has('a')||held.has('b')))held.add('special-password');
   const edges=new Set([...held].filter(name=>!this.previous.has(name)));this.previous=held;
+  // Title/editor/demo own input before host pause and training shortcuts.
+  if(this.onModeInput?.(held,edges))return;
   if(pause){this.onInput(new Set());if(edges.has('pause'))this.onAction('pause');return;}
   if(edges.has('special-password')&&this.onAction('special-password')){this.onInput(new Set());return;}
   if(edges.has('password')&&this.onAction('password')){this.onInput(new Set());return;}
