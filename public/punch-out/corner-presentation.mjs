@@ -22,11 +22,14 @@ export class CornerText {
   for(let guard=0;guard<256;guard++){
    const v=this.read((ptr+y)&65535,10);y=(y+1)&255;
    if(!v){m[0x4b0]=0;return;}
-   if(v<128||v===255||v===253){if(v<128)m[0xf0]=m[0x4bd];m[0x413]=v;m[0x4b2]=y;m[0x410]=0x81;this.tiles.set((m[0x411]<<8)|m[0x412],v);m[0x412]++;return;}
+   // Bank A80B9 increments the low address before NMI C254 uploads the tile.
+   if(v<128||v===255||v===253){if(v<128)m[0xf0]=m[0x4bd];m[0x413]=v;m[0x4b2]=y;m[0x410]=0x81;m[0x412]++;this.tiles.set((m[0x411]<<8)|m[0x412],v);return;}
    if(v===128){const sum=m[0x4b6]+32;m[0x4b6]=m[0x412]=sum;m[0x4b5]=(m[0x4b5]+(sum>255?1:0))&255;m[0x411]=m[0x4b5];continue;}
    if(v===254){m[0x412]+=this.read((ptr+y)&65535,10);y=(y+1)&255;continue;}
    if(v===252){m[0x4b6]=m[0x412]=m[0x4b8];m[0x4b5]=m[0x411]=m[0x4b7];m[0x414]=m[0x415]=0;continue;}
-   if(v===251||v===250){const w=v===251?8:6,h=v===251?11:12,base=(m[0x411]<<8)|m[0x412];for(let dy=0;dy<h;dy++)for(let dx=0;dx<w;dx++)this.tiles.set(base+dy*32+dx,255);let b=0;for(let dy=0;dy<h;dy++){for(let dx=0;dx<w;dx++)m[0x413+b++]=255;m[0x413+b++]=0;}m[0x413+b]=0;m[0x4b2]=y;m[0x410]=129;m[0x412]++;return;}
+   // A812D–8158 emits columns: PPU increments32 within each run, while
+   // C251 increments the tile address between columns. Keep its buffer bytes.
+   if(v===251||v===250){const h=v===251?8:6,w=v===251?11:12,base=(m[0x411]<<8)|((m[0x412]+1)&255);for(let dx=0;dx<w;dx++)for(let dy=0;dy<h;dy++)this.tiles.set(base+dy*32+dx,255);let b=0;for(let dx=0;dx<w;dx++){for(let dy=0;dy<h;dy++)m[0x413+b++]=255;m[0x413+b++]=0;}m[0x413+b]=0;m[0x4b2]=y;m[0x410]=129;m[0x412]++;return;}
    if(v===249){m[0x4bd]=this.read((ptr+y)&65535,10);y=(y+1)&255;continue;}
    m[0x4b1]=this.read((ptr+y)&65535,10);m[0x4b2]=(y+1)&255;return;
   }throw Error('Corner text command budget exceeded');

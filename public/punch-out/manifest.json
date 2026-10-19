@@ -3,7 +3,7 @@
   "source": {
     "repository": "ASCII Punch Out",
     "path": "projects/ascii-punch-out/native",
-    "commit": "a779afbbbe95c3fd26aa9bda54e784718520dea5",
+    "commit": "a3cd4152235177af00d421eff266ed5d674c38ef",
     "dirty": false
   },
   "transform": "daily-arcade-navigation-v2-lf",
@@ -77,8 +77,8 @@
       "sha256": "c1f2942e0b3679a58e1047259e9f898fd93e8cce57bd73022deb002a7681636f"
     },
     "corner-presentation.mjs": {
-      "bytes": 6362,
-      "sha256": "b3d4495925de43b16439e3998bf470c1519d07a0f26dcc9d632912ef14711a82"
+      "bytes": 6603,
+      "sha256": "7d5081ce704da135f7ad635a35e0ec2fe8b61330373cc3ecf69522ec2c5bed67"
     },
     "demo-art.mjs": {
       "bytes": 1907892,
