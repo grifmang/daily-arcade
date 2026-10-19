@@ -12,7 +12,7 @@ export const approved = new Set([
   'fight-control.mjs', 'player-state.mjs', 'combat-resolution.mjs',
   'input-clockwork.mjs', 'round-flow.mjs', 'circuit-flow.mjs', 'palette.mjs',
   'round-setup.mjs', 'corner-presentation.mjs', 'corner-art.mjs',
-  'corner-animation.mjs', 'fighter-art.mjs', 'audio.mjs', 'audio-data.mjs',
+  'corner-animation.mjs', 'fighter-art.mjs', 'opponent-glyphs.mjs', 'audio.mjs', 'audio-data.mjs',
   'postfight-presentation.mjs', 'postfight-art.mjs',
   'ring-presentation.mjs', 'ring-art.mjs', 'star-art.mjs',
   'career-password.mjs',

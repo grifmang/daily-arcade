@@ -19,7 +19,19 @@ function background(scene,m){
   for(let x=0;x<128;x++){const world=(x+offset)&255,half=halves[world>>>7],column=world&127;row+=half.rows[y][column];ink+=half.inks[y][column];}
   rows.push(row);inks.push(ink);
  }
- const value={x:0,y:0,width:128,height:80,rows,inks};
+ const details=(halves[0].details??[]).map((detail,index)=>{
+  const rows=[],inks=[];
+  for(let y=0;y<detail.height;y++){
+   const offset=detail.y+y<scene.splitY?top:body;let row='',ink='';
+   for(let x=0;x<256;x++){
+    const world=(x+offset)&511,source=halves[world>>>8].details[index],column=(world&255)-source.x;
+    row+=source.rows[y][column];ink+=source.inks[y][column];
+   }
+   rows.push(row);inks.push(ink);
+  }
+  return{...detail,x:0,width:256,rows,inks};
+ });
+ const value={x:0,y:0,width:128,height:80,rows,inks,details};
  // Intro scroll can visit many offsets; bound retained presentation data.
  if(backgroundCache.size>=64)backgroundCache.delete(backgroundCache.keys().next().value);
  backgroundCache.set(key,value);return value;

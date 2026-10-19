@@ -3,7 +3,7 @@
   "source": {
     "repository": "ASCII Punch Out",
     "path": "projects/ascii-punch-out/native",
-    "commit": "7422b935368c9a7f868b4e0096144d113e4c6f00",
+    "commit": "7de8cfee308c4208af16b7019b8bcc96644612c2",
     "dirty": false
   },
   "transform": "daily-arcade-navigation-v2-lf",
@@ -17,8 +17,8 @@
       "sha256": "68974428a22761f12d8ce5d6ef1813d638c0619100c3003d6af67ae2b843ff9f"
     },
     "app.mjs": {
-      "bytes": 15877,
-      "sha256": "ca53ffaf13d2435ed195fd8ca9e770d7de15067469031c78c6624b2bbff4879d"
+      "bytes": 16846,
+      "sha256": "ce1f699901111a1de6f7dc9e0a389e2c94d70417f5dd9d1e2d8f813adb521011"
     },
     "audio-data.mjs": {
       "bytes": 59575,
@@ -73,16 +73,16 @@
       "sha256": "9261806051703d6314925ac1d6ea143003f9e27ae6bb066bfbfbe1a5829fd836"
     },
     "corner-art.mjs": {
-      "bytes": 5540787,
-      "sha256": "4602647d2935addf8fb86c8fbdd1e0bcfbd909b229493a42c012744bb1af4be0"
+      "bytes": 5771052,
+      "sha256": "c8b826eef26dcfd074334c61936454254239a76731d3ce6bf95360f94ec9005e"
     },
     "corner-presentation.mjs": {
       "bytes": 6362,
       "sha256": "b3d4495925de43b16439e3998bf470c1519d07a0f26dcc9d632912ef14711a82"
     },
     "demo-art.mjs": {
-      "bytes": 1441814,
-      "sha256": "7b9525bb4df4a39d91426d22fa1a59937542b5921fc51bd26d3ef394b7e1fcff"
+      "bytes": 1418505,
+      "sha256": "38e3a6e814e6b10f9802770cb45b9f92c50579f90bb5ac6dc8e014978dab8417"
     },
     "demo-seed.mjs": {
       "bytes": 5191,
@@ -101,8 +101,8 @@
       "sha256": "cf700a33eb0d66df532bd734344e16a3cd18b089578142f8d3aff87dd90d8940"
     },
     "fighter-art.mjs": {
-      "bytes": 14133840,
-      "sha256": "f4d393739e87473205ed6f347fa26076d985128bc9e3e590f0d2fc56e0b68fe7"
+      "bytes": 13083840,
+      "sha256": "c8ccff30406b1c273466cf755e29d7752e6cbbd27b853f745e248968a1227046"
     },
     "index.html": {
       "bytes": 4974,
@@ -113,8 +113,12 @@
       "sha256": "b5f2491df123d994451757559cf4269d524afc1f9547aac6a1c9654fa81f5064"
     },
     "menu-art.mjs": {
-      "bytes": 1591807,
-      "sha256": "0a5d28ddb9e3d15bdee3f4b536c45e99f8fee7232ccd6591e0512da26a3f45fa"
+      "bytes": 1590844,
+      "sha256": "ed7a06fa43a232677547da275f4e7b558a3d853238f6b9f436ed165ab84c1fc5"
+    },
+    "opponent-glyphs.mjs": {
+      "bytes": 22014742,
+      "sha256": "511b6f0961d836f677027fc83beacbdb1937884b92290d92f1d478eb7c19197f"
     },
     "opponent-vm.mjs": {
       "bytes": 14059,
@@ -141,12 +145,12 @@
       "sha256": "97e55c1c362c47e435b5d9cd9adad69a8f042b2e07784017503a086b27b96330"
     },
     "ring-art.mjs": {
-      "bytes": 915150,
-      "sha256": "58a7497e3dbc52847d606a65453625593080f9ec5f5871f7964bcac784646e82"
+      "bytes": 1258990,
+      "sha256": "673c40cf8f0e1db0e6bdc373483523744fcf1973cb408604ce89a23fac74340f"
     },
     "ring-presentation.mjs": {
-      "bytes": 5069,
-      "sha256": "82ac761711b073c40d37a140045bc3438c493c282148635e0391a3714a3c86dd"
+      "bytes": 5548,
+      "sha256": "195ec903b86a6de5d79e2470cfcf3aaa189970460626ff33f195b040e97e6703"
     },
     "round-flow.mjs": {
       "bytes": 8905,

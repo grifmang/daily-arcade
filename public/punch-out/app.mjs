@@ -19,12 +19,35 @@ let menuBoundary='';
 for(const fighter of FIGHTERS){const option=document.createElement('option');option.value=fighter.id;option.textContent=String(fighter.id+1).padStart(2,'0')+' / '+fighter.name;select.append(option);}
 function text(str,x,y,color='#dde8d8',size=3){ctx.fillStyle=color;ctx.font=`${size}px "Courier New",monospace`;ctx.textBaseline='top';ctx.fillText(str,x,y);}
 function line(x,y,len,char,color){text(char.repeat(len),x,y,color);}
-function drawParts(parts,art,colors){for(const part of parts){const matrix=part.matrix;for(let r=0;r<matrix.height;r++){const row=matrix.rows[r],inks=matrix.inks[r];for(let c=0;c<matrix.width;c++){if(inks[c]!=='.'&&row[c]!==' ')text(row[c],part.x+matrix.x+c*art.cellWidth,part.y+matrix.y+r*art.cellHeight,colors[parseInt(inks[c],36)],3.3);}}}}
-function drawMatrix(matrix,colors,x=0,y=0){for(let r=0;r<matrix.height;r++)for(let c=0;c<matrix.width;c++){const ink=matrix.inks[r][c],char=matrix.rows[r][c];if(ink!=='.'&&char!==' ')text(char,x+(matrix.x||0)+c*2,y+(matrix.y||0)+r*3,colors[parseInt(ink,36)],3.3);}}
+const detailCache=new WeakMap();
+function drawDetail(matrix,colors,x,y){
+ // Cache rasterized ASCII declarations, including their palette. Dynamic sprite
+ // positions still update every frame; tiny text glyphs need only be drawn once.
+ let variants=detailCache.get(matrix);if(!variants){variants=new Map();detailCache.set(matrix,variants);}
+ const key=colors.join('/');let surface=variants.get(key);
+ if(!surface){
+  surface=document.createElement('canvas');surface.width=matrix.width*4;surface.height=matrix.height*4;
+  const pen=surface.getContext('2d');pen.scale(4,4);pen.font='bold 1.667px "Courier New",monospace';pen.textBaseline='top';
+  for(let r=0;r<matrix.height;r++){
+   const row=matrix.rows[r],inks=matrix.inks[r];
+   for(let c=0;c<matrix.width;){const start=c,ink=inks[c];while(c<matrix.width&&inks[c]===ink)c++;
+    if(ink==='.')continue;pen.fillStyle=colors[parseInt(ink,36)];pen.fillText(row.slice(start,c),start,r-.25);
+   }
+  }
+  if(variants.size>=8)variants.delete(variants.keys().next().value);variants.set(key,surface);
+ }
+ ctx.drawImage(surface,x+(matrix.x||0),y+(matrix.y||0),matrix.width,matrix.height);
+}
+function drawParts(parts,art,colors){for(const part of parts)drawMatrix(part.matrix,colors,part.x,part.y,art);}
+function drawMatrix(matrix,colors,x=0,y=0,art={cellWidth:2,cellHeight:3}){
+ if(matrix.cellWidth===1&&matrix.cellHeight===1)drawDetail(matrix,colors,x,y);
+ else for(let r=0;r<matrix.height;r++)for(let c=0;c<matrix.width;c++){const ink=matrix.inks[r][c],char=matrix.rows[r][c];if(ink!=='.'&&char!==' ')text(char,x+(matrix.x||0)+c*art.cellWidth,y+(matrix.y||0)+r*art.cellHeight,colors[parseInt(ink,36)],3.3);}
+ for(const detail of matrix.details??[])drawMatrix(detail,colors,x,y);
+}
 function drawCorner(presentation,palette){const colors=[...palette.background,...palette.sprite],offset=-(presentation.scroll||0);
  if(presentation.hidden)return;
- for(const matrix of [presentation.background,presentation.portrait]){if(!matrix)continue;for(let r=0;r<matrix.height;r++)for(let c=0;c<matrix.width;c++){const ink=matrix.inks[r][c],char=matrix.rows[r][c];if(ink!=='.'&&char!==' ')text(char,c*2,r*3+offset,colors[parseInt(ink,36)],3.3);}}
- for(const item of presentation.message?.chars||[]){if(item.char===' ')continue;ctx.save();ctx.translate(item.x,item.y+offset);ctx.scale(1.6,1);text(item.char,0,0,palette.background[item.ink??1],8);ctx.restore();}
+ for(const matrix of [presentation.background,presentation.portrait])if(matrix)drawMatrix(matrix,colors,0,offset);
+ for(const item of presentation.message?.chars||[]){if(item.char===' ')continue;ctx.save();ctx.translate(item.x,item.y+offset);ctx.scale(item.scaleX??1.6,1);text(item.char,0,0,palette.background[item.ink??1],item.fontSize??8);ctx.restore();}
 }
 function draw(){ctx.setTransform(4,0,0,4,0,0);const m=game.memory,s=game.snapshot(),p=s.palette,b=p.background;ctx.fillStyle=b[0];ctx.fillRect(0,0,256,240);
  status.textContent=s.mode==='menu'?`${running?'LIVE':'PAUSED'} / ${s.flow.presentation.phase.toUpperCase()}`:s.mode==='attract-demo'?`${running?'LIVE':'PAUSED'} / ATTRACT DEMO`:s.flow.presentation?.kind?`${running?'LIVE':'PAUSED'} / ${s.flow.presentation.kind==='credits'?'CREDITS':'BUSY SIGNAL'} / ${s.flow.completed?'TITLE':s.flow.awaitingStart?'PRESS START':'PLAYING'}`:`${running?'LIVE':'PAUSED'} / ${s.mode==='training'?'TRAINING / ':''}ROUND ${s.round} / ${s.clock[0]}:${s.clock[1]}${s.clock[2]} / HEARTS ${s.hearts} / STARS ${s.stars}`;
