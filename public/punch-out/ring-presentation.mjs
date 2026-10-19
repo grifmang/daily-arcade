@@ -13,10 +13,10 @@ function healthTiles(tiles,value,base,reverse){
 function background(scene,m){
  const top=m[0x13]|((m[0x14]&1)<<8),body=m[0x15]|((m[0x16]&1)<<8),key=scene.backgrounds.join('/')+'/'+top+'/'+body+'/'+scene.splitY;
  if(backgroundCache.has(key))return backgroundCache.get(key);
- const halves=scene.backgrounds.map(key=>ART.backgrounds[key]),rows=[],inks=[];
- for(let y=0;y<80;y++){
-  const offset=Math.floor((y*3<scene.splitY?top:body)/2);let row='',ink='';
-  for(let x=0;x<128;x++){const world=(x+offset)&255,half=halves[world>>>7],column=world&127;row+=half.rows[y][column];ink+=half.inks[y][column];}
+ const halves=scene.backgrounds.map(key=>ART.backgrounds[key]),rows=[],inks=[],{width,height}=halves[0],cellWidth=halves[0].cellWidth??2,cellHeight=halves[0].cellHeight??3;
+ for(let y=0;y<height;y++){
+  const offset=Math.floor((y*cellHeight<scene.splitY?top:body)/cellWidth);let row='',ink='';
+  for(let x=0;x<width;x++){const world=(x+offset)%(width*2),half=halves[Math.floor(world/width)],column=world%width;row+=half.rows[y][column];ink+=half.inks[y][column];}
   rows.push(row);inks.push(ink);
  }
  const details=(halves[0].details??[]).map((detail,index)=>{
@@ -31,7 +31,7 @@ function background(scene,m){
   }
   return{...detail,x:0,width:256,rows,inks};
  });
- const value={x:0,y:0,width:128,height:80,rows,inks,details};
+ const value={x:0,y:0,width,height,cellWidth,cellHeight,rows,inks,details};
  // Intro scroll can visit many offsets; bound retained presentation data.
  if(backgroundCache.size>=64)backgroundCache.delete(backgroundCache.keys().next().value);
  backgroundCache.set(key,value);return value;

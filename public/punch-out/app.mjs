@@ -20,28 +20,41 @@ for(const fighter of FIGHTERS){const option=document.createElement('option');opt
 function text(str,x,y,color='#dde8d8',size=3){ctx.fillStyle=color;ctx.font=`${size}px "Courier New",monospace`;ctx.textBaseline='top';ctx.fillText(str,x,y);}
 function line(x,y,len,char,color){text(char.repeat(len),x,y,color);}
 const detailCache=new WeakMap();
+const surfaces=new Map(),surfaceBudget=24*1024*1024;let surfaceBytes=0;
+function forgetSurface(surface){const entry=surfaces.get(surface);if(!entry)return;entry.variants.delete(entry.key);surfaceBytes-=entry.bytes;surfaces.delete(surface);}
+const lightGlyph=char=>({'@':':','#':'+','%':';','*':'.'}[char]??char);
 function drawDetail(matrix,colors,x,y){
  // Cache rasterized ASCII declarations, including their palette. Dynamic sprite
  // positions still update every frame; tiny text glyphs need only be drawn once.
  let variants=detailCache.get(matrix);if(!variants){variants=new Map();detailCache.set(matrix,variants);}
  const key=colors.join('/');let surface=variants.get(key);
  if(!surface){
-  surface=document.createElement('canvas');surface.width=matrix.width*4;surface.height=matrix.height*4;
-  const pen=surface.getContext('2d');pen.scale(4,4);pen.font='bold 1.667px "Courier New",monospace';pen.textBaseline='top';
-  for(let r=0;r<matrix.height;r++){
-   const row=matrix.rows[r],inks=matrix.inks[r];
-   for(let c=0;c<matrix.width;){const start=c,ink=inks[c];while(c<matrix.width&&inks[c]===ink)c++;
-    if(ink==='.')continue;pen.fillStyle=colors[parseInt(ink,36)];pen.fillText(row.slice(start,c),start,r-.25);
-   }
+  const cw=matrix.cellWidth,ch=matrix.cellHeight;
+  surface=document.createElement('canvas');surface.width=matrix.width*cw*4;surface.height=matrix.height*ch*4;
+  const pen=surface.getContext('2d');pen.scale(4,4);pen.font='bold 3px "Courier New",monospace';pen.textBaseline='top';
+  const shapes=[' ',"'",'`','-',',','|','/','r', '.', '\\','!','t','_','L','J','o'];
+  if(cw===2&&ch===2){
+   for(let r=0;r<matrix.height;r++)for(let c=0;c<matrix.width;c++){const ink=matrix.inks[r][c],char=lightGlyph(matrix.rows[r][c]);if(ink!=='.'&&char!==' '){pen.fillStyle=colors[parseInt(ink,36)];pen.fillText(char,c*2,r*2-.2);}}
+  }else for(let r=0;r<matrix.height;r+=2)for(let c=0;c<matrix.width;c+=2){
+   let mask=0;const counts=new Map();
+   for(let dy=0;dy<2;dy++)for(let dx=0;dx<2;dx++){const ink=matrix.inks[r+dy]?.[c+dx];if(ink&&ink!=='.'){mask|=1<<(dy*2+dx);counts.set(ink,(counts.get(ink)||0)+1);}}
+   if(mask){const ink=[...counts].sort((a,b)=>b[1]-a[1])[0][0];pen.fillStyle=colors[parseInt(ink,36)];pen.fillText(shapes[mask],c,r-.2);}
   }
-  if(variants.size>=8)variants.delete(variants.keys().next().value);variants.set(key,surface);
+  if(variants.size>=8)forgetSurface(variants.values().next().value);
+  const bytes=surface.width*surface.height*4;
+  while(surfaceBytes+bytes>surfaceBudget&&surfaces.size)forgetSurface(surfaces.keys().next().value);
+  variants.set(key,surface);surfaces.set(surface,{variants,key,bytes});surfaceBytes+=bytes;
  }
- ctx.drawImage(surface,x+(matrix.x||0),y+(matrix.y||0),matrix.width,matrix.height);
+ else {const entry=surfaces.get(surface);surfaces.delete(surface);surfaces.set(surface,entry);}
+ ctx.drawImage(surface,x+(matrix.x||0),y+(matrix.y||0),matrix.width*matrix.cellWidth,matrix.height*matrix.cellHeight);
 }
 function drawParts(parts,art,colors){for(const part of parts)drawMatrix(part.matrix,colors,part.x,part.y,art);}
 function drawMatrix(matrix,colors,x=0,y=0,art={cellWidth:2,cellHeight:3}){
- if(matrix.cellWidth===1&&matrix.cellHeight===1)drawDetail(matrix,colors,x,y);
- else for(let r=0;r<matrix.height;r++)for(let c=0;c<matrix.width;c++){const ink=matrix.inks[r][c],char=matrix.rows[r][c];if(ink!=='.'&&char!==' ')text(char,x+(matrix.x||0)+c*art.cellWidth,y+(matrix.y||0)+r*art.cellHeight,colors[parseInt(ink,36)],3.3);}
+ if(matrix.char){ctx.save();ctx.translate(x,y);ctx.scale(1.6,1);text(matrix.char,0,0,colors[matrix.ink],8);ctx.restore();}
+ else if(matrix.cellWidth===matrix.cellHeight&&(matrix.cellWidth===1||matrix.cellWidth===2))drawDetail(matrix,colors,x,y);
+ else {const cw=matrix.cellWidth??art.cellWidth,ch=matrix.cellHeight??art.cellHeight;
+  for(let r=0;r<matrix.height;r++)for(let c=0;c<matrix.width;c++){const ink=matrix.inks[r][c],char=lightGlyph(matrix.rows[r][c]);if(ink!=='.'&&char!==' '){ctx.fillStyle=colors[parseInt(ink,36)];ctx.font='bold 3px "Courier New",monospace';ctx.textBaseline='top';ctx.fillText(char,x+(matrix.x||0)+c*cw,y+(matrix.y||0)+r*ch);}}
+ }
  for(const detail of matrix.details??[])drawMatrix(detail,colors,x,y);
 }
 function drawCorner(presentation,palette){const colors=[...palette.background,...palette.sprite],offset=-(presentation.scroll||0);
@@ -59,7 +72,7 @@ function draw(){ctx.setTransform(4,0,0,4,0,0);const m=game.memory,s=game.snapsho
  }
  const opponentParts=fighterArtParts(activeArt,artState,s.starSprite);
  if(p.visible.sprite)drawParts(opponentParts.filter(part=>!part.foreground),activeArt,p.sprite);
- if(p.visible.background)drawParts(playerArtParts(playerArtState,m[0x15]),PLAYER_ART,p.background);
+ if(p.visible.background)drawParts(playerArtParts(playerArtState,m[0x15]|((m[0x16]&1)<<8)),PLAYER_ART,p.background);
  if(p.visible.sprite)drawParts(opponentParts.filter(part=>part.foreground),activeArt,p.sprite);
 }
 function resultMessage(result){return result?.type==='ending'?'WORLD CHAMPION!':result?.won?'YOU WIN!':result?.type==='game-over'?'GAME OVER.':'BOUT OVER.';}

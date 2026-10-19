@@ -85,7 +85,7 @@ export class CareerMenu {
  }
  snapshot(){
   const scene=this.data.scenes[this.row.scene];
-  if(!this.cache.has(this.row.scene))this.cache.set(this.row.scene,{width:128,height:80,rows:scene.rows.map(i=>this.data.rows[i]),inks:scene.inks.map(i=>this.data.rows[i])});
+  if(!this.cache.has(this.row.scene))this.cache.set(this.row.scene,{width:scene.width??128,height:scene.height??80,cellWidth:scene.cellWidth??2,cellHeight:scene.cellHeight??3,rows:scene.rows.map(i=>this.data.rows[i]),inks:scene.inks.map(i=>this.data.rows[i])});
   const positions=[0,1,2,4,5,6,8,9,10,11];
   const labels=typeof scene.labels==='number'?this.data.labels[scene.labels]:scene.labels;
   const chars=labels.map(i=>typeof i==='number'?this.data.glyphs[i]:i).map(label=>{
