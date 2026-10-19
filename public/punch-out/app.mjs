@@ -57,9 +57,31 @@ function drawMatrix(matrix,colors,x=0,y=0,art={cellWidth:2,cellHeight:3}){
  for(const detail of matrix.details??[])drawMatrix(detail,colors,x,y);
  if(matrix.lettering){const t=matrix.lettering;ctx.save();ctx.translate(x+(matrix.x||0),y+(matrix.y||0));ctx.scale(t.scaleX??1,1);ctx.fillStyle=colors[t.ink];ctx.font=`bold ${t.fontSize??8}px "Courier New",monospace`;ctx.textBaseline='top';ctx.fillText(t.text,t.x??0,t.y??0);ctx.restore();}
 }
+// Resolve original opaque ink cells before rasterizing text. Painting separate
+// transparent glyph canvases lets white backing plates leak through faces.
+// Eight cropped 256x240 pairs bound retained character/ink strings to <2 MiB.
+const cornerComposites=[];
+function composeCorner(background,portrait){
+ const parts=[background,portrait];
+ if(parts.some(m=>!m||m.cellWidth!==1||m.cellHeight!==1||m.details?.length||m.lettering))return null;
+ const found=cornerComposites.findIndex(e=>e.background===background&&e.portrait===portrait);
+ if(found>=0){const [entry]=cornerComposites.splice(found,1);cornerComposites.push(entry);return entry.matrix;}
+ const x=Math.min(...parts.map(m=>m.x||0)),y=Math.min(...parts.map(m=>m.y||0));
+ const width=Math.max(...parts.map(m=>(m.x||0)+m.width))-x,height=Math.max(...parts.map(m=>(m.y||0)+m.height))-y;
+ if(x<0||y<0||x+width>256||y+height>240||width<=0||height<=0)return null;
+ const rows=Array.from({length:height},()=>Array(width).fill(' ')),inks=Array.from({length:height},()=>Array(width).fill('.'));
+ for(const m of parts)for(let r=0;r<m.height;r++)for(let c=0;c<m.width;c++)if(m.inks[r][c]!=='.'){
+  const dy=r+(m.y||0)-y,dx=c+(m.x||0)-x;rows[dy][dx]=m.rows[r][c];inks[dy][dx]=m.inks[r][c];
+ }
+ const matrix={x,y,width,height,cellWidth:1,cellHeight:1,rows:rows.map(r=>r.join('')),inks:inks.map(r=>r.join(''))};
+ cornerComposites.push({background,portrait,matrix});if(cornerComposites.length>8)cornerComposites.shift();
+ return matrix;
+}
 function drawCorner(presentation,palette){const colors=[...palette.background,...palette.sprite],offset=-(presentation.scroll||0);
  if(presentation.hidden)return;
- for(const matrix of [presentation.background,presentation.portrait])if(matrix)drawMatrix(matrix,colors,0,offset);
+ const composite=composeCorner(presentation.background,presentation.portrait);
+ if(composite)drawMatrix(composite,colors,0,offset);
+ else for(const matrix of [presentation.background,presentation.portrait])if(matrix)drawMatrix(matrix,colors,0,offset);
  for(const item of presentation.message?.chars||[]){if(item.char===' ')continue;ctx.save();ctx.translate(item.x,item.y+offset);ctx.scale(item.scaleX??1.6,1);text(item.char,0,0,palette.background[item.ink??1],item.fontSize??8);ctx.restore();}
 }
 function draw(){ctx.setTransform(4,0,0,4,0,0);const m=game.memory,s=game.snapshot(),p=s.palette,b=p.background;ctx.fillStyle=b[0];ctx.fillRect(0,0,256,240);

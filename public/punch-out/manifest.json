@@ -3,7 +3,7 @@
   "source": {
     "repository": "ASCII Punch Out",
     "path": "projects/ascii-punch-out/native",
-    "commit": "46c224b1ebff012c90c80fdae2c827dd046a1531",
+    "commit": "a779afbbbe95c3fd26aa9bda54e784718520dea5",
     "dirty": false
   },
   "transform": "daily-arcade-navigation-v2-lf",
@@ -17,8 +17,8 @@
       "sha256": "7441af8c139c744f24503d9f74d6b15353db4637e6836b9882f77fd1ff0a4b9f"
     },
     "app.mjs": {
-      "bytes": 18592,
-      "sha256": "49749d83a76adad6577fda55dfd33d31c8d9f70d50e242b7a10fb33600cf8607"
+      "bytes": 20214,
+      "sha256": "63e7b7526f17c5fb584bab045f2830eeacce77d55f5e448984ff0abf8d22fd4e"
     },
     "audio-data.mjs": {
       "bytes": 59575,
@@ -73,8 +73,8 @@
       "sha256": "9261806051703d6314925ac1d6ea143003f9e27ae6bb066bfbfbe1a5829fd836"
     },
     "corner-art.mjs": {
-      "bytes": 9047337,
-      "sha256": "d05803be041ed5e1ad4da68597389e9e8a416f5ea9da77262309a7a0d4140c8b"
+      "bytes": 9022619,
+      "sha256": "c1f2942e0b3679a58e1047259e9f898fd93e8cce57bd73022deb002a7681636f"
     },
     "corner-presentation.mjs": {
       "bytes": 6362,
@@ -133,8 +133,8 @@
       "sha256": "38604644a8bb62bd06c11a163040e2736622d6c15ddc16ad1601b2af3b24c390"
     },
     "postfight-art.mjs": {
-      "bytes": 10168789,
-      "sha256": "2e581c5c4381c6c1fbda35ffdbc44e97e63de04fbca0d073882d94a8ad972675"
+      "bytes": 8909658,
+      "sha256": "4fcc6951084fe364be621c6184d74a08f258868709935779488225a9c266a88f"
     },
     "postfight-presentation.mjs": {
       "bytes": 6856,
