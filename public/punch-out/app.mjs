@@ -101,7 +101,7 @@ function setRunning(value,controllerStart=false){
  if(value)careerEntry.open=false;
  controller.neutralize();
  const epoch=++runEpoch;accumulator=0;last=0;
- if(!value){running=false;loadingSound=false;sound.pause();pause.textContent='Resume';if(!game.failure)announcement.textContent=['ending','title'].includes(game.flow.snapshot().terminal)?'':game.circuit.pending?resultMessage(game.circuit.pending):'Paused. Press P to continue.';return;}
+ if(!value){running=false;loadingSound=false;sound.pause();pause.textContent='Resume';if(!game.failure)announcement.textContent=['ending','title'].includes(game.flow.snapshot().terminal)?'':game.flow.stage==='handoff'&&game.circuit.pending?resultMessage(game.circuit.pending):'Paused. Press P to continue.';return;}
  running=false;loadingSound=true;pause.textContent='Pause';announcement.textContent='';canvas.focus({preventScroll:true});
  const unlock=sound.unlock();
  if(controllerStart){running=true;loadingSound=false;sound.resume();document.querySelector('#sound').textContent=sound.context?.state==='running'?'Sound on':'Enable sound (click / key)';}
@@ -117,7 +117,7 @@ function showTitle(){++runEpoch;loadingSound=false;clearControls();sound.reset()
 pause.addEventListener('click',()=>{if(!running&&!loadingSound&&game.frame===0&&!game.originalInputOwned)startPulse=4;setRunning(!(running||loadingSound));});document.querySelector('#title').addEventListener('click',showTitle);
 document.querySelector('#full-career').addEventListener('click',()=>{showTitle();careerRequested=true;});
 document.querySelector('#sound').addEventListener('click',event=>{const needsUnlock=sound.context?.state!=='running';sound.setMuted(needsUnlock?false:!sound.muted);event.currentTarget.textContent=sound.muted?'Sound off':'Sound on';event.currentTarget.setAttribute('aria-pressed',String(!sound.muted));if(!sound.muted)sound.unlock().then(()=>{if(!running)sound.pause();}).catch(()=>{});if(running)canvas.focus({preventScroll:true});});
-function continueResult(controllerStart=false){if(game.advanceBout()){resetArt();controller.neutralize();nextButton.hidden=true;pause.hidden=false;pause.disabled=false;setRunning(true,controllerStart);}else if(game.flow.stage==='handoff')showTitle();}
+function continueResult(controllerStart=false){if(game.advanceBout()){clearControls();resetArt();nextButton.hidden=true;pause.hidden=false;pause.disabled=false;setRunning(true,controllerStart);}else if(game.flow.stage==='handoff')showTitle();}
 nextButton.addEventListener('click',()=>continueResult());
 const controller=new Controller({onInput:held=>{padInput=held;},onLoss:()=>{if(running||loadingSound)setRunning(false);},onSetup:()=>setRunning(false),onModeInput:(held,edges)=>{
  if(careerEntry.open||!game.originalInputOwned)return false;
