@@ -3,7 +3,7 @@
   "source": {
     "repository": "ASCII Punch Out",
     "path": "projects/ascii-punch-out/native",
-    "commit": "a3cd4152235177af00d421eff266ed5d674c38ef",
+    "commit": "47d9adf16a764e82e26520e74120c9de81cd004f",
     "dirty": false
   },
   "transform": "daily-arcade-navigation-v2-lf",
@@ -13,12 +13,12 @@
       "sha256": "908e73c2b5e0b981cd16afb1e9043c6ae34f30a01b3d6cd815e76339cd1b3a5b"
     },
     "app.css": {
-      "bytes": 4838,
-      "sha256": "7441af8c139c744f24503d9f74d6b15353db4637e6836b9882f77fd1ff0a4b9f"
+      "bytes": 5020,
+      "sha256": "18a27091d7e138f269b9eefdb2d24198eaf1c6abd6d24f9dcd28b6ee2d5bd7d8"
     },
     "app.mjs": {
-      "bytes": 20214,
-      "sha256": "63e7b7526f17c5fb584bab045f2830eeacce77d55f5e448984ff0abf8d22fd4e"
+      "bytes": 19414,
+      "sha256": "b34c2eca27bbc2271aecfc2775c92545573c930ef89d2b4b4ad1f82f3972db7a"
     },
     "audio-data.mjs": {
       "bytes": 59575,
@@ -49,8 +49,8 @@
       "sha256": "8fb257f0c4a6a57eaff0f609c5d65f65431137f492d54b718fd3631920412986"
     },
     "career-menu.mjs": {
-      "bytes": 5911,
-      "sha256": "07be821113c92a1c0fabd821f03560df581964bf18b4bd2fdf6f504161efc732"
+      "bytes": 5979,
+      "sha256": "2fbd90361187c74d4b52fa67bb8fca1d26da8143fc69b7c9f6256bd2e13a82a0"
     },
     "career-password.mjs": {
       "bytes": 3203,
@@ -89,8 +89,8 @@
       "sha256": "5b10291ffea7392814b3231ae005466a80eb63c49cd720550bd8efa31588eb93"
     },
     "engine.mjs": {
-      "bytes": 17652,
-      "sha256": "6ba783f0962fd887ab314022fa3999242bf4db3918a22d37c79a1a08aca3cefe"
+      "bytes": 17732,
+      "sha256": "16f79f120b0cafc1114d32917e95aed0d1a4ef6bcd6856931ee48d289d5b2ca2"
     },
     "fight-control.mjs": {
       "bytes": 15488,
@@ -105,8 +105,8 @@
       "sha256": "5a1aee27ec2147bbff7ef69c32de8e50d23293921bd823f27bbf14db0c9c4b85"
     },
     "index.html": {
-      "bytes": 5217,
-      "sha256": "7d6ab7ed5bc2e13bf84eadd0abff604f8691ece32e1d3435aca1c5ab87577c76"
+      "bytes": 5085,
+      "sha256": "6f203c16f5fbf5f8a6cf0e7f10e13cb67461fbdca3dbe146cd3cb258b5c3bfcd"
     },
     "input-clockwork.mjs": {
       "bytes": 3369,

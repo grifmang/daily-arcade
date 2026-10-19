@@ -24,14 +24,14 @@ const maps=Object.fromEntries(Object.entries(BANK_DATA).map(([key,segments])=>{
  const data=new Map();for(const [start,bytes] of segments)bytes.forEach((v,i)=>data.set(start+i,v));return [key,data];
 }));
 export class NativeFight {
- constructor({fighter=0,memory,onOpponentRender,onPlayerRender,opening=false,menu=false,training=false,savedPassword=null,savedMenuCode=null}={}) {
+ constructor({fighter=0,memory,onOpponentRender,onPlayerRender,opening=false,menu=false,training=false,allowAttract=true,savedPassword=null,savedMenuCode=null}={}) {
   this.fighter=FIGHTERS.find(f=>f.id===fighter);if(!this.fighter)throw Error('Unknown original bout '+fighter);
   this.memory=new Uint8Array(memory||FIGHT_SEEDS.find(f=>f.id===fighter).memory);
   if(memory){const identity=resolveBoutIdentity(this.memory[1],this.memory[0x13e]);this.fighter=FIGHTERS[identity.combatId];}else this.memory[0x13e]=0;
   this.committedStarSprite=this.memory.slice(0x2fc,0x300);this.spriteRowHeight=this.memory[0x10]&32?16:8;
   this.frame=0;this.events=[];this.failure=null;
   const stored=decodeCareerPassword(savedPassword);
-  this.menuEnabled=!!menu;this.training=training;this.demoMode=false;this.savedPassword=stored?.kind==='career'?stored.password:null;
+  this.allowAttract=allowAttract;this.menuEnabled=!!menu;this.training=training;this.demoMode=false;this.savedPassword=stored?.kind==='career'?stored.password:null;
   this.savedMenuCode=null;this.rememberMenuCode(savedMenuCode??this.savedPassword);
   this.onOpponentRender=onOpponentRender;
   if(!memory&&!opening)initializeOriginalAudioMemory(this.memory,fighter);
@@ -110,7 +110,7 @@ export class NativeFight {
   // before the menu normalizer sees it; preserve passwords, records and sound.
   this.memory.fill(0,0x40,0xf0);this.memory[0x13e]=0;
   if(host){this.audio.reset();this.audioEvents=[];}
-  this.menu=new CareerMenu({memory:this.memory,cold,onAction:action=>{this.menuAction=action;},savedMenuCode:this.savedMenuCode});
+  this.menu=new CareerMenu({memory:this.memory,cold,allowAttract:this.allowAttract,onAction:action=>{this.menuAction=action;},savedMenuCode:this.savedMenuCode});
   if(!cold){if(interrupt){this.menu.blockedStart=true;this.menu.play('title-return','title',16);}else this.menu.title(timer);}
   this.menuAction=null;this.flow.beginMenu(this.menu);return true;
  }
