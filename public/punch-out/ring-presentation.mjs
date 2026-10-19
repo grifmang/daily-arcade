@@ -38,7 +38,7 @@ function background(scene,m){
 }
 function view(scene,m,tiles){
  const top=m[0x13]|((m[0x14]&1)<<8),body=m[0x15]|((m[0x16]&1)<<8),parts=[],labels=[];
- for(const label of scene.labels){const x=(label.worldX-top+512)&511;if(x<256)labels.push({x,y:label.y,char:label.char,ink:label.ink});}
+ for(const label of scene.labels){const x=(label.worldX-top+512)&511;if(x<256)labels.push({...label,x,char:label.roundNumber?String(Math.max(1,Math.min(3,m[6]))):label.char});}
  for(const [raw,tile]of Object.entries(tiles)){
   const address=Number(raw),index=(address-0x2000)&1023,y=(index>>>5)*8,worldX=(((address-0x2000)>>>10)&1)*256+(index&31)*8;
   let x=(worldX-(y<scene.splitY?top:body)+512)&511;if(x>=504)x-=512;if(x>=256)continue;
