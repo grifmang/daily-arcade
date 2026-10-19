@@ -15,14 +15,14 @@ const nextButton=document.querySelector('#next');
 const careerEntry=document.querySelector('#career-entry'),careerInput=document.querySelector('#career-password'),careerMessage=document.querySelector('#career-message');let passwordCursor=0;
 const specialStatus=document.querySelector('#special-status');
 const menuStatus=document.querySelector('#menu-status');
-let menuBoundary='';
+let menuBoundary='',careerRequested=false;
 for(const fighter of FIGHTERS){const option=document.createElement('option');option.value=fighter.id;option.textContent=String(fighter.id+1).padStart(2,'0')+' / '+fighter.name;select.append(option);}
-function text(str,x,y,color='#dde8d8',size=3){ctx.fillStyle=color;ctx.font=`${size}px "Courier New",monospace`;ctx.textBaseline='top';ctx.fillText(str,x,y);}
+function text(str,x,y,color='#dde8d8',size=3){ctx.fillStyle=color;ctx.font=`bold ${size}px "Courier New",monospace`;ctx.textBaseline='top';ctx.fillText(str,x,y);}
 function line(x,y,len,char,color){text(char.repeat(len),x,y,color);}
 const detailCache=new WeakMap();
 const surfaces=new Map(),surfaceBudget=24*1024*1024;let surfaceBytes=0;
 function forgetSurface(surface){const entry=surfaces.get(surface);if(!entry)return;entry.variants.delete(entry.key);surfaceBytes-=entry.bytes;surfaces.delete(surface);}
-const lightGlyph=char=>({'@':':','#':'+','%':';','*':'.'}[char]??char);
+const lightGlyph=char=>char;
 function drawDetail(matrix,colors,x,y){
  // Cache rasterized ASCII declarations, including their palette. Dynamic sprite
  // positions still update every frame; tiny text glyphs need only be drawn once.
@@ -31,14 +31,13 @@ function drawDetail(matrix,colors,x,y){
  if(!surface){
   const cw=matrix.cellWidth,ch=matrix.cellHeight;
   surface=document.createElement('canvas');surface.width=matrix.width*cw*4;surface.height=matrix.height*ch*4;
-  const pen=surface.getContext('2d');pen.scale(4,4);pen.font='bold 3px "Courier New",monospace';pen.textBaseline='top';
-  const shapes=[' ',"'",'`','-',',','|','/','r', '.', '\\','!','t','_','L','J','o'];
-  if(cw===2&&ch===2){
-   for(let r=0;r<matrix.height;r++)for(let c=0;c<matrix.width;c++){const ink=matrix.inks[r][c],char=lightGlyph(matrix.rows[r][c]);if(ink!=='.'&&char!==' '){pen.fillStyle=colors[parseInt(ink,36)];pen.fillText(char,c*2,r*2-.2);}}
-  }else for(let r=0;r<matrix.height;r+=2)for(let c=0;c<matrix.width;c+=2){
-   let mask=0;const counts=new Map();
-   for(let dy=0;dy<2;dy++)for(let dx=0;dx<2;dx++){const ink=matrix.inks[r+dy]?.[c+dx];if(ink&&ink!=='.'){mask|=1<<(dy*2+dx);counts.set(ink,(counts.get(ink)||0)+1);}}
-   if(mask){const ink=[...counts].sort((a,b)=>b[1]-a[1])[0][0];pen.fillStyle=colors[parseInt(ink,36)];pen.fillText(shapes[mask],c,r-.2);}
+  const pen=surface.getContext('2d');pen.scale(4,4);pen.textBaseline='alphabetic';
+  // Fine declarations retain each source ink boundary. Glyphs fit their cells;
+  // the old renderer merged four inks and overlapped adjacent text rows.
+  pen.font=`bold ${ch===1?1.65:2.6}px "Courier New",monospace`;
+  for(let r=0;r<matrix.height;r++)for(let c=0;c<matrix.width;c++){
+   const ink=matrix.inks[r][c],char=matrix.rows[r][c];
+   if(ink!=='.'&&char!==' '){pen.fillStyle=colors[parseInt(ink,36)];pen.fillText(char,c*cw,r*ch+(ch===1?.91:1.8));}
   }
   if(variants.size>=8)forgetSurface(variants.values().next().value);
   const bytes=surface.width*surface.height*4;
@@ -51,11 +50,12 @@ function drawDetail(matrix,colors,x,y){
 function drawParts(parts,art,colors){for(const part of parts)drawMatrix(part.matrix,colors,part.x,part.y,art);}
 function drawMatrix(matrix,colors,x=0,y=0,art={cellWidth:2,cellHeight:3}){
  if(matrix.char){ctx.save();ctx.translate(x,y);ctx.scale(1.6,1);text(matrix.char,0,0,colors[matrix.ink],8);ctx.restore();}
- else if(matrix.cellWidth===matrix.cellHeight&&(matrix.cellWidth===1||matrix.cellWidth===2))drawDetail(matrix,colors,x,y);
+ else if(matrix.width&&matrix.height&&matrix.cellWidth===matrix.cellHeight&&(matrix.cellWidth===1||matrix.cellWidth===2))drawDetail(matrix,colors,x,y);
  else {const cw=matrix.cellWidth??art.cellWidth,ch=matrix.cellHeight??art.cellHeight;
   for(let r=0;r<matrix.height;r++)for(let c=0;c<matrix.width;c++){const ink=matrix.inks[r][c],char=lightGlyph(matrix.rows[r][c]);if(ink!=='.'&&char!==' '){ctx.fillStyle=colors[parseInt(ink,36)];ctx.font='bold 3px "Courier New",monospace';ctx.textBaseline='top';ctx.fillText(char,x+(matrix.x||0)+c*cw,y+(matrix.y||0)+r*ch);}}
  }
  for(const detail of matrix.details??[])drawMatrix(detail,colors,x,y);
+ if(matrix.lettering){const t=matrix.lettering;ctx.save();ctx.translate(x+(matrix.x||0),y+(matrix.y||0));ctx.scale(t.scaleX??1,1);ctx.fillStyle=colors[t.ink];ctx.font=`bold ${t.fontSize??8}px "Courier New",monospace`;ctx.textBaseline='top';ctx.fillText(t.text,t.x??0,t.y??0);ctx.restore();}
 }
 function drawCorner(presentation,palette){const colors=[...palette.background,...palette.sprite],offset=-(presentation.scroll||0);
  if(presentation.hidden)return;
@@ -68,7 +68,7 @@ function draw(){ctx.setTransform(4,0,0,4,0,0);const m=game.memory,s=game.snapsho
  if(s.flow.presentation&&s.flow.stage!=='fight'&&s.flow.stage!=='round-intro'&&s.flow.stage!=='round-light-wait'){drawCorner(s.flow.presentation,p);return;}
  if(p.visible.background){
   drawMatrix(s.ring.background,b);for(const part of s.ring.parts)drawMatrix(part.matrix,b,part.x,part.y);
-  for(const item of s.ring.labels){ctx.save();ctx.translate(item.x,item.y);ctx.scale(1.6,1);text(item.char,0,0,b[item.ink],8);ctx.restore();}
+  for(const item of s.ring.labels){ctx.save();ctx.translate(item.x,item.y);ctx.scale(item.scaleX??1.6,1);text(item.char,0,0,b[item.ink],item.fontSize??8);ctx.restore();}
  }
  const opponentParts=fighterArtParts(activeArt,artState,s.starSprite);
  if(p.visible.sprite)drawParts(opponentParts.filter(part=>!part.foreground),activeArt,p.sprite);
@@ -93,9 +93,10 @@ function setRunning(value,controllerStart=false){
 }
 function resetArt(){activeArt=game.fighter.id===19?DEMO_FIGHTER_ART:FIGHTER_ART.find(f=>f.id===game.fighter.id);artState=createFighterArtState(activeArt);playerArtState=createPlayerArtState();}
 function clearControls(){input.clear();touchInput.clear();controller.neutralize();startPulse=0;}
-function reset(){clearControls();resultShown=null;specialStatus.textContent='Training bout. Original NEW starts a separate career with Glass Joe.';sound.reset();game=new NativeFight({fighter:Number(select.value),onOpponentRender:renderOpponent,onPlayerRender:renderPlayer,opening:true,training:true,savedPassword:game.savedPassword,savedMenuCode:game.savedMenuCode});menuBoundary='';resetArt();nextButton.hidden=true;pause.disabled=false;setRunning(false);announcement.textContent='';pause.textContent='Start bout';draw();}
+function reset(){careerRequested=false;clearControls();resultShown=null;specialStatus.textContent='Training bout. Original NEW starts a separate career with Glass Joe.';sound.reset();game=new NativeFight({fighter:Number(select.value),onOpponentRender:renderOpponent,onPlayerRender:renderPlayer,opening:true,training:true,savedPassword:game.savedPassword,savedMenuCode:game.savedMenuCode});menuBoundary='';resetArt();nextButton.hidden=true;pause.disabled=false;setRunning(false);announcement.textContent='';pause.textContent='Start bout';draw();}
 function showTitle(){++runEpoch;loadingSound=false;clearControls();sound.reset();resultShown=null;game.returnToTitle({host:true});nextButton.hidden=true;pause.disabled=false;menuBoundary=`menu/title/${game.fighter.id}`;setRunning(true,true);}
 pause.addEventListener('click',()=>{if(!running&&!loadingSound&&game.frame===0&&!game.originalInputOwned)startPulse=4;setRunning(!(running||loadingSound));});document.querySelector('#restart').addEventListener('click',reset);select.addEventListener('change',reset);document.querySelector('#title').addEventListener('click',showTitle);
+document.querySelector('#full-career').addEventListener('click',()=>{showTitle();careerRequested=true;});
 document.querySelector('#sound').addEventListener('click',event=>{const needsUnlock=sound.context?.state!=='running';sound.setMuted(needsUnlock?false:!sound.muted);event.currentTarget.textContent=sound.muted?'Sound off':'Sound on';event.currentTarget.setAttribute('aria-pressed',String(!sound.muted));if(!sound.muted)sound.unlock().then(()=>{if(!running)sound.pause();}).catch(()=>{});if(running)canvas.focus({preventScroll:true});});
 function continueResult(controllerStart=false){if(game.advanceBout()){select.value=String(game.fighter.id);resetArt();controller.neutralize();nextButton.hidden=true;pause.disabled=false;setRunning(true,controllerStart);}else if(game.flow.stage==='handoff')showTitle();}
 nextButton.addEventListener('click',()=>continueResult());
@@ -145,6 +146,7 @@ function loop(now){
   if(last)accumulator+=Math.min(now-last,100);
   while(accumulator>=1000/FRAME_RATE){
    try{
+    if(careerRequested&&game.flow.snapshot().presentation?.phase==='title'){startPulse=4;careerRequested=false;}
     const buttons=[...new Set([...input,...touchInput,...padInput])];if(startPulse){buttons.push('start');startPulse--;}
     game.step(buttons);sound.playFrame(game.audioEvents);
     const flow=game.flow.snapshot();

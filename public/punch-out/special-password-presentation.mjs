@@ -34,7 +34,7 @@ export class SpecialPasswordPresentation {
  }
  snapshot(){
   const scene=ART.scenes[this.row.scene];
-  if(!this.cache.has(this.row.scene))this.cache.set(this.row.scene,{width:128,height:80,rows:scene.rows.map(i=>ART.rows[i]),inks:scene.inks.map(i=>ART.rows[i])});
+  if(!this.cache.has(this.row.scene))this.cache.set(this.row.scene,{width:scene.width??128,height:scene.height??80,cellWidth:scene.cellWidth??2,cellHeight:scene.cellHeight??3,glyphStyle:scene.glyphStyle,rows:scene.rows.map(i=>ART.rows[i]),inks:scene.inks.map(i=>ART.rows[i])});
   const positions=[0,1,2,4,5,6,8,9,10,11];
   const chars=scene.labels.map(i=>{const label=ART.glyphs[i],digit=positions.indexOf(label.address-0x22cf);return this.kind==='busy'&&digit>=0?{...label,char:this.password[digit]}:label;});
   return {frame:this.frame,kind:this.kind,phase:this.row.phase,awaitingStart:this.awaitingStart,completed:this.completed,terminal:'title',prompt:this.awaitingStart?'PUSH START':null,background:this.cache.get(this.row.scene),portrait:null,message:{chars},scroll:0,hidden:this.row.hidden,palette:Array.from(this.m.slice(0x480,0x4a0)),poseRecovered:true};

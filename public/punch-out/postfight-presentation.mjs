@@ -70,7 +70,7 @@ export class PostfightPresentation {
   }
  }
  matrix(scene){
-  if(!this.cache.has(this.row.scene))this.cache.set(this.row.scene,{width:128,height:80,rows:scene.rows.map(i=>this.data.rows[i]),inks:scene.inks.map(i=>this.data.rows[i])});
+  if(!this.cache.has(this.row.scene))this.cache.set(this.row.scene,{width:scene.width??128,height:scene.height??80,cellWidth:scene.cellWidth??2,cellHeight:scene.cellHeight??3,glyphStyle:scene.glyphStyle,rows:scene.rows.map(i=>this.data.rows[i]),inks:scene.inks.map(i=>this.data.rows[i])});
   return this.cache.get(this.row.scene);
  }
  labels(scene){

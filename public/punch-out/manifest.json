@@ -3,7 +3,7 @@
   "source": {
     "repository": "ASCII Punch Out",
     "path": "projects/ascii-punch-out/native",
-    "commit": "9b873f8c868ceb4afbb45406c946efe84a95e554",
+    "commit": "46c224b1ebff012c90c80fdae2c827dd046a1531",
     "dirty": false
   },
   "transform": "daily-arcade-navigation-v2-lf",
@@ -13,12 +13,12 @@
       "sha256": "908e73c2b5e0b981cd16afb1e9043c6ae34f30a01b3d6cd815e76339cd1b3a5b"
     },
     "app.css": {
-      "bytes": 4494,
-      "sha256": "68974428a22761f12d8ce5d6ef1813d638c0619100c3003d6af67ae2b843ff9f"
+      "bytes": 4838,
+      "sha256": "7441af8c139c744f24503d9f74d6b15353db4637e6836b9882f77fd1ff0a4b9f"
     },
     "app.mjs": {
-      "bytes": 18352,
-      "sha256": "e95313b3b1e1dfe83c656621965c050e4d683e997c2124210d0667d72ec88308"
+      "bytes": 18592,
+      "sha256": "49749d83a76adad6577fda55dfd33d31c8d9f70d50e242b7a10fb33600cf8607"
     },
     "audio-data.mjs": {
       "bytes": 59575,
@@ -73,16 +73,16 @@
       "sha256": "9261806051703d6314925ac1d6ea143003f9e27ae6bb066bfbfbe1a5829fd836"
     },
     "corner-art.mjs": {
-      "bytes": 5771052,
-      "sha256": "c8b826eef26dcfd074334c61936454254239a76731d3ce6bf95360f94ec9005e"
+      "bytes": 9047337,
+      "sha256": "d05803be041ed5e1ad4da68597389e9e8a416f5ea9da77262309a7a0d4140c8b"
     },
     "corner-presentation.mjs": {
       "bytes": 6362,
       "sha256": "b3d4495925de43b16439e3998bf470c1519d07a0f26dcc9d632912ef14711a82"
     },
     "demo-art.mjs": {
-      "bytes": 1497022,
-      "sha256": "c1e0f51098e6bb66f8675db553f113275ebceaea6174a15dbdb866b9b674f108"
+      "bytes": 1907892,
+      "sha256": "b297373cc2929af9a9c6c739676ddd834a99cc3a1eec8e10e2d13fe4dd8b4c0d"
     },
     "demo-seed.mjs": {
       "bytes": 5191,
@@ -101,24 +101,24 @@
       "sha256": "cf700a33eb0d66df532bd734344e16a3cd18b089578142f8d3aff87dd90d8940"
     },
     "fighter-art.mjs": {
-      "bytes": 13097323,
-      "sha256": "e439165042acaa047ab1f3edfd0efd49d46ef4694a09c56e5aa8c61567293f5c"
+      "bytes": 13134045,
+      "sha256": "5a1aee27ec2147bbff7ef69c32de8e50d23293921bd823f27bbf14db0c9c4b85"
     },
     "index.html": {
-      "bytes": 4974,
-      "sha256": "fb0aba9f41cb59fd256fdfc4aeb7dd04a83340eb802832823a2dd0966eb920e8"
+      "bytes": 5217,
+      "sha256": "7d6ab7ed5bc2e13bf84eadd0abff604f8691ece32e1d3435aca1c5ab87577c76"
     },
     "input-clockwork.mjs": {
       "bytes": 3369,
       "sha256": "b5f2491df123d994451757559cf4269d524afc1f9547aac6a1c9654fa81f5064"
     },
     "menu-art.mjs": {
-      "bytes": 1694662,
-      "sha256": "6fd9cf813443776ecc0c45028dd15125cd2410c6c319d6d04eb9cc473498384c"
+      "bytes": 2717195,
+      "sha256": "729d4bd0942bfe29a1a0ace6b41a5aafb99b537b612c395155a5b4b52cc437b0"
     },
     "opponent-glyphs.mjs": {
-      "bytes": 22014742,
-      "sha256": "511b6f0961d836f677027fc83beacbdb1937884b92290d92f1d478eb7c19197f"
+      "bytes": 21242306,
+      "sha256": "5a54555d8fbbf6aced3e629f15dfa4cb79e9a9c5f9c419d237759f3d9105824f"
     },
     "opponent-vm.mjs": {
       "bytes": 14059,
@@ -133,24 +133,24 @@
       "sha256": "38604644a8bb62bd06c11a163040e2736622d6c15ddc16ad1601b2af3b24c390"
     },
     "postfight-art.mjs": {
-      "bytes": 4066674,
-      "sha256": "d65e552f5211a9b875f61ebf06d513099c77efcb2657f5fd6eb5dc0c2189351b"
+      "bytes": 10168789,
+      "sha256": "2e581c5c4381c6c1fbda35ffdbc44e97e63de04fbca0d073882d94a8ad972675"
     },
     "postfight-presentation.mjs": {
-      "bytes": 6741,
-      "sha256": "a8e2ac22bb6900e55132e352d18c157718f4281049f8c5936d8d2f0cc7391177"
+      "bytes": 6856,
+      "sha256": "91cc3e37fd63fffddf9a57a042ce1e87cfa47dd1f3cde20e23d8aa6b4d40b03c"
     },
     "recovered-data.mjs": {
       "bytes": 270576,
       "sha256": "97e55c1c362c47e435b5d9cd9adad69a8f042b2e07784017503a086b27b96330"
     },
     "ring-art.mjs": {
-      "bytes": 1217267,
-      "sha256": "b5c03e6f77ea364863dfe6e675cd432be5d2c28002161c013ba42de30f2fd701"
+      "bytes": 3375619,
+      "sha256": "463dd576301c9c6b7217c67f12586bda3caf79019637256bcf89ea3bbe778d5d"
     },
     "ring-presentation.mjs": {
-      "bytes": 5700,
-      "sha256": "3c130e8a40dee4558331590f7d64799125c085470f53e2a61b900ec0912019c9"
+      "bytes": 5740,
+      "sha256": "96363b7218915399cd5a3f9834e740ed818770472793b6f5543463fb3b1372ae"
     },
     "round-flow.mjs": {
       "bytes": 8905,
@@ -161,12 +161,12 @@
       "sha256": "1adae23207c03f5c1cad719c3e1deebdf632e87ba5329215d0c191f45bcc78f6"
     },
     "special-password-art.mjs": {
-      "bytes": 273981,
-      "sha256": "acbb58d9113da4b65b545c5ef25cbad77f4b09ad705a38b7be6f93ac2551a5c0"
+      "bytes": 578777,
+      "sha256": "84cd051168c7e846876e7c23f849d2c7c18b374bf5c8c36109d8aefbc3cf6d3b"
     },
     "special-password-presentation.mjs": {
-      "bytes": 2429,
-      "sha256": "1fb4d4c9472cc0fe024149da7110cba31667f0a99797aadbaf8d6d45b6177948"
+      "bytes": 2544,
+      "sha256": "ce8183b30b47d0bd32acb35bf9949c70060edf03433b46467dc08d4e85386bbd"
     },
     "star-art.mjs": {
       "bytes": 3056,
