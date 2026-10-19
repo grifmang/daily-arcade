@@ -4,8 +4,8 @@ import {ANOTHER_WORLD_ART} from './another-world-art.mjs';
 /** Original menu state, DEF A2AC–A475/A4CC–A5C0. Authored timelines handle
  * screen construction; live input owns selection, digits, idle and dismissal. */
 export class CareerMenu {
- constructor({memory,onAction,savedMenuCode=null,cold=true}){
-  this.m=memory;this.onAction=onAction;this.savedMenuCode=savedMenuCode;this.data=ART;
+ constructor({memory,onAction,savedMenuCode=null,cold=true,allowAttract=true}){
+  this.m=memory;this.allowAttract=allowAttract;this.onAction=onAction;this.savedMenuCode=savedMenuCode;this.data=ART;
   this.cache=new Map();this.frame=0;this.message='';this.blockedStart=false;
   if(cold)this.play('cold','title',6);else this.title(4);
  }
@@ -70,7 +70,7 @@ export class CareerMenu {
    }
    // A2FA decrements the original 64-frame inner timer; A4C6 only resets
    // its outer byte. Select has no ordinary title-navigation action.
-   if(--m[0x4c7]===0){m[0x4c7]=64;if(--m[0x4c6]===0){this.play('attract','demo');return;}}
+   if(this.allowAttract&&--m[0x4c7]===0){m[0x4c7]=64;if(--m[0x4c6]===0){this.play('attract','demo');return;}}
    const loop=this.sequence.loop??this.sequence.frames;
    if(loop.length)this.apply(loop[this.index++%loop.length]);
    return;

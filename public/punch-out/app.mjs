@@ -1,22 +1,20 @@
-import {NativeFight,FIGHTERS,FRAME_RATE,BUTTONS} from './engine.mjs';
+import {NativeFight,FRAME_RATE,BUTTONS} from './engine.mjs';
 import {FIGHTER_ART,createFighterArtState,advanceFighterArt,fighterArtParts,PLAYER_ART,createPlayerArtState,advancePlayerArt,playerArtParts} from './fighter-art.mjs';
 import {SoundOutput} from './audio-output.mjs';
 import {Controller} from './controller.mjs';
-import {DEMO_FIGHTER_ART} from './demo-art.mjs';
-const canvas=document.querySelector('#ring'),ctx=canvas.getContext('2d'),announcement=document.querySelector('#announcement'),status=document.querySelector('#state'),pause=document.querySelector('#pause'),select=document.querySelector('#fighter');
+const canvas=document.querySelector('#ring'),ctx=canvas.getContext('2d'),announcement=document.querySelector('#announcement'),status=document.querySelector('#state'),pause=document.querySelector('#pause');
 const input=new Set(),touchInput=new Set();let padInput=new Set();let activeArt=FIGHTER_ART[0],artState=createFighterArtState(activeArt),running=false,last=0,accumulator=0;
 const sound=new SoundOutput();let startPulse=0;
 let runEpoch=0,loadingSound=false,resultShown=null;
 let playerArtState=createPlayerArtState();
 const renderOpponent=params=>advanceFighterArt(activeArt,artState,params);
 const renderPlayer=pose=>advancePlayerArt(playerArtState,pose);
-let game=new NativeFight({onOpponentRender:renderOpponent,onPlayerRender:renderPlayer,menu:true});
+let game=new NativeFight({onOpponentRender:renderOpponent,onPlayerRender:renderPlayer,menu:true,allowAttract:false});
 const nextButton=document.querySelector('#next');
 const careerEntry=document.querySelector('#career-entry'),careerInput=document.querySelector('#career-password'),careerMessage=document.querySelector('#career-message');let passwordCursor=0;
 const specialStatus=document.querySelector('#special-status');
 const menuStatus=document.querySelector('#menu-status');
 let menuBoundary='',careerRequested=false;
-for(const fighter of FIGHTERS){const option=document.createElement('option');option.value=fighter.id;option.textContent=String(fighter.id+1).padStart(2,'0')+' / '+fighter.name;select.append(option);}
 function text(str,x,y,color='#dde8d8',size=3){ctx.fillStyle=color;ctx.font=`bold ${size}px "Courier New",monospace`;ctx.textBaseline='top';ctx.fillText(str,x,y);}
 function line(x,y,len,char,color){text(char.repeat(len),x,y,color);}
 const detailCache=new WeakMap();
@@ -103,7 +101,7 @@ function setRunning(value,controllerStart=false){
  if(value)careerEntry.open=false;
  controller.neutralize();
  const epoch=++runEpoch;accumulator=0;last=0;
- if(!value){running=false;loadingSound=false;sound.pause();pause.textContent='Resume';if(!game.failure)announcement.textContent=game.flow.snapshot().terminal==='ending'?'':game.circuit.pending?resultMessage(game.circuit.pending):'Paused. Press P to continue.';return;}
+ if(!value){running=false;loadingSound=false;sound.pause();pause.textContent='Resume';if(!game.failure)announcement.textContent=['ending','title'].includes(game.flow.snapshot().terminal)?'':game.circuit.pending?resultMessage(game.circuit.pending):'Paused. Press P to continue.';return;}
  running=false;loadingSound=true;pause.textContent='Pause';announcement.textContent='';canvas.focus({preventScroll:true});
  const unlock=sound.unlock();
  if(controllerStart){running=true;loadingSound=false;sound.resume();document.querySelector('#sound').textContent=sound.context?.state==='running'?'Sound on':'Enable sound (click / key)';}
@@ -113,14 +111,13 @@ function setRunning(value,controllerStart=false){
   sound.resume();running=true;loadingSound=false;last=0;
  }).catch(()=>{if(epoch===runEpoch){document.querySelector('#sound').textContent='Sound unavailable';running=true;loadingSound=false;last=0;}});
 }
-function resetArt(){activeArt=game.fighter.id===19?DEMO_FIGHTER_ART:FIGHTER_ART.find(f=>f.id===game.fighter.id);artState=createFighterArtState(activeArt);playerArtState=createPlayerArtState();}
+function resetArt(){activeArt=FIGHTER_ART.find(f=>f.id===game.fighter.id);artState=createFighterArtState(activeArt);playerArtState=createPlayerArtState();}
 function clearControls(){input.clear();touchInput.clear();controller.neutralize();startPulse=0;}
-function reset(){careerRequested=false;clearControls();resultShown=null;specialStatus.textContent='Training bout. Original NEW starts a separate career with Glass Joe.';sound.reset();game=new NativeFight({fighter:Number(select.value),onOpponentRender:renderOpponent,onPlayerRender:renderPlayer,opening:true,training:true,savedPassword:game.savedPassword,savedMenuCode:game.savedMenuCode});menuBoundary='';resetArt();nextButton.hidden=true;pause.disabled=false;setRunning(false);announcement.textContent='';pause.textContent='Start bout';draw();}
-function showTitle(){++runEpoch;loadingSound=false;clearControls();sound.reset();resultShown=null;game.returnToTitle({host:true});nextButton.hidden=true;pause.disabled=false;menuBoundary=`menu/title/${game.fighter.id}`;setRunning(true,true);}
-pause.addEventListener('click',()=>{if(!running&&!loadingSound&&game.frame===0&&!game.originalInputOwned)startPulse=4;setRunning(!(running||loadingSound));});document.querySelector('#restart').addEventListener('click',reset);select.addEventListener('change',reset);document.querySelector('#title').addEventListener('click',showTitle);
+function showTitle(){++runEpoch;loadingSound=false;clearControls();sound.reset();resultShown=null;game.returnToTitle({host:true});nextButton.hidden=true;pause.hidden=false;pause.disabled=false;menuBoundary=`menu/title/${game.fighter.id}`;setRunning(true,true);}
+pause.addEventListener('click',()=>{if(!running&&!loadingSound&&game.frame===0&&!game.originalInputOwned)startPulse=4;setRunning(!(running||loadingSound));});document.querySelector('#title').addEventListener('click',showTitle);
 document.querySelector('#full-career').addEventListener('click',()=>{showTitle();careerRequested=true;});
 document.querySelector('#sound').addEventListener('click',event=>{const needsUnlock=sound.context?.state!=='running';sound.setMuted(needsUnlock?false:!sound.muted);event.currentTarget.textContent=sound.muted?'Sound off':'Sound on';event.currentTarget.setAttribute('aria-pressed',String(!sound.muted));if(!sound.muted)sound.unlock().then(()=>{if(!running)sound.pause();}).catch(()=>{});if(running)canvas.focus({preventScroll:true});});
-function continueResult(controllerStart=false){if(game.advanceBout()){select.value=String(game.fighter.id);resetArt();controller.neutralize();nextButton.hidden=true;pause.disabled=false;setRunning(true,controllerStart);}else if(game.flow.stage==='handoff')showTitle();}
+function continueResult(controllerStart=false){if(game.advanceBout()){resetArt();controller.neutralize();nextButton.hidden=true;pause.hidden=false;pause.disabled=false;setRunning(true,controllerStart);}else if(game.flow.stage==='handoff')showTitle();}
 nextButton.addEventListener('click',()=>continueResult());
 const controller=new Controller({onInput:held=>{padInput=held;},onLoss:()=>{if(running||loadingSound)setRunning(false);},onSetup:()=>setRunning(false),onModeInput:(held,edges)=>{
  if(careerEntry.open||!game.originalInputOwned)return false;
@@ -144,24 +141,22 @@ const controller=new Controller({onInput:held=>{padInput=held;},onLoss:()=>{if(r
  if(action==='start'&&game.flow.stage==='handoff'){continueResult(true);return;}
  if(running||loadingSound)return;
  if(action==='start'&&!pause.disabled){controller.neutralize();if(game.frame===0)startPulse=4;setRunning(true,true);}
- else if(action==='select'){reset();}
- else if(action==='left'||action==='right'){select.selectedIndex=(select.selectedIndex+(action==='left'?-1:1)+select.options.length)%select.options.length;reset();}
 }});
 function submitCareer(fromController=false,specialChord=false){
  const result=game.submitPassword(careerInput.value,{specialChord});
  if(!result.accepted){careerMessage.textContent=result.reason==='chord-required'?'This special password requires A or B + Select. Use the special submit button, or hold a punch button and press Select on your controller.':'That password is not valid. Check all ten digits.';return;}
  specialStatus.textContent=result.kind==='busy'?'Busy signal. The title returns after ten tones.':result.kind==='credits'?'Original credits. Press Start or Enter when the credits finish.':'';
- input.clear();touchInput.clear();controller.neutralize();sound.reset();resultShown=null;resetArt();select.value=String(game.fighter.id);nextButton.hidden=true;pause.disabled=false;careerEntry.open=false;startPulse=4;setRunning(true,fromController);
+ input.clear();touchInput.clear();controller.neutralize();sound.reset();resultShown=null;resetArt();nextButton.hidden=true;pause.hidden=false;pause.disabled=false;careerEntry.open=false;startPulse=4;setRunning(true,fromController);
 }
 careerEntry.addEventListener('toggle',()=>{if(careerEntry.open){setRunning(false);careerMessage.textContent='Enter ten digits or use the controller.';}});
 document.querySelector('#career-form').addEventListener('submit',event=>{event.preventDefault();submitCareer();});
 document.querySelector('#career-special').addEventListener('click',()=>submitCareer(false,true));
 document.querySelector('#career-cancel').addEventListener('click',()=>{careerEntry.open=false;controller.neutralize();canvas.focus({preventScroll:true});});
 const keys={KeyZ:'b',KeyX:'a',KeyC:'select',ArrowLeft:'left',ArrowRight:'right',ArrowDown:'down',ArrowUp:'up',Enter:'start',Space:'start'};
-window.addEventListener('keydown',e=>{if(!sound.context||sound.context.state==='suspended')sound.unlock().then(()=>{document.querySelector('#sound').textContent=sound.muted?'Sound off':'Sound on';if(!running)sound.pause();}).catch(()=>{});if(e.target.matches('select,button,input')||careerEntry.open)return;if(e.code==='KeyP'){e.preventDefault();if(!e.repeat&&!pause.disabled&&!game.failure)setRunning(!(running||loadingSound));return;}if(keys[e.code]){e.preventDefault();if(!e.repeat)input.add(keys[e.code]);}});
+window.addEventListener('keydown',e=>{if(!sound.context||sound.context.state==='suspended')sound.unlock().then(()=>{document.querySelector('#sound').textContent=sound.muted?'Sound off':'Sound on';if(!running)sound.pause();}).catch(()=>{});if(e.target.matches('select,button,input')||careerEntry.open)return;if(e.code==='KeyP'){e.preventDefault();if(!e.repeat&&!pause.disabled&&!game.failure)setRunning(!(running||loadingSound));return;}if(keys[e.code]){e.preventDefault();if(!e.repeat){if(keys[e.code]==='start'&&game.flow.stage==='handoff'){continueResult();return;}input.add(keys[e.code]);}}});
 window.addEventListener('keyup',e=>{if(keys[e.code]){e.preventDefault();input.delete(keys[e.code]);}});
 window.addEventListener('blur',()=>{input.clear();touchInput.clear();controller.neutralize();if(running||loadingSound)setRunning(false);});
-for(const button of document.querySelectorAll('[data-key]')){button.addEventListener('pointerdown',e=>{e.preventDefault();button.setPointerCapture(e.pointerId);touchInput.add(button.dataset.key);});for(const event of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(event,()=>touchInput.delete(button.dataset.key));}
+for(const button of document.querySelectorAll('[data-key]')){button.addEventListener('pointerdown',e=>{e.preventDefault();button.setPointerCapture(e.pointerId);if(button.dataset.key==='start'&&game.flow.stage==='handoff'){continueResult();return;}touchInput.add(button.dataset.key);});for(const event of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(event,()=>touchInput.delete(button.dataset.key));}
 function loop(now){
  controller.poll();
  if(running){
@@ -172,6 +167,9 @@ function loop(now){
     const buttons=[...new Set([...input,...touchInput,...padInput])];if(startPulse){buttons.push('start');startPulse--;}
     game.step(buttons);sound.playFrame(game.audioEvents);
     const flow=game.flow.snapshot();
+    // The original postfight sequence owns its full timeline and password waits.
+    // Once it hands off, the next career bout starts without a web result gate.
+    if(flow.stage==='handoff'&&game.circuit.pending?.type==='next-bout'){continueResult(true);break;}
     if(activeArt.id!==game.fighter.id)resetArt();
     const boundary=game.originalInputOwned?`${flow.stage}/${flow.presentation?.phase??''}/${game.fighter.id}`:'';
     if(boundary!==menuBoundary){++runEpoch;clearControls();if(menuBoundary&&!boundary)resetArt();menuBoundary=boundary;resultShown=null;if(flow.stage==='menu')specialStatus.textContent='';}
@@ -180,7 +178,7 @@ function loop(now){
     if(flow.stage==='handoff'){
      const result=game.circuit.pending;
      const key=flow.terminal==='title'?'password-title':result;
-     if(resultShown!==key){resultShown=key;announcement.textContent=['ending','title'].includes(flow.terminal)?'':resultMessage(result);if(flow.terminal==='title')specialStatus.textContent='Title. Choose New career or open password entry. Controller: Start begins a new career.';nextButton.hidden=false;nextButton.textContent=result?.type!=='next-bout'?'New career':result?.won?'Next opponent':result?.rematch?'Rematch':'Continue circuit';pause.disabled=true;}
+     if(resultShown!==key){resultShown=key;announcement.textContent=['ending','title'].includes(flow.terminal)?'':resultMessage(result);if(flow.terminal==='title')specialStatus.textContent='Title. Choose New career or open password entry. Controller: Start begins a new career.';nextButton.hidden=false;nextButton.textContent='New career';pause.hidden=true;pause.disabled=true;}
     }else announcement.textContent='';
    }catch(error){setRunning(false);announcement.textContent='Reconstruction stopped: '+error.message;status.textContent='Unsupported original state';break;}
    accumulator-=1000/FRAME_RATE;
