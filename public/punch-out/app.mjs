@@ -2,6 +2,7 @@ import {NativeFight,FRAME_RATE,BUTTONS} from './engine.mjs';
 import {FIGHTER_ART,createFighterArtState,advanceFighterArt,fighterArtParts,PLAYER_ART,createPlayerArtState,advancePlayerArt,playerArtParts} from './fighter-art.mjs';
 import {SoundOutput} from './audio-output.mjs';
 import {Controller} from './controller.mjs';
+import {composeOpponentParts} from './opponent-composition.mjs';
 const canvas=document.querySelector('#ring'),ctx=canvas.getContext('2d'),announcement=document.querySelector('#announcement'),status=document.querySelector('#state'),pause=document.querySelector('#pause');
 const input=new Set(),touchInput=new Set();let padInput=new Set();let activeArt=FIGHTER_ART[0],artState=createFighterArtState(activeArt),running=false,last=0,accumulator=0;
 const sound=new SoundOutput();let startPulse=0;
@@ -45,7 +46,11 @@ function drawDetail(matrix,colors,x,y){
  else {const entry=surfaces.get(surface);surfaces.delete(surface);surfaces.set(surface,entry);}
  ctx.drawImage(surface,x+(matrix.x||0),y+(matrix.y||0),matrix.width*matrix.cellWidth,matrix.height*matrix.cellHeight);
 }
-function drawParts(parts,art,colors){for(const part of parts)drawMatrix(part.matrix,colors,part.x,part.y,art);}
+function drawParts(parts,art,colors){for(const part of parts){
+ if(part.clipRects){ctx.save();ctx.beginPath();for(const rect of part.clipRects)ctx.rect(rect.x,rect.y,rect.width,rect.height);ctx.clip();}
+ drawMatrix(part.matrix,colors,part.x,part.y,art);
+ if(part.clipRects)ctx.restore();
+}}
 function drawMatrix(matrix,colors,x=0,y=0,art={cellWidth:2,cellHeight:3}){
  if(matrix.char){ctx.save();ctx.translate(x,y);ctx.scale(1.6,1);text(matrix.char,0,0,colors[matrix.ink],8);ctx.restore();}
  else if(matrix.width&&matrix.height&&matrix.cellWidth===matrix.cellHeight&&(matrix.cellWidth===1||matrix.cellWidth===2))drawDetail(matrix,colors,x,y);
@@ -90,7 +95,7 @@ function draw(){ctx.setTransform(4,0,0,4,0,0);const m=game.memory,s=game.snapsho
   drawMatrix(s.ring.background,b);for(const part of s.ring.parts)drawMatrix(part.matrix,b,part.x,part.y);
   for(const item of s.ring.labels){ctx.save();ctx.translate(item.x,item.y);ctx.scale(item.scaleX??1.6,1);text(item.char,0,0,b[item.ink],item.fontSize??8);ctx.restore();}
  }
- const opponentParts=fighterArtParts(activeArt,artState,s.starSprite);
+ const opponentParts=composeOpponentParts(fighterArtParts(activeArt,artState,s.starSprite),activeArt);
  if(p.visible.sprite)drawParts(opponentParts.filter(part=>!part.foreground),activeArt,p.sprite);
  if(p.visible.background)drawParts(playerArtParts(playerArtState,m[0x15]|((m[0x16]&1)<<8)),PLAYER_ART,p.background);
  if(p.visible.sprite)drawParts(opponentParts.filter(part=>part.foreground),activeArt,p.sprite);

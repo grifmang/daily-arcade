@@ -7,7 +7,7 @@ export const destination = fileURLToPath(new URL('../public/punch-out/', import.
 export const budget = 64 * 1024 * 1024;
 export const fileBudget = 25 * 1024 * 1024;
 export const approved = new Set([
-  'index.html', 'app.css', 'app.mjs', 'controller.mjs',
+  'index.html', 'app.css', 'app.mjs', 'controller.mjs', 'opponent-composition.mjs',
   'engine.mjs', 'recovered-data.mjs', 'fight-seeds.mjs', 'opponent-vm.mjs',
   'fight-control.mjs', 'player-state.mjs', 'combat-resolution.mjs',
   'input-clockwork.mjs', 'round-flow.mjs', 'circuit-flow.mjs', 'palette.mjs',
