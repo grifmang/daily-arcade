@@ -95,9 +95,10 @@ function draw(){ctx.setTransform(4,0,0,4,0,0);const m=game.memory,s=game.snapsho
   drawMatrix(s.ring.background,b);for(const part of s.ring.parts)drawMatrix(part.matrix,b,part.x,part.y);
   for(const item of s.ring.labels){ctx.save();ctx.translate(item.x,item.y);ctx.scale(item.scaleX??1.6,1);text(item.char,0,0,b[item.ink],item.fontSize??8);ctx.restore();}
  }
- const opponentParts=composeOpponentParts(fighterArtParts(activeArt,artState,s.starSprite),activeArt);
+ const playerParts=p.visible.background?playerArtParts(playerArtState,m[0x15]|((m[0x16]&1)<<8)):[];
+ const opponentParts=composeOpponentParts(fighterArtParts(activeArt,artState,s.starSprite),activeArt,playerParts);
  if(p.visible.sprite)drawParts(opponentParts.filter(part=>!part.foreground),activeArt,p.sprite);
- if(p.visible.background)drawParts(playerArtParts(playerArtState,m[0x15]|((m[0x16]&1)<<8)),PLAYER_ART,p.background);
+ if(p.visible.background)drawParts(playerParts,PLAYER_ART,p.background);
  if(p.visible.sprite)drawParts(opponentParts.filter(part=>part.foreground),activeArt,p.sprite);
 }
 function resultMessage(result){return result?.type==='ending'?'WORLD CHAMPION!':result?.won?'YOU WIN!':result?.type==='game-over'?'GAME OVER.':'BOUT OVER.';}

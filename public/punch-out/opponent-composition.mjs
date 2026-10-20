@@ -2,7 +2,7 @@
 // The bounded cache retains shapes only; drawDetail owns palette raster caches.
 const composites=[];
 const screenWidth=256,screenHeight=240;
-export function composeOpponentParts(parts,art){
+export function composeOpponentParts(parts,art,playerParts=[]){
  const fine=part=>part.matrix.cellWidth===1&&part.matrix.cellHeight===1;
  const regular=parts.filter(fine),coarse=parts.filter(part=>!fine(part));
  // Committed stars precede every regular tile and keep their authored spacing.
@@ -11,13 +11,25 @@ export function composeOpponentParts(parts,art){
   const m=part.matrix;
   return m.char||m.details?.length||m.lettering||!Number.isInteger(part.x)||!Number.isInteger(part.y)||!Number.isInteger(m.x??0)||!Number.isInteger(m.y??0);
  })||coarse.some(part=>part.matrix.cellWidth!==undefined||part.matrix.cellHeight!==undefined)||parts.slice(coarse.length).some(part=>!fine(part)))return parts;
- const found=composites.findIndex(entry=>entry.cellWidth===art.cellWidth&&entry.cellHeight===art.cellHeight&&entry.parts.length===parts.length&&entry.parts.every((part,i)=>part.matrix===parts[i].matrix&&part.x===parts[i].x&&part.y===parts[i].y&&part.foreground===parts[i].foreground));
+ // Only regular occupied background cells mask a behind-background opponent.
+ // Lettering overlays have no source-cell area; coarse declarations keep their
+ // existing renderer behavior.
+ const masks=playerParts.filter(part=>{
+  const m=part.matrix;
+  return m.cellWidth===1&&m.cellHeight===1&&m.width>0&&m.height>0&&Number.isInteger(part.x)&&Number.isInteger(part.y)&&Number.isInteger(m.x??0)&&Number.isInteger(m.y??0);
+ });
+ const found=composites.findIndex(entry=>entry.cellWidth===art.cellWidth&&entry.cellHeight===art.cellHeight&&entry.parts.length===parts.length&&entry.parts.every((part,i)=>part.matrix===parts[i].matrix&&part.x===parts[i].x&&part.y===parts[i].y&&part.foreground===parts[i].foreground)&&entry.masks.length===masks.length&&entry.masks.every((part,i)=>part.matrix===masks[i].matrix&&part.x===masks[i].x&&part.y===masks[i].y));
  if(found>=0){const [entry]=composites.splice(found,1);composites.push(entry);return entry.result;}
  const left=Math.max(0,Math.min(screenWidth,...regular.map(part=>part.x+(part.matrix.x||0))));
  const top=Math.max(0,Math.min(screenHeight,...regular.map(part=>part.y+(part.matrix.y||0))));
  const right=Math.min(screenWidth,Math.max(left,...regular.map(part=>part.x+(part.matrix.x||0)+part.matrix.width)));
  const bottom=Math.min(screenHeight,Math.max(top,...regular.map(part=>part.y+(part.matrix.y||0)+part.matrix.height)));
  const width=right-left,height=bottom-top;
+ const backgroundMask=new Uint8Array(width*height);
+ for(const part of masks){
+  const m=part.matrix,x=part.x+(m.x||0),y=part.y+(m.y||0);
+  for(let r=Math.max(0,top-y);r<Math.min(m.height,bottom-y);r++)for(let c=Math.max(0,left-x);c<Math.min(m.width,right-x);c++)if(m.inks[r][c]!=='.')backgroundMask[(y+r-top)*width+x+c-left]=1;
+ }
  const rows=Array.from({length:height},()=>Array(width).fill(' '));
  const inks=Array.from({length:height},()=>Array(width).fill('.'));
  const owners=Array.from({length:height},()=>Array(width).fill(false));
@@ -45,10 +57,12 @@ export function composeOpponentParts(parts,art){
   return {...part,clipRects};
  });
  for(const foreground of [false,true]){
-  const groupInks=inks.map((row,r)=>row.map((ink,c)=>owners[r][c]===foreground?ink:'.').join(''));
+  // Resolve the OAM winner first, then suppress a behind-background winner at
+  // opaque player cells. Lower-priority foreground sprites stay suppressed.
+  const groupInks=inks.map((row,r)=>row.map((ink,c)=>owners[r][c]===foreground&&(foreground||!backgroundMask[r*width+c])?ink:'.').join(''));
   if(groupInks.some(row=>/[^.]/.test(row)))result.push({x:left,y:top,foreground,matrix:{width,height,cellWidth:1,cellHeight:1,rows:rows.map(row=>row.join('')),inks:groupInks}});
  }
- composites.push({parts:parts.map(part=>({...part})),cellWidth:art.cellWidth,cellHeight:art.cellHeight,result});
+ composites.push({parts:parts.map(part=>({...part})),masks:masks.map(part=>({...part})),cellWidth:art.cellWidth,cellHeight:art.cellHeight,result});
  if(composites.length>8)composites.shift();
  return result;
 }
