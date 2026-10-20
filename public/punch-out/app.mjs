@@ -171,8 +171,12 @@ function loop(now){
    try{
     if(careerRequested&&game.flow.snapshot().presentation?.phase==='title'){startPulse=4;careerRequested=false;}
     const buttons=[...new Set([...input,...touchInput,...padInput])];if(startPulse){buttons.push('start');startPulse--;}
+    const previousStage=game.flow.stage;
     game.step(buttons);sound.playFrame(game.audioEvents);
     const flow=game.flow.snapshot();
+    // Ring construction clears the old Mac/referee nametable before the new
+    // round's incremental drawing streams begin, including the decision round.
+    if(flow.stage==='round-intro'&&previousStage!=='round-intro')playerArtState=createPlayerArtState();
     // The original postfight sequence owns its full timeline and password waits.
     // Once it hands off, the next career bout starts without a web result gate.
     if(flow.stage==='handoff'&&game.circuit.pending?.type==='next-bout'){continueResult(true);break;}
