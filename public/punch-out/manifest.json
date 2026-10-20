@@ -3,7 +3,7 @@
   "source": {
     "repository": "ASCII Punch Out",
     "path": "projects/ascii-punch-out/native",
-    "commit": "721b4036130f19b5d149be86f8308174d95b2a0f",
+    "commit": "22f5ce951e6da45c2980d21fd258c21edb3eff4d",
     "dirty": false
   },
   "transform": "daily-arcade-navigation-v2-lf",
@@ -17,8 +17,8 @@
       "sha256": "025e77b1699812fb362fd1d7f075fbdd73881f6e0b39a13c485529b91dda3ed4"
     },
     "app.mjs": {
-      "bytes": 19414,
-      "sha256": "b34c2eca27bbc2271aecfc2775c92545573c930ef89d2b4b4ad1f82f3972db7a"
+      "bytes": 19690,
+      "sha256": "47b43f6647b1a21268acfd8632cd4b392321c2dc7f57b3dc1dc21cb71cc85960"
     },
     "audio-data.mjs": {
       "bytes": 59575,
@@ -115,6 +115,10 @@
     "menu-art.mjs": {
       "bytes": 2717195,
       "sha256": "729d4bd0942bfe29a1a0ace6b41a5aafb99b537b612c395155a5b4b52cc437b0"
+    },
+    "opponent-composition.mjs": {
+      "bytes": 3600,
+      "sha256": "dadbafc79d66bc41bc25a58fdff3a35ea99bd436d6e3bc98ac27050e6de847c7"
     },
     "opponent-glyphs.mjs": {
       "bytes": 21242306,
