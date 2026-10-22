@@ -19,8 +19,8 @@ The matching [PS2 decompilation](https://github.com/g-guthrie/mvc2-ps2-decomp) w
 used as a primary reference, with residual MIPS checked against that executable.
 
 This is not verified1:1 parity. No original-runtime comparison oracle is
-available. Remaining shared-engine gaps include the ordinary super-jump trigger,
-global superflash scheduling, camera projection/clipping, projectile clashes,
+available. Remaining shared-engine gaps include global superflash scheduling,
+camera projection/clipping, projectile clashes,
 throw/OTG/invulnerability exceptions, ground-roll inputs and recovery cancels.
 CPU, match format, initial one-bar allowance, arena and synthesized audio remain
 cabinet scaffolding. The one-fighter host marks its two unavailable teammate
@@ -39,6 +39,11 @@ after a user gesture. The page links back to Daily Arcade.
 P1: arrows and Z=LP/X=HP/C=LK/V=HK. P2: WASD and F=LP/G=HP/H=LK/J=HK.
 Standard pad: X/Y punches, A/B kicks, D-pad/stick up to jump, Start to pause.
 The in-page guide lists directional motion commands and hyper costs.
+Super-jump recognition follows00188330's down-edge/up-edge15-update countdown;
+001884C0 also enables confirmed-launcher jumps. Native366 buffers fresh edges
+only during hitstop and clears on normal entry; held HK alone cannot trigger
+Cyclops's follow-up. Character motion recognition precedes hitstop and defers
+the new action callback until unfrozen, as in00179590.
 
 Public-UI browser E2E covers normal chains, motion/air specials, all five hypers
 (including earned level3), chip guard, reversed facing, active Optic-to-hyper
