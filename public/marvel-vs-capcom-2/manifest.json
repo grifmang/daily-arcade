@@ -1,6 +1,6 @@
 {
   "scope": "Two-character native port in progress. Original PS2 action, collision, move and physics data; translated selected character routines. Cabinet CPU/arena/audio authored; full engine parity unverified.",
-  "total_bytes": 8820596,
+  "total_bytes": 8820748,
   "files": [
     {
       "path": "actions.mjs",
@@ -164,8 +164,8 @@
     },
     {
       "path": "render.mjs",
-      "size": 7292,
-      "sha256": "c4a387973c71c0b964d1106130fc713701f05521879d45879a5fe0c5af6cb07b"
+      "size": 7444,
+      "sha256": "0550364a1ff82684ee786a3fb9e7494215658f78490c49a828a7a3fb01caaa24"
     },
     {
       "path": "simulation.mjs",

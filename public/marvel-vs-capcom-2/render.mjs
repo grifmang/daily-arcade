@@ -34,13 +34,16 @@ export class Renderer {
     }));
     }));
   }
-  sprite(id,animation,x,y,face=1,palette){
+  sprite(id,animation,x,y,face=1,palette,rotation=0){
     const entry=id==='cyclops'&&palette?(this.optic[palette]||this.ownerFlash[palette]||this.assets[id]):this.assets[id];if(!entry)return;
     if(animation.record.cellRaw===0xffff)return;
     const cell=animation.record.spriteHighBit?animation.record.cellRaw&0x1ff:animation.cell;
     const f=entry.data.frames[cell];
     if(!f)throw Error(`Unexported original cell ${id}:${cell}`);
-    const c=this.ctx;c.save();c.translate(Math.round(x),Math.round(y));c.scale(-face*this.system.scaleX,this.system.scaleY);
+    const c=this.ctx;c.save();c.translate(Math.round(x),Math.round(y));
+    // Gene child352460 ->152D20 ->174F60: half-turn around the actor origin.
+    if(rotation===0x8000)c.rotate(Math.PI);
+    c.scale(-face*this.system.scaleX,this.system.scaleY);
     c.drawImage(entry.images[f.atlas],f.x,f.y,f.w,f.h,f.dx,f.dy,f.w,f.h);c.restore();
   }
   arena(t){
@@ -84,7 +87,7 @@ export class Renderer {
     }
     if(match){
       for(const shot of match.projectiles){
-        this.sprite(shot.name,shot.animation,shot.x,FLOOR-shot.y,shot.face,shot.paletteVariant??shot.root?.paletteVariant);
+        this.sprite(shot.name,shot.animation,shot.x,FLOOR-shot.y,shot.face,shot.paletteVariant??shot.root?.paletteVariant,shot.rotation);
       }
       for(const p of match.particles){
         const ratio=p.t/p.max;c.save();c.translate(p.x,p.y);c.strokeStyle=p.blocked?'#92d8ef':'#fff0ad';c.lineWidth=3;

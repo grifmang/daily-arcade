@@ -30,7 +30,7 @@ type2 branch. Full teams, assists, tags, roster, original stage/audio are absent
 The buildless modules run under the existing same-origin CSP. No emulator,
 retail executable, disc, BIOS, SDK, external asset host or runtime dependency is
 needed. Only the two selected characters' decoded data/artwork are included.
-The manifest currently covers36 files /8,820,596bytes (excluding the manifest).
+The manifest covers36 files /approximately8.8MB (excluding the manifest).
 
 Controls are shown below the cabinet. Losing focus or a controller pauses the
 match and clears held controls; the player resumes explicitly. Audio starts only
