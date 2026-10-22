@@ -1,36 +1,121 @@
 {
-  "scope": "Native two-character preview; recovered Ryu/Cyclops sprites, authored combat/timing/AI/arena/audio.",
-  "total_bytes": 2681613,
+  "scope": "Two-character native port in progress. Original PS2 action, collision, move and physics data; translated selected character routines. Cabinet CPU/arena/audio authored; full engine parity unverified.",
+  "total_bytes": 8820596,
   "files": [
     {
+      "path": "actions.mjs",
+      "size": 3647,
+      "sha256": "b9ee57362a78796d751a55ff3744c44600302e19c05fced9984a494f84990f78"
+    },
+    {
+      "path": "animation.mjs",
+      "size": 2925,
+      "sha256": "d5e38cca6d9796c825259c751e1dd18b4929551bb00488d7d805cef75a1a261f"
+    },
+    {
       "path": "app.mjs",
-      "size": 5223,
-      "sha256": "bc4e956d1080940334ccaf3dfc0b463f9550f5b3eb3e99b3e221b0e71542b846"
+      "size": 5486,
+      "sha256": "e01bf448966cbfa779ac32f767fa4d1a3162286b7cf1bd5e10be2dbb0965575d"
     },
     {
-      "path": "assets/cyclops-0.png",
-      "size": 1445794,
-      "sha256": "41b32f907adacabe30bc23f752471c76f07cc4a52a0008c50878f981aeb42482"
+      "path": "assets/cyclops-actions.json",
+      "size": 1285664,
+      "sha256": "f4af683aa047d0d8103e1cf3f9b13136f25f602e8c888a19fe212b47256a38bb"
     },
     {
-      "path": "assets/cyclops.json",
-      "size": 273693,
-      "sha256": "28dfed1fdb966985e3d9f6f7e9ddfd2326c7cd0f776e47eb73ef2122bcbe61a0"
+      "path": "assets/cyclops-fx-0.png",
+      "size": 1423627,
+      "sha256": "3bce35ea350100cb3ab6933e9680aba6e830e2f286c645120b60a41bd4a32a48"
     },
     {
-      "path": "assets/ryu-0.png",
-      "size": 771677,
-      "sha256": "228e410d1e538df07605f4db1aee10824fac967e2f211906d20bf1b125e66d53"
+      "path": "assets/cyclops-fx.json",
+      "size": 285977,
+      "sha256": "48ad6fc1a176faad5018676b7201bdfee0059a0ee5d6982d1e58f0dc8c0b906e"
     },
     {
-      "path": "assets/ryu.json",
-      "size": 139418,
-      "sha256": "a9ef768f5c3b8cdfdc1ca585dd347e0d21e6e67a87f21b7f5d3299c298b309bf"
+      "path": "assets/cyclops-optic-16-0.png",
+      "size": 33250,
+      "sha256": "f9e613595bcd3509d3309174a6f4934bc406fa8407ca70692ddaea41180af39f"
+    },
+    {
+      "path": "assets/cyclops-optic-17-0.png",
+      "size": 19387,
+      "sha256": "1f55b5f7377edb5684543f46110a98cff5bdfc90ae38a971b04883c998b888a0"
+    },
+    {
+      "path": "assets/cyclops-optic-18-0.png",
+      "size": 14306,
+      "sha256": "99cc546530f9a8d4a02caca00f30f7725f5dc4794d48b93afb77c8cdbe17ffbe"
+    },
+    {
+      "path": "assets/cyclops-optic-19-0.png",
+      "size": 8677,
+      "sha256": "52c87b3d6462d6b3fb6ae8d1974c1e2d324c3bca54e9cf7ff97e3c2fe9576ab6"
+    },
+    {
+      "path": "assets/cyclops-optic-20-0.png",
+      "size": 32002,
+      "sha256": "a0203819bb2d1e1d0b7e563b3f2ed389e22dc95d76d3715d66f24ef08cc90cb6"
+    },
+    {
+      "path": "assets/cyclops-optic.json",
+      "size": 160650,
+      "sha256": "02f501047e7e405d487edef48d78d9a051c09723c638e4212a23e397a12c72e9"
+    },
+    {
+      "path": "assets/cyclops-owner-flash-80-0.png",
+      "size": 1379161,
+      "sha256": "4f3c04b539168f18adeb98119290437506f2e21b608a6b5b5da2208c903f803f"
+    },
+    {
+      "path": "assets/cyclops-owner-flash-81-0.png",
+      "size": 1472841,
+      "sha256": "2c39738aab1e457e8b31e0f0a6eda035a613116879f4cc473b9ebf6f903cec1b"
+    },
+    {
+      "path": "assets/cyclops-owner-flash.json",
+      "size": 689232,
+      "sha256": "83b3b2bb0a96c50e289fe57d0a432ae36ef79ec6d777c9a85c34fa525fa4082f"
+    },
+    {
+      "path": "assets/moves.json",
+      "size": 27417,
+      "sha256": "c680414bf44abe9c92fe559875d05d6013c71d4839689e8269a5881bf2506518"
+    },
+    {
+      "path": "assets/ryu-actions.json",
+      "size": 934496,
+      "sha256": "6a73765c18c7d2482191cdfbfe9dddd747eff0cf98631a647cc3dd5a8649d290"
+    },
+    {
+      "path": "assets/ryu-fx-0.png",
+      "size": 754651,
+      "sha256": "2f93dd72260fa26172ad31fbedd830ab7f00b755d614905c72ed531fce01ac03"
+    },
+    {
+      "path": "assets/ryu-fx.json",
+      "size": 146859,
+      "sha256": "4aacacea4afc4b128a144df73decfa517b94fa91453ae1dae4b3945563779f26"
+    },
+    {
+      "path": "assets/system.json",
+      "size": 7002,
+      "sha256": "6709468545f029c1b9038a9121c1d62eb9d57954c335529efa33847de58d63e0"
     },
     {
       "path": "audio.mjs",
       "size": 1043,
       "sha256": "38356f2978449db4d2ed4bc77d45dc7dd51f20c3e8ba2f0e47c3a7dec42583fe"
+    },
+    {
+      "path": "collision.mjs",
+      "size": 2266,
+      "sha256": "e04eb7d60b86d822fcc2508d81ad91aca34abf3fdc1d7ed034bc1f1e4d2d5a0d"
+    },
+    {
+      "path": "hypers.mjs",
+      "size": 12149,
+      "sha256": "27315c619df5616d6c6619344bd2395e48d515794043580646c72cc2611128c8"
     },
     {
       "path": "icon.svg",
@@ -39,28 +124,63 @@
     },
     {
       "path": "index.html",
-      "size": 8276,
-      "sha256": "8f4ad08416360c801caa2ab1dbee148029efa466d111bfbafc0b905dfac52222"
+      "size": 9766,
+      "sha256": "aadf5f4f49a4f9bde685953fcbdefff971b63760df9d427de4e678b8073e5f2d"
     },
     {
       "path": "input.mjs",
-      "size": 3944,
-      "sha256": "38352bca5333fde6d08e92a41b0e5df91a30cc5cde684fbbd716de58bc286deb"
+      "size": 3960,
+      "sha256": "6cf70ffddbe7024e3878638b0de2753ccf196f6c36b449f39cadbc6fd4262cc8"
+    },
+    {
+      "path": "match.mjs",
+      "size": 16963,
+      "sha256": "1b33f45590a00d23f39f6b17c0c40eda6b005fa46402c98f3c51185fb73376ae"
+    },
+    {
+      "path": "motions.mjs",
+      "size": 3427,
+      "sha256": "f942e21c6acc158820824c664726d0e51fdf5a1894a1672f4c344f0cba706a8a"
+    },
+    {
+      "path": "normal-updates.mjs",
+      "size": 5590,
+      "sha256": "1d98e5b0d598808f34f3c5376ca68e97d35e4a1b846cbd803e8c4af83b82f530"
+    },
+    {
+      "path": "physics.mjs",
+      "size": 3484,
+      "sha256": "d2bb1fb64d9e5284dd85dd03046026b42f93a297ac551fa143ba72d147d1e083"
+    },
+    {
+      "path": "projectiles.mjs",
+      "size": 19420,
+      "sha256": "54cdca31e293c4750251ce1a54083768b2ae3fc1c68ae3b6b220884d03487b23"
+    },
+    {
+      "path": "reactions.mjs",
+      "size": 10118,
+      "sha256": "8a2ae88ad05f79a8fcbbf393120a874a620f5204f2b3ee0251dde7e8548c37ae"
     },
     {
       "path": "render.mjs",
-      "size": 6580,
-      "sha256": "01a89a750a2c5d6f1968142eb7a015170657a7f5e55e45b6c4d164e34fa9d707"
+      "size": 7292,
+      "sha256": "c4a387973c71c0b964d1106130fc713701f05521879d45879a5fe0c5af6cb07b"
     },
     {
       "path": "simulation.mjs",
-      "size": 7530,
-      "sha256": "c647194cff4a84c59de7b571dc211863c1d95335023a128f46e375b4005f0981"
+      "size": 130,
+      "sha256": "99dce5875505566a6680f1a8ee71a6eaf8d2f7471255704df41fdaa229f678bc"
+    },
+    {
+      "path": "specials.mjs",
+      "size": 18952,
+      "sha256": "1ed3be7185a96d536c2c9255c537aa173e4b053e86580a6e10ca97b348509e3b"
     },
     {
       "path": "style.css",
-      "size": 18209,
-      "sha256": "d86dcd79dd70cee3b83abc74ffe7553199b0cbad45336468768dfa6d556020eb"
+      "size": 18553,
+      "sha256": "78b293c0537257a1af24e8884d90e5d6c69e0d816bc705bc612e79d10d0cb827"
     }
   ]
 }

@@ -1,0 +1,944 @@
+{
+  "schema": "mvc2-native-action-map-v1",
+  "executable": {
+    "path": "private/disc/SLUS_204.86",
+    "sha256": "48ebf907d8149122ca9bd622ed11c290d5f93173078ea5bd570e1ac5566f13d7"
+  },
+  "scope": "Selected Ryu/Cyclops normal attack callbacks and a bounded command-callback index. Native IDs and table addresses are preserved; button names are grounded in p[0x212], state values, and their source handler routing.",
+  "field_evidence": {
+    "character_callback_index": "actor+0x540 signed byte; func_00180A30 copies it to actor[1] then dispatches D_00448D00[actor[1]]",
+    "fighter_action_record_destination": "actor+0x43C; the character callback copies 28 words (112 bytes) into it",
+    "animation_group_and_variant": "func_001757E0(actor, group, variant) as called by the selected normal handlers",
+    "strength_selector": "actor+0x1FC; values 0,1,2 select the three native strengths",
+    "attack_id": "actor+0x1B5; explicitly written by selected normal handlers",
+    "chain_pointer": "actor+0x408; selected normal handlers write a pointer to signed-byte chain data",
+    "attack_button": "actor+0x212; value 0 branches to punch handlers, value 1 to kick handlers in grounded and airborne normal dispatch",
+    "ground_stance": "actor+0x20D; value 1 selects the alternate grounded/crouching handler; the player-state update derives 0/1 from the down-direction input",
+    "air_normal_dispatch": "character state callback switches on actor+0x213; airborne normal branch chooses attack group 11 or 12 using actor+0x212"
+  },
+  "fighters": {
+    "ryu": {
+      "source_dispatch": {
+        "record": "D_0044F2E0",
+        "record_initializer": "func_001E8FA0",
+        "normal_slot": 2,
+        "normal_callback": "func_001E9710",
+        "normal_state_table": "jtbl_0044F350",
+        "state_table_size": 30,
+        "grounded_dispatch": "residual_001E9730 -> state_pair_dispatch.c; button actor[0x212], crouch actor[0x20D]",
+        "airborne_dispatch": "func_001E9C40 -> state 0x212 selects func_001E9C80 (punch) or func_001E9DE0 (kick)"
+      },
+      "normals": {
+        "standingPunch": {
+          "handler": "func_001E97C0",
+          "group": 7,
+          "strengthSelector": "actor+0x1FC = 0/1/2",
+          "actions": [
+            {
+              "strength": "light",
+              "variant": 0,
+              "attackId": 0,
+              "chainAddress": "0x004BFAF8"
+            },
+            {
+              "strength": "medium",
+              "variant": 1,
+              "attackId": 1,
+              "chainAddress": "0x004BFAFC"
+            },
+            {
+              "strength": "heavy",
+              "variant": 2,
+              "attackId": 2,
+              "chainAddress": "0x004BFB00"
+            }
+          ]
+        },
+        "standingKick": {
+          "handler": "func_001E99F0",
+          "group": 8,
+          "strengthSelector": "actor+0x1FC = 0/1/2",
+          "actions": [
+            {
+              "strength": "light",
+              "variant": 0,
+              "attackId": 3,
+              "chainAddress": "0x004BFB04"
+            },
+            {
+              "strength": "medium",
+              "variant": 1,
+              "attackId": 4,
+              "chainAddress": "0x004BFB08"
+            },
+            {
+              "strength": "heavy",
+              "variant": 2,
+              "attackId": 5,
+              "chainAddress": "0x004BFB0C"
+            }
+          ]
+        },
+        "crouchingPunch": {
+          "handler": "func_001E98F0",
+          "group": 9,
+          "strengthSelector": "actor+0x1FC = 0/1/2",
+          "actions": [
+            {
+              "strength": "light",
+              "variant": 0,
+              "attackId": 6,
+              "chainAddress": "0x004BFAF8"
+            },
+            {
+              "strength": "medium",
+              "variant": 1,
+              "attackId": 7,
+              "chainAddress": "0x004BFAFC"
+            },
+            {
+              "strength": "heavy",
+              "variant": 2,
+              "attackId": 8,
+              "chainAddress": "0x004BFB00"
+            }
+          ]
+        },
+        "crouchingKick": {
+          "handler": "func_001E9B40",
+          "group": 10,
+          "strengthSelector": "actor+0x1FC = 0/1/2",
+          "actions": [
+            {
+              "strength": "light",
+              "variant": 0,
+              "attackId": 9,
+              "chainAddress": "0x004BFB04"
+            },
+            {
+              "strength": "medium",
+              "variant": 1,
+              "attackId": 10,
+              "chainAddress": "0x004BFB08"
+            },
+            {
+              "strength": "heavy",
+              "variant": 2,
+              "attackId": 11,
+              "chainAddress": "0x004BFB0C"
+            }
+          ]
+        },
+        "airPunch": {
+          "handler": "func_001E9C80",
+          "group": 11,
+          "strengthSelector": "actor+0x1FC = 0/1/2",
+          "actions": [
+            {
+              "strength": "light",
+              "variant": 0,
+              "attackId": 12,
+              "chainAddress": "0x004BFB10",
+              "chainAlternate": {
+                "chainAddress": "0x004BFB28",
+                "condition": "actor+0x210 != 0"
+              }
+            },
+            {
+              "strength": "medium",
+              "variant": 2,
+              "groupOverride": 20,
+              "attackId": 21,
+              "chainAddress": "0x004BFB14",
+              "condition": "strength=1 takes native alternate; handler sets actor+0x169=20 and actor+0x168=2",
+              "chainAlternate": {
+                "chainAddress": "0x004BFB2C",
+                "condition": "actor+0x210 != 0"
+              }
+            },
+            {
+              "strength": "heavy",
+              "variant": 2,
+              "attackId": 14,
+              "chainAddress": "0x004BFB18",
+              "chainAlternate": {
+                "chainAddress": "0x004BFB30",
+                "condition": "actor+0x210 != 0"
+              }
+            }
+          ]
+        },
+        "airKick": {
+          "handler": "func_001E9DE0",
+          "group": 12,
+          "strengthSelector": "actor+0x1FC = 0/1/2",
+          "actions": [
+            {
+              "strength": "light",
+              "variant": 3,
+              "attackId": 15,
+              "chainAddress": "0x004BFB1C",
+              "group": 20,
+              "chainAlternate": {
+                "chainAddress": "0x004BFB34",
+                "condition": "actor+0x210 != 0"
+              }
+            },
+            {
+              "strength": "medium",
+              "variant": 4,
+              "attackId": 16,
+              "chainAddress": "0x004BFB20",
+              "alternate": {
+                "variant": 1,
+                "attackId": 24,
+                "condition": "actor+0x20E bit 0x2000",
+                "group": 12,
+                "chainAddress": "0x004BFB20",
+                "chainAlternate": {
+                  "chainAddress": "0x004BFB38",
+                  "condition": "actor+0x210 != 0"
+                }
+              },
+              "group": 20,
+              "chainAlternate": {
+                "chainAddress": "0x004BFB38",
+                "condition": "actor+0x210 != 0"
+              }
+            },
+            {
+              "strength": "heavy",
+              "variant": 5,
+              "attackId": 25,
+              "chainAddress": "0x004BFB24",
+              "alternate": {
+                "group": 12,
+                "variant": 2,
+                "attackId": 17,
+                "condition": "actor+0x20E bit 0x2000",
+                "chainAddress": "0x004BFB24",
+                "chainAlternate": {
+                  "chainAddress": "0x004BFB3C",
+                  "condition": "actor+0x210 != 0"
+                }
+              },
+              "group": 20,
+              "chainAlternate": {
+                "chainAddress": "0x004BFB3C",
+                "condition": "actor+0x210 != 0"
+              }
+            }
+          ]
+        }
+      },
+      "specialCommandCandidates": [
+        {
+          "handler": "func_001E9160",
+          "descriptor": "D_0044F260",
+          "state": 0,
+          "transitionWritesActor1FD": 0,
+          "moveLabel": "Hadouken (candidate; semantic label not encoded in native handler name)"
+        },
+        {
+          "handler": "func_001E9200",
+          "descriptor": "D_0044F270",
+          "state": 1,
+          "transitionWritesActor1FD": 1,
+          "moveLabel": "Shoryuken (candidate; semantic label not encoded in native handler name)"
+        },
+        {
+          "handler": "func_001E9270",
+          "descriptor": "D_0044F280",
+          "state": 2,
+          "transitionWritesActor1FD": 2,
+          "moveLabel": "Tatsumaki (candidate; semantic label not encoded in native handler name)"
+        }
+      ]
+    },
+    "cyclops": {
+      "source_dispatch": {
+        "record": "D_00450AE0",
+        "record_initializer": "func_00210400",
+        "normal_slot": 2,
+        "normal_callback": "func_00210CA0",
+        "normal_state_table": "jtbl_00450B50",
+        "state_table_size": 11,
+        "grounded_dispatch": "func_00210CD0 -> state_pair_dispatch.c; button actor[0x212], crouch actor[0x20D]",
+        "airborne_dispatch": "func_002111A0 -> actor[0x212] selects func_002111E0 (punch) or func_00211370 (kick)"
+      },
+      "normals": {
+        "standingPunch": {
+          "handler": "func_00210D60",
+          "group": 7,
+          "strengthSelector": "actor+0x1FC = 0/1/2",
+          "actions": [
+            {
+              "strength": "light",
+              "variant": 0,
+              "attackId": 0,
+              "chainAddress": "0x004BFE80"
+            },
+            {
+              "strength": "medium",
+              "variant": 1,
+              "attackId": 1,
+              "chainAddress": "0x004BFE84"
+            },
+            {
+              "strength": "heavy",
+              "variant": 2,
+              "attackId": 2,
+              "chainAddress": "0x004BFE88"
+            }
+          ]
+        },
+        "standingKick": {
+          "handler": "func_00210F40",
+          "group": 8,
+          "strengthSelector": "actor+0x1FC = 0/1/2",
+          "actions": [
+            {
+              "strength": "light",
+              "variant": 0,
+              "attackId": 3,
+              "chainAddress": "0x004BFE8C"
+            },
+            {
+              "strength": "medium",
+              "variant": 1,
+              "attackId": 4,
+              "chainAddress": "0x004BFE90"
+            },
+            {
+              "strength": "heavy",
+              "variant": 2,
+              "attackId": 5,
+              "chainAddress": "0x004BFE94"
+            }
+          ]
+        },
+        "crouchingPunch": {
+          "handler": "func_00210E50",
+          "group": 9,
+          "strengthSelector": "actor+0x1FC = 0/1/2",
+          "actions": [
+            {
+              "strength": "light",
+              "variant": 0,
+              "attackId": 6,
+              "chainAddress": "0x004BFE80"
+            },
+            {
+              "strength": "medium",
+              "variant": 1,
+              "attackId": 7,
+              "chainAddress": "0x004BFE84"
+            },
+            {
+              "strength": "heavy",
+              "variant": 2,
+              "attackId": 8,
+              "chainAddress": "0x004BFE88"
+            }
+          ]
+        },
+        "crouchingKick": {
+          "handler": "func_00211040",
+          "group": 10,
+          "strengthSelector": "actor+0x1FC = 0/1/2",
+          "actions": [
+            {
+              "strength": "light",
+              "variant": 0,
+              "attackId": 9,
+              "chainAddress": "0x004BFE8C"
+            },
+            {
+              "strength": "medium",
+              "variant": 1,
+              "attackId": 10,
+              "chainAddress": "0x004BFE90"
+            },
+            {
+              "strength": "heavy",
+              "variant": 2,
+              "attackId": 11,
+              "chainAddress": "0x004BFE94"
+            }
+          ]
+        },
+        "airPunch": {
+          "handler": "func_002111E0",
+          "group": 11,
+          "strengthSelector": "actor+0x1FC = 0/1/2",
+          "actions": [
+            {
+              "strength": "light",
+              "variant": 0,
+              "attackId": 12,
+              "chainAddress": "0x004BFE98",
+              "chainAlternate": {
+                "chainAddress": "0x004BFEB0",
+                "condition": "actor+0x210 != 0"
+              }
+            },
+            {
+              "strength": "medium",
+              "variant": 1,
+              "attackId": 13,
+              "chainAddress": "0x004BFE9C",
+              "alternate": {
+                "variant": 3,
+                "attackId": 18,
+                "chainAddress": "0x004BFE9C",
+                "condition": "actor+0x20E bit 0x1000",
+                "chainAlternate": {
+                  "chainAddress": "0x004BFEB4",
+                  "condition": "actor+0x210 != 0"
+                }
+              },
+              "chainAlternate": {
+                "chainAddress": "0x004BFEB4",
+                "condition": "actor+0x210 != 0"
+              }
+            },
+            {
+              "strength": "heavy",
+              "variant": 2,
+              "attackId": 14,
+              "chainAddress": "0x004BFEA0",
+              "alternate": {
+                "variant": 4,
+                "attackId": 19,
+                "chainAddress": "0x004BFEA0",
+                "condition": "actor+0x20E bit 0x1000",
+                "chainAlternate": {
+                  "chainAddress": "0x004BFEB8",
+                  "condition": "actor+0x210 != 0"
+                }
+              },
+              "chainAlternate": {
+                "chainAddress": "0x004BFEB8",
+                "condition": "actor+0x210 != 0"
+              }
+            }
+          ]
+        },
+        "airKick": {
+          "handler": "func_00211370",
+          "group": 12,
+          "strengthSelector": "actor+0x1FC = 0/1/2",
+          "actions": [
+            {
+              "strength": "light",
+              "variant": 0,
+              "attackId": 15,
+              "chainAddress": "0x004BFEA4",
+              "alternate": {
+                "variant": 3,
+                "attackId": 20,
+                "chainAddress": "0x004BFEA4",
+                "condition": "actor+0x20E bit 0x1000",
+                "chainAlternate": {
+                  "chainAddress": "0x004BFEBC",
+                  "condition": "actor+0x210 != 0"
+                }
+              },
+              "chainAlternate": {
+                "chainAddress": "0x004BFEBC",
+                "condition": "actor+0x210 != 0"
+              }
+            },
+            {
+              "strength": "medium",
+              "variant": 1,
+              "attackId": 16,
+              "chainAddress": "0x004BFEA8",
+              "alternate": {
+                "variant": 4,
+                "attackId": 21,
+                "chainAddress": "0x004BFEA8",
+                "condition": "actor+0x20E bit 0x1000",
+                "chainAlternate": {
+                  "chainAddress": "0x004BFEC0",
+                  "condition": "actor+0x210 != 0"
+                }
+              },
+              "chainAlternate": {
+                "chainAddress": "0x004BFEC0",
+                "condition": "actor+0x210 != 0"
+              }
+            },
+            {
+              "strength": "heavy",
+              "variant": 2,
+              "attackId": 17,
+              "chainAddress": "0x004BFEAC",
+              "alternate": {
+                "variant": 5,
+                "attackId": 22,
+                "chainAddress": "0x004BFEAC",
+                "condition": "actor+0x20E bit 0x1000",
+                "chainAlternate": {
+                  "chainAddress": "0x004BFEC4",
+                  "condition": "actor+0x210 != 0"
+                }
+              },
+              "chainAlternate": {
+                "chainAddress": "0x004BFEC4",
+                "condition": "actor+0x210 != 0"
+              }
+            }
+          ]
+        }
+      },
+      "specialCommandCandidates": [
+        {
+          "handler": "func_00210750",
+          "descriptor": "D_00450A60",
+          "descriptorResult": "actor+0x378",
+          "condition": "func_00189310 succeeds; if actor+0x20D==2 and actor+0x210==0, one-shot latch at actor+0x1E8 must be clear",
+          "writesActor1FD": 0,
+          "initializerMode": 21,
+          "observedEffect": "copies/chooses input selector from result, resets callback counters; no meter check in handler",
+          "moveLabel": "unidentified special/action candidate"
+        },
+        {
+          "handler": "func_002105D0",
+          "descriptor": "D_00450A40",
+          "descriptorResult": "actor+0x388",
+          "requires": "nonzero meter through *(s8*)*(actor+0x420)",
+          "writesActor1FD": 2,
+          "initializerMode": 29,
+          "moveLabel": "unidentified meter-gated action"
+        },
+        {
+          "handler": "func_00210690",
+          "descriptor": "D_00450A50",
+          "descriptorResult": "actor+0x380",
+          "requires": "nonzero meter through *(s8*)*(actor+0x420)",
+          "writesActor1FD": 1,
+          "initializerMode": 29,
+          "moveLabel": "unidentified meter-gated action"
+        },
+        {
+          "handler": "func_00210800",
+          "descriptor": "D_00450A90",
+          "descriptorResult": "actor+0x390",
+          "writesActor1FD": 3,
+          "initializerMode": 21,
+          "observedEffect": "copies/chooses punch/kick and strength selectors from descriptor result",
+          "moveLabel": "unidentified special/action candidate"
+        },
+        {
+          "handler": "func_00210870",
+          "descriptor": "D_00450AC0",
+          "descriptorResult": "actor+0x3B8",
+          "requires": "valid selected target from func_001E7FD0",
+          "writesActor20B": 67,
+          "observedEffect": "starts target interaction via func_00185640",
+          "moveLabel": "unidentified target-interaction candidate"
+        },
+        {
+          "handler": "func_002109A0",
+          "descriptor": "D_00450A70",
+          "descriptorResult": "actor+0x3A0",
+          "writesActor1FD": 8,
+          "initializerMode": 21,
+          "moveLabel": "unidentified special/action candidate"
+        },
+        {
+          "handler": "func_00210A10",
+          "descriptor": "D_00450A80",
+          "descriptorResult": "actor+0x3B0",
+          "writesActor1FD": 7,
+          "initializerMode": 21,
+          "moveLabel": "unidentified special/action candidate"
+        },
+        {
+          "handler": "func_002108E0",
+          "descriptor": "D_00450AA0",
+          "descriptorResult": "actor+0x398",
+          "matcher": "func_00189660",
+          "writesActor1FD": 4,
+          "initializerMode": 21,
+          "moveLabel": "unidentified action candidate"
+        },
+        {
+          "handler": "func_00210940",
+          "descriptor": "D_00450AB0",
+          "descriptorResult": "actor+0x3A8",
+          "matcher": "func_00189660",
+          "writesActor1FD": 9,
+          "initializerMode": 21,
+          "moveLabel": "unidentified action candidate"
+        },
+        {
+          "handler": "func_00210A80",
+          "descriptor": "func_00189150 predicate",
+          "requires": "nonzero meter through *(s8*)*(actor+0x420)",
+          "writesActor1FD": 12,
+          "initializerMode": 29,
+          "moveLabel": "unidentified meter-gated action"
+        },
+        {
+          "handler": "func_00210AF0",
+          "descriptor": "func_001891F0 command 11",
+          "writesActor509": 11,
+          "initializerMode": 21,
+          "moveLabel": "unidentified command candidate"
+        }
+      ]
+    }
+  },
+  "chain_semantics": {
+    "field_width": 4,
+    "interpretation": "signed 4-byte chain/combo data at the pointed-to table address; handlers assign actor+0x408 to the selected address",
+    "rawBytes": "Extracted from private/disc/SLUS_204.86 (ELF SHA-256 in executable field), little-endian address mapping from the ELF load segment at file offset 0x80 / virtual address 0x00100000. Each chain table is four signed bytes.",
+    "caveat": "Addresses are verified from callbacks, but the exact chain flag decoding and eligibility semantics are not established by these handlers alone.",
+    "tables": {
+      "0x004BFAF8": {
+        "bytesHex": "01020102",
+        "signedBytes": [
+          1,
+          2,
+          1,
+          2
+        ]
+      },
+      "0x004BFAFC": {
+        "bytesHex": "ff02ff02",
+        "signedBytes": [
+          -1,
+          2,
+          -1,
+          2
+        ]
+      },
+      "0x004BFB00": {
+        "bytesHex": "ffffffff",
+        "signedBytes": [
+          -1,
+          -1,
+          -1,
+          -1
+        ]
+      },
+      "0x004BFB04": {
+        "bytesHex": "01020102",
+        "signedBytes": [
+          1,
+          2,
+          1,
+          2
+        ]
+      },
+      "0x004BFB08": {
+        "bytesHex": "ff02ff02",
+        "signedBytes": [
+          -1,
+          2,
+          -1,
+          2
+        ]
+      },
+      "0x004BFB0C": {
+        "bytesHex": "ffffffff",
+        "signedBytes": [
+          -1,
+          -1,
+          -1,
+          -1
+        ]
+      },
+      "0x004BFB10": {
+        "bytesHex": "01020102",
+        "signedBytes": [
+          1,
+          2,
+          1,
+          2
+        ]
+      },
+      "0x004BFB14": {
+        "bytesHex": "ff02ff02",
+        "signedBytes": [
+          -1,
+          2,
+          -1,
+          2
+        ]
+      },
+      "0x004BFB18": {
+        "bytesHex": "ffffffff",
+        "signedBytes": [
+          -1,
+          -1,
+          -1,
+          -1
+        ]
+      },
+      "0x004BFB1C": {
+        "bytesHex": "01020102",
+        "signedBytes": [
+          1,
+          2,
+          1,
+          2
+        ]
+      },
+      "0x004BFB20": {
+        "bytesHex": "ff02ff02",
+        "signedBytes": [
+          -1,
+          2,
+          -1,
+          2
+        ]
+      },
+      "0x004BFB24": {
+        "bytesHex": "ffffffff",
+        "signedBytes": [
+          -1,
+          -1,
+          -1,
+          -1
+        ]
+      },
+      "0x004BFB28": {
+        "bytesHex": "01020002",
+        "signedBytes": [
+          1,
+          2,
+          0,
+          2
+        ]
+      },
+      "0x004BFB2C": {
+        "bytesHex": "ff020102",
+        "signedBytes": [
+          -1,
+          2,
+          1,
+          2
+        ]
+      },
+      "0x004BFB30": {
+        "bytesHex": "ffffff02",
+        "signedBytes": [
+          -1,
+          -1,
+          -1,
+          2
+        ]
+      },
+      "0x004BFB34": {
+        "bytesHex": "01020102",
+        "signedBytes": [
+          1,
+          2,
+          1,
+          2
+        ]
+      },
+      "0x004BFB38": {
+        "bytesHex": "ff02ff02",
+        "signedBytes": [
+          -1,
+          2,
+          -1,
+          2
+        ]
+      },
+      "0x004BFB3C": {
+        "bytesHex": "ffffffff",
+        "signedBytes": [
+          -1,
+          -1,
+          -1,
+          -1
+        ]
+      },
+      "0x004BFE80": {
+        "bytesHex": "01020002",
+        "signedBytes": [
+          1,
+          2,
+          0,
+          2
+        ]
+      },
+      "0x004BFE84": {
+        "bytesHex": "ff020102",
+        "signedBytes": [
+          -1,
+          2,
+          1,
+          2
+        ]
+      },
+      "0x004BFE88": {
+        "bytesHex": "ffffffff",
+        "signedBytes": [
+          -1,
+          -1,
+          -1,
+          -1
+        ]
+      },
+      "0x004BFE8C": {
+        "bytesHex": "01020102",
+        "signedBytes": [
+          1,
+          2,
+          1,
+          2
+        ]
+      },
+      "0x004BFE90": {
+        "bytesHex": "ff02ff02",
+        "signedBytes": [
+          -1,
+          2,
+          -1,
+          2
+        ]
+      },
+      "0x004BFE94": {
+        "bytesHex": "ffffffff",
+        "signedBytes": [
+          -1,
+          -1,
+          -1,
+          -1
+        ]
+      },
+      "0x004BFE98": {
+        "bytesHex": "01020102",
+        "signedBytes": [
+          1,
+          2,
+          1,
+          2
+        ]
+      },
+      "0x004BFE9C": {
+        "bytesHex": "ff02ff02",
+        "signedBytes": [
+          -1,
+          2,
+          -1,
+          2
+        ]
+      },
+      "0x004BFEA0": {
+        "bytesHex": "ffffffff",
+        "signedBytes": [
+          -1,
+          -1,
+          -1,
+          -1
+        ]
+      },
+      "0x004BFEA4": {
+        "bytesHex": "01020102",
+        "signedBytes": [
+          1,
+          2,
+          1,
+          2
+        ]
+      },
+      "0x004BFEA8": {
+        "bytesHex": "ff02ff02",
+        "signedBytes": [
+          -1,
+          2,
+          -1,
+          2
+        ]
+      },
+      "0x004BFEAC": {
+        "bytesHex": "ffffffff",
+        "signedBytes": [
+          -1,
+          -1,
+          -1,
+          -1
+        ]
+      },
+      "0x004BFEB0": {
+        "bytesHex": "01020002",
+        "signedBytes": [
+          1,
+          2,
+          0,
+          2
+        ]
+      },
+      "0x004BFEB4": {
+        "bytesHex": "ff020102",
+        "signedBytes": [
+          -1,
+          2,
+          1,
+          2
+        ]
+      },
+      "0x004BFEB8": {
+        "bytesHex": "ffffff02",
+        "signedBytes": [
+          -1,
+          -1,
+          -1,
+          2
+        ]
+      },
+      "0x004BFEBC": {
+        "bytesHex": "01020102",
+        "signedBytes": [
+          1,
+          2,
+          1,
+          2
+        ]
+      },
+      "0x004BFEC0": {
+        "bytesHex": "ff02ff02",
+        "signedBytes": [
+          -1,
+          2,
+          -1,
+          2
+        ]
+      },
+      "0x004BFEC4": {
+        "bytesHex": "ffffffff",
+        "signedBytes": [
+          -1,
+          -1,
+          -1,
+          -1
+        ]
+      }
+    },
+    "consumer": "func_00184720 reads the four signed bytes through actor+0x408 for ordinary attack-chain checks. With attack context actor+0x1E4==0x14, it chooses a chain entry from the attack-input mask (actor+0x35C & 0x360); a signed -1 rejects the transition, otherwise the value becomes the new actor+0x1FC strength. It sets actor+0x1EA event bits on acceptance. Team/shared-input conditions can select adjacent slots for strength 1. The exact slots are given by executable logic; retaining per-address bytes avoids collapsing the four slots into a single combo rule.",
+    "aerialRows": "Each aerial callback selects a parallel chain-row bank: actor+0x210 == 0 uses the listed base bank (Ryu BFB10..BFB24, Cyclops BFE98..BFEAC); nonzero actor+0x210 uses Ryu BFB28..BFB3C or Cyclops BFEB0..BFEC4. This selector is independent of the separate actor+0x20E strength/action override bits."
+  },
+  "evidence_paths": [
+    ".scratch/ps2-decomp/src/data/mvc2_stage_handler_table_00448D00.c",
+    ".scratch/ps2-decomp/src/data/jtbl_0044F2E0.c",
+    ".scratch/ps2-decomp/src/data/jtbl_00450AE0.c",
+    ".scratch/ps2-decomp/src/data/jtbl_0044F350.c",
+    ".scratch/ps2-decomp/src/data/jtbl_00450B50.c",
+    ".scratch/ps2-decomp/src/state_pair_dispatch.c",
+    ".scratch/ps2-decomp/src/move_setup.c",
+    ".scratch/ps2-decomp/src/q9_d.c",
+    ".scratch/ps2-decomp/src/grok_bo_2a7950.c",
+    ".scratch/ps2-decomp/src/w181_m.c",
+    ".scratch/ps2-decomp/src/hy8_f.c",
+    ".scratch/ps2-decomp/src/y5_e.c",
+    ".scratch/ps2-decomp/src/w1911_p.c",
+    ".scratch/ps2-decomp/src/w175_b.c"
+  ]
+}

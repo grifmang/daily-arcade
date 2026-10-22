@@ -1,33 +1,47 @@
 import { FLOOR } from './simulation.mjs';
-// Frame selections are reviewed poses; preview animation timing is authored.
-const ANIMATIONS={
-  ryu:{idle:[65,66,67,68],walk:[70,71,72,73,74],jump:[90,91,92,93,94,95],crouch:[69],light:[200,201,202,203],heavy:[208,209,210,211,210,209],special:[276,277,278,279],hurt:[142,143],block:[110],win:[104,105,106],ko:[134,135,136,137]},
-  cyclops:{idle:[97,98,99,100,101,102],walk:[117,118,119,120,121,122,123],jump:[125,126,127,128,129,130],crouch:[114],light:[272,273,274,275],heavy:[176,177,178,179],special:[195,196,197,198],hurt:[161,162],block:[144],win:[168,169,170],ko:[221,222]},
-};
+import { Animation } from './animation.mjs';
 const NAMES={ryu:'RYU',cyclops:'CYCLOPS'};
 export class Renderer {
-  constructor(canvas){this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.assets={};this.clock=0;}
+  constructor(canvas){this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.assets={};this.actions={};this.menuAnimations={};this.clock=0;this.menuTick=0;}
   async load(){
-    await Promise.all(Object.keys(ANIMATIONS).map(async id=>{
-      const response=await fetch(new URL(`assets/${id}.json`,import.meta.url));
+    const json=async file=>{
+      const response=await fetch(new URL(`assets/${file}`,import.meta.url));
+      if(!response.ok)throw Error(`Could not load ${file} (${response.status})`);
+      return response.json();
+    };
+    this.system=await json('system.json');
+    await Promise.all(['ryu','cyclops'].map(async id=>{
+      const response=await fetch(new URL(`assets/${id}-fx.json`,import.meta.url));
       if(!response.ok)throw Error(`Could not load ${id} frames (${response.status})`);
       const data=await response.json();
       const images=await Promise.all(data.atlases.map(a=>new Promise((resolve,reject)=>{
         const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(Error(`Could not load ${id} artwork`));image.src=new URL(`assets/${a.file}`,import.meta.url).href;
       })));
       this.assets[id]={data,images};
+      this.actions[id]=await json(`${id}-actions.json`);
+      this.menuAnimations[id]=new Animation(this.actions[id]);
+    }));
+    this.moves=await json('moves.json');
+    this.optic={};this.ownerFlash={};
+    const palettes=[['cyclops-optic.json',this.optic],['cyclops-owner-flash.json',this.ownerFlash]];
+    await Promise.all(palettes.map(async([file,banks])=>{
+    const palette=await json(file);
+    await Promise.all(Object.entries(palette.variants).map(async([key,data])=>{
+      const images=await Promise.all(data.atlases.map(a=>new Promise((resolve,reject)=>{
+        const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(Error('Could not load Optic palette'));image.src=new URL(`assets/${a.file}`,import.meta.url).href;
+      })));
+      banks[key]={data,images};
+    }));
     }));
   }
-  sprite(id,state,age,x,y,face=1,scale=1.85,attack=null){
-    const entry=this.assets[id];if(!entry)return;
-    const frames=ANIMATIONS[id][state]||ANIMATIONS[id].idle;
-    let index;
-    if(attack)index=Math.min(frames.length-1,Math.floor(attack.frame/attack.total*frames.length));
-    else if(state==='ko')index=Math.min(frames.length-1,Math.floor(age/10));
-    else index=Math.floor(age/(state==='idle'?9:6))%frames.length;
-    const f=entry.data.frames[frames[index]];
-    const c=this.ctx;c.save();c.translate(Math.round(x),Math.round(y));c.scale(-face*scale,scale);
-    c.drawImage(entry.images[f.atlas],f.x,f.y,f.w,f.h,Math.round(f.dx-entry.data.pivotX),Math.round(f.dy-entry.data.groundY),f.w,f.h);c.restore();
+  sprite(id,animation,x,y,face=1,palette){
+    const entry=id==='cyclops'&&palette?(this.optic[palette]||this.ownerFlash[palette]||this.assets[id]):this.assets[id];if(!entry)return;
+    if(animation.record.cellRaw===0xffff)return;
+    const cell=animation.record.spriteHighBit?animation.record.cellRaw&0x1ff:animation.cell;
+    const f=entry.data.frames[cell];
+    if(!f)throw Error(`Unexported original cell ${id}:${cell}`);
+    const c=this.ctx;c.save();c.translate(Math.round(x),Math.round(y));c.scale(-face*this.system.scaleX,this.system.scaleY);
+    c.drawImage(entry.images[f.atlas],f.x,f.y,f.w,f.h,f.dx,f.dy,f.w,f.h);c.restore();
   }
   arena(t){
     const c=this.ctx;c.clearRect(0,0,768,432);
@@ -54,39 +68,42 @@ export class Renderer {
   }
   draw(match,selection='ryu'){
     this.clock++;const c=this.ctx;c.imageSmoothingEnabled=false;
-    const t=match?.tickCount||this.clock;this.arena(t);
-    const fighters=match?.players||[{name:selection,x:245,y:0,face:1,state:'idle',age:this.clock},{name:selection==='ryu'?'cyclops':'ryu',x:525,y:0,face:-1,state:'idle',age:this.clock}];
+    const now=Math.floor(performance.now()*60/1000);
+    if(!this.menuTick)this.menuTick=now;
+    for(let i=0;i<Math.min(8,now-this.menuTick);i++)for(const animation of Object.values(this.menuAnimations))animation.step();
+    this.menuTick=now;
+    const t=match?.tickCount||this.clock;
+    const fighters=match?.players||[{name:selection,x:245,y:0,face:1,animation:this.menuAnimations[selection]},{name:selection==='ryu'?'cyclops':'ryu',x:525,y:0,face:-1,animation:this.menuAnimations[selection==='ryu'?'cyclops':'ryu']}];
+    const cameraY=match?Math.max(0,...fighters.map(p=>p.y-130)):0;
+    c.fillStyle='#233a4c';c.fillRect(0,0,768,432);c.save();c.translate(0,cameraY);
+    this.arena(t);
     for(const p of fighters){
       c.fillStyle='rgba(23,27,31,.36)';c.beginPath();c.ellipse(p.x,FLOOR+5,42-Math.min(18,p.y*.04),8,0,0,Math.PI*2);c.fill();
       c.globalAlpha=p.flash%2?.65:1;
-      this.sprite(p.name,p.state,p.age,p.x,FLOOR-p.y,p.face,1.85,p.attack);c.globalAlpha=1;
+      this.sprite(p.name,p.animation,p.x,FLOOR-p.y,p.face,p.paletteVariant);c.globalAlpha=1;
     }
     if(match){
       for(const shot of match.projectiles){
-        c.save();c.translate(shot.x,shot.y);c.scale(shot.face,1);
-        if(shot.name==='ryu'){
-          c.fillStyle='#72daee';c.beginPath();c.ellipse(0,0,23,17,0,0,Math.PI*2);c.fill();
-          c.fillStyle='#e9ffec';c.beginPath();c.ellipse(7,0,12,11,0,0,Math.PI*2);c.fill();
-          c.fillStyle='#3298d5';c.beginPath();c.moveTo(-15,-12);c.lineTo(-42,-6);c.lineTo(-28,0);c.lineTo(-45,8);c.lineTo(-14,12);c.fill();
-        }else{
-          c.fillStyle='#ff652e';c.fillRect(-45,-9,66,18);c.fillStyle='#ffd580';c.fillRect(-41,-4,68,8);c.fillStyle='#fff7d0';c.fillRect(-25,-2,54,4);
-        }c.restore();
+        this.sprite(shot.name,shot.animation,shot.x,FLOOR-shot.y,shot.face,shot.paletteVariant??shot.root?.paletteVariant);
       }
       for(const p of match.particles){
         const ratio=p.t/p.max;c.save();c.translate(p.x,p.y);c.strokeStyle=p.blocked?'#92d8ef':'#fff0ad';c.lineWidth=3;
         for(let i=0;i<8;i++){const a=i*Math.PI/4;c.beginPath();c.moveTo(Math.cos(a)*5,Math.sin(a)*5);c.lineTo(Math.cos(a)*(35-20*ratio),Math.sin(a)*(35-20*ratio));c.stroke();}
         c.restore();
       }
+      c.restore();
       c.font='bold 11px monospace';
       for(let i=0;i<2;i++){
         const p=match.players[i],x=i?570:58;
-        c.fillStyle='rgba(10,21,28,.7)';c.fillRect(x,389,140,8);c.fillStyle=i?'#ef825f':'#73c0d3';c.fillRect(x,389,p.meter*1.4,8);
-        c.fillStyle='#f4e6c6';c.fillText(`${match.wins[i]} ROUND${match.wins[i]===1?'':'S'}`,x,418);
+        c.fillStyle='rgba(10,21,28,.7)';c.fillRect(x,389,140,8);c.fillStyle=i?'#ef825f':'#73c0d3';c.fillRect(x,389,p.meter/144*140,8);
+        c.fillStyle='#f4e6c6';c.fillText(`LEVEL ${p.bars} · ${match.wins[i]} ROUND${match.wins[i]===1?'':'S'}`,x,418);
+        const victim=match.players[1-i];
+        if(victim.combo>1){c.font='bold 18px monospace';c.fillText(`${victim.combo} HIT`,i?640:58,125);c.font='bold 11px monospace';}
       }
       if(match.phase==='intro')this.word(match.delay>60?`ROUND ${match.round}`:'FIGHT!',match.delay>60?34:54);
       if(match.phase==='roundover')this.word(match.time<=0?'TIME UP':'K.O.',64);
       if(match.paused){c.fillStyle='rgba(11,20,25,.62)';c.fillRect(0,0,768,432);this.word('PAUSED',44);c.font='14px monospace';c.fillStyle='#efe4ca';c.textAlign='center';c.fillText('Enter / Start to resume',384,270);c.textAlign='left';}
-    }
+    }else c.restore();
   }
   word(text,size){const c=this.ctx;c.save();c.textAlign='center';c.font=`italic 900 ${size}px Impact, sans-serif`;c.lineWidth=6;c.strokeStyle='#26323a';c.strokeText(text,384,218);c.fillStyle='#f1c863';c.fillText(text,384,218);c.restore();}
 }
