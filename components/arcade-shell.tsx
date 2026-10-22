@@ -39,6 +39,7 @@ export function ArcadeShell({ children }: { children: React.ReactNode }) {
         <div className="mx-auto max-w-3xl px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono text-[var(--color-fg-dim)]">
           <span>Daily Arcade · same puzzle for everyone · resets at 00:00 UTC</span>
           <span className="flex flex-wrap items-center gap-4">
+            <a href="/marvel-vs-capcom-2" className="hover:text-[var(--color-fg)]">MvC2 preview</a>
             <a href="/punch-out" className="hover:text-[var(--color-fg)]">Punch-Out!!</a>
             <Link href="/slots" className="hover:text-[var(--color-fg)]">arcade lounge</Link>
             <Link href="/cards" className="hover:text-[var(--color-fg)]">card parlor</Link>
