@@ -1,0 +1,66 @@
+{
+  "scope": "Native two-character preview; recovered Ryu/Cyclops sprites, authored combat/timing/AI/arena/audio.",
+  "total_bytes": 2681613,
+  "files": [
+    {
+      "path": "app.mjs",
+      "size": 5223,
+      "sha256": "bc4e956d1080940334ccaf3dfc0b463f9550f5b3eb3e99b3e221b0e71542b846"
+    },
+    {
+      "path": "assets/cyclops-0.png",
+      "size": 1445794,
+      "sha256": "41b32f907adacabe30bc23f752471c76f07cc4a52a0008c50878f981aeb42482"
+    },
+    {
+      "path": "assets/cyclops.json",
+      "size": 273693,
+      "sha256": "28dfed1fdb966985e3d9f6f7e9ddfd2326c7cd0f776e47eb73ef2122bcbe61a0"
+    },
+    {
+      "path": "assets/ryu-0.png",
+      "size": 771677,
+      "sha256": "228e410d1e538df07605f4db1aee10824fac967e2f211906d20bf1b125e66d53"
+    },
+    {
+      "path": "assets/ryu.json",
+      "size": 139418,
+      "sha256": "a9ef768f5c3b8cdfdc1ca585dd347e0d21e6e67a87f21b7f5d3299c298b309bf"
+    },
+    {
+      "path": "audio.mjs",
+      "size": 1043,
+      "sha256": "38356f2978449db4d2ed4bc77d45dc7dd51f20c3e8ba2f0e47c3a7dec42583fe"
+    },
+    {
+      "path": "icon.svg",
+      "size": 226,
+      "sha256": "141943503205d1762223d18bed8131347cc0ee2bffcb4c8b1cdb8c80a45c535d"
+    },
+    {
+      "path": "index.html",
+      "size": 8276,
+      "sha256": "8f4ad08416360c801caa2ab1dbee148029efa466d111bfbafc0b905dfac52222"
+    },
+    {
+      "path": "input.mjs",
+      "size": 3944,
+      "sha256": "38352bca5333fde6d08e92a41b0e5df91a30cc5cde684fbbd716de58bc286deb"
+    },
+    {
+      "path": "render.mjs",
+      "size": 6580,
+      "sha256": "01a89a750a2c5d6f1968142eb7a015170657a7f5e55e45b6c4d164e34fa9d707"
+    },
+    {
+      "path": "simulation.mjs",
+      "size": 7530,
+      "sha256": "c647194cff4a84c59de7b571dc211863c1d95335023a128f46e375b4005f0981"
+    },
+    {
+      "path": "style.css",
+      "size": 18209,
+      "sha256": "d86dcd79dd70cee3b83abc74ffe7553199b0cbad45336468768dfa6d556020eb"
+    }
+  ]
+}

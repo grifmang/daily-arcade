@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#171713">
+  <meta name="description" content="Ryu versus Cyclops. A playable two-fighter native browser preview for Daily Arcade.">
+  <title>Marvel vs. Capcom 2 · Daily Arcade</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+  <div class="page">
+    <header class="masthead">
+      <a class="arcade-link" href="/" aria-label="Back to Daily Arcade"><span aria-hidden="true">←</span> Daily Arcade</a>
+      <span class="preview-badge">Native preview</span>
+    </header>
+
+    <main>
+      <div class="title-row">
+        <div>
+          <p class="eyebrow">New age of heroes / Free play</p>
+          <h1><span class="marvel-word">MARVEL</span> <span class="versus-word">vs.</span> <span class="capcom-word">CAPCOM <span class="sequel">2</span></span></h1>
+        </div>
+        <p class="edition-note">Two fighters.<br>Settle it here.</p>
+      </div>
+
+      <section class="cabinet" id="cabinet" aria-label="Marvel vs. Capcom 2 game cabinet">
+        <div class="cabinet-topbar">
+          <span class="cabinet-label"><span class="signal-dot" aria-hidden="true"></span> Ready for a challenger</span>
+          <div class="toolbar" aria-label="Game settings">
+            <button type="button" id="pause" disabled>Pause</button>
+            <button type="button" id="sound" aria-pressed="true">Sound on</button>
+            <button type="button" id="fullscreen">Fullscreen</button>
+          </div>
+        </div>
+
+        <div class="screen">
+          <canvas id="game" width="768" height="432" tabindex="0" aria-label="Ryu versus Cyclops fighting arena. Use keyboard, touch buttons, or a connected controller." aria-describedby="status controls-hint">Your browser needs Canvas support to display this game.</canvas>
+          <div class="hud" aria-label="Match information">
+            <div class="fighter-hud player-one">
+              <span class="player-label">Player 1</span>
+              <span class="fighter-name" id="p1-name">Ryu</span>
+              <label class="sr-only" for="p1-health">Player one health</label>
+              <progress id="p1-health" max="1000" value="1000">1000</progress>
+            </div>
+            <div class="round-clock"><span class="sr-only">Seconds remaining: </span><span id="timer">99</span><span class="clock-label" aria-hidden="true">Time</span></div>
+            <div class="fighter-hud player-two">
+              <span class="player-label">Player 2</span>
+              <span class="fighter-name" id="p2-name">Cyclops</span>
+              <label class="sr-only" for="p2-health">Player two health</label>
+              <progress id="p2-health" max="1000" value="1000">1000</progress>
+            </div>
+          </div>
+
+          <section id="menu" class="screen-overlay" aria-labelledby="menu-title">
+            <div class="menu-panel">
+              <p class="eyebrow menu-eyebrow">A new challenger</p>
+              <h2 id="menu-title">Choose your fighter</h2>
+              <div class="fighter-select" role="group" aria-label="Player one fighter">
+                <button type="button" data-fighter="ryu" aria-pressed="true" class="fighter-option ryu-option"><span class="fighter-number" aria-hidden="true">01</span><span class="option-name">Ryu</span><span class="option-universe">Capcom</span></button>
+                <button type="button" data-fighter="cyclops" aria-pressed="false" class="fighter-option cyclops-option"><span class="fighter-number" aria-hidden="true">02</span><span class="option-name">Cyclops</span><span class="option-universe">Marvel</span></button>
+              </div>
+              <div class="match-options">
+                <div class="mode-field"><label for="mode">Opponent</label><select id="mode"><option value="cpu">Computer</option><option value="local">Player two · local</option></select></div>
+                <button type="button" id="start" class="primary-button">Start match <span aria-hidden="true">→</span></button>
+              </div>
+            </div>
+          </section>
+
+          <section id="results" class="screen-overlay" hidden aria-labelledby="result-title" aria-describedby="result-detail">
+            <div class="menu-panel result-panel">
+              <p class="eyebrow">That's a wrap</p>
+              <h2 id="result-title">Match over</h2>
+              <p id="result-detail"></p>
+              <div class="result-actions"><button type="button" id="rematch" class="primary-button">Rematch <span aria-hidden="true">↗</span></button><button type="button" id="change-fighter" class="secondary-button">Change fighter</button></div>
+            </div>
+          </section>
+        </div>
+
+        <div class="cabinet-status"><p id="status" role="status" aria-live="polite">Choose your fighter</p><span id="controller-state">Keyboard ready</span></div>
+
+        <div class="touch-deck" aria-label="Player one touch controls">
+          <div class="control-cluster"><span class="deck-label">Move</span><div class="direction-buttons" role="group" aria-label="Movement">
+            <button type="button" data-action="jump" class="jump-button" aria-label="Jump"><span aria-hidden="true">↑</span><span class="button-caption">Jump</span></button>
+            <button type="button" data-action="left" class="left-button" aria-label="Move left"><span aria-hidden="true">←</span></button>
+            <button type="button" data-action="down" class="down-button" aria-label="Crouch"><span aria-hidden="true">↓</span></button>
+            <button type="button" data-action="right" class="right-button" aria-label="Move right"><span aria-hidden="true">→</span></button>
+          </div></div>
+          <p class="deck-tip" id="controls-hint">Hold back to block.<br>Find your opening.</p>
+          <div class="control-cluster attack-cluster"><span class="deck-label">Attack</span><div class="attack-buttons" role="group" aria-label="Attacks">
+            <button type="button" data-action="light" class="light-button"><span class="attack-letter" aria-hidden="true">L</span><span class="button-caption">Light</span></button>
+            <button type="button" data-action="heavy" class="heavy-button"><span class="attack-letter" aria-hidden="true">H</span><span class="button-caption">Heavy</span></button>
+            <button type="button" data-action="special" class="special-button"><span class="attack-letter" aria-hidden="true">S</span><span class="button-caption">Special</span></button>
+          </div></div>
+        </div>
+      </section>
+
+      <details class="controls" id="controls">
+        <summary>How to play <span aria-hidden="true">+</span></summary>
+        <div class="controls-grid">
+          <section aria-labelledby="keyboard-one"><h2 id="keyboard-one">Player one</h2><p><kbd>←</kbd> <kbd>→</kbd> move · <kbd>↑</kbd> jump · <kbd>↓</kbd> crouch</p><p><kbd>Z</kbd> light · <kbd>X</kbd> heavy · <kbd>C</kbd> special</p></section>
+          <section aria-labelledby="keyboard-two"><h2 id="keyboard-two">Player two · local</h2><p><kbd>A</kbd> <kbd>D</kbd> move · <kbd>W</kbd> jump · <kbd>S</kbd> crouch</p><p><kbd>F</kbd> light · <kbd>G</kbd> heavy · <kbd>H</kbd> special</p></section>
+          <section aria-labelledby="controller-help"><h2 id="controller-help">Gamepad</h2><p>Left stick or D-pad moves. A light · X heavy · B special · Y jump. Start pauses.</p></section>
+          <section aria-labelledby="match-help"><h2 id="match-help">Keep your guard up</h2><p>Hold away from your opponent to block. <kbd>Enter</kbd> starts or pauses. <kbd>Esc</kbd> pauses.</p></section>
+        </div>
+      </details>
+    </main>
+
+    <footer><p>Unofficial native preview · Two fighters, one arena. Recovered character sprites with reconstructed combat; timing and balance differ from the original. Full roster, tags and assists are not included.</p><a href="/">Back to Daily Arcade <span aria-hidden="true">↗</span></a></footer>
+  </div>
+</body>
+</html>

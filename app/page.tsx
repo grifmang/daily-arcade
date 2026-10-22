@@ -36,6 +36,13 @@ export default function HomePage() {
 
         <section aria-labelledby="free-play-heading" className="space-y-3">
           <h2 id="free-play-heading" className="text-xs uppercase tracking-[0.2em] font-mono text-[var(--color-fg-muted)]">Free play</h2>
+          <a href="/marvel-vs-capcom-2" className="group flex items-center justify-between gap-4 rounded-[var(--radius-lg)] border border-[var(--color-line)] bg-[var(--color-bg-elevated)] p-5 sm:p-6 hover:border-[var(--color-line-strong)] hover:bg-[var(--color-bg-overlay)] transition-colors">
+            <span className="space-y-1">
+              <span className="block font-display font-semibold text-lg sm:text-xl">Marvel vs. Capcom 2 · Native preview</span>
+              <span className="block text-sm text-[var(--color-fg-muted)]">Ryu versus Cyclops. A two-fighter reconstruction with original sprites, keyboard, touch, and controllers. Free play, outside your daily streak.</span>
+            </span>
+            <span aria-hidden="true" className="text-[var(--color-accent)]">→</span>
+          </a>
           <a href="/punch-out" className="group flex items-center justify-between gap-4 rounded-[var(--radius-lg)] border border-[var(--color-line)] bg-[var(--color-bg-elevated)] p-5 sm:p-6 hover:border-[var(--color-line-strong)] hover:bg-[var(--color-bg-overlay)] transition-colors">
             <span className="space-y-1">
               <span className="block font-display font-semibold text-lg sm:text-xl">Punch-Out!! · ASCII</span>
