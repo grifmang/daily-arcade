@@ -30,7 +30,7 @@ export function createNormalUpdate(fighter, action, {air=false,crouch=false}={})
 }
 function finish(state,io,mode) {state.done=true;io.finish(mode);}
 function repeatHK(io) {
-  if(io.heldMask&0x20) {io.consumeHK?.();return true;}
+  if(io.edgeMask&0x20) {io.consumeHK?.();return true;}
   return Boolean((io.consumeHK??io.repeatHK)?.());
 }
 function spawnCyclopsPunch(state,io) {
@@ -96,7 +96,7 @@ export function updateNormal(state,io) {
     if(a.button?.endsWith('p') && a.strength===2 && io.get(1)!==0) {
       io.consume(1);spawnCyclopsPunch(state,io); // 00211640 / 002116C0
     } else if(!state.crouch && a.button?.endsWith('k') && a.strength===2 && io.get(1)!==0 && repeatHK(io)) {
-      // 00211740: (held362 | edges366)&20; clear366, restore attack and select followup.
+      // 00211740: (fresh362 | hitstop-latched366)&20; clear366 on acceptance.
       effect(io,'001855D0');io.setAttack(27);io.select(8,4);effect(io,'001E3710',22);
     }
   }

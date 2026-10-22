@@ -3,7 +3,7 @@
 // movement, collision data and character callbacks come from SLUS_204.86.
 import {Animation} from './animation.mjs';
 import {chooseNormal} from './actions.mjs';
-import {Motions,OriginalRandom,inputMask,BUTTON_BITS} from './motions.mjs';
+import {Motions,OriginalRandom,inputMask,BUTTON_BITS,stepSuperJump,canSuperJump} from './motions.mjs';
 import {contact,descriptor,rectangle,originalDamage} from './collision.mjs';
 import {integrate,jumpMotion,walkVelocity,airMotion,superJumpSteer,superJumpFall,hitTier,pushProfile,applyPush,guardAllows,blockTicks,launchVector} from './physics.mjs';
 import {createSpecial,updateSpecial} from './specials.mjs';
@@ -30,14 +30,14 @@ export class Match {
       health:144,meter:0,bars:1,defeatedTeamCount:2,state:'idle',age:0,attack:null,controller:null,
       animation:new Animation(this.resources.actions[name]),motions:new Motions(name,this.resources.system,this.random),
       hitstop:0,stun:0,block:false,crouch:false,walk:false,airborne:false,superJump:false,
-      inputSet:empty(),previousMask:0,pendingButtons:empty(),punchEdges:0,attackEdges:0,
+      inputSet:empty(),previousMask:0,pendingButtons:empty(),punchEdges:0,attackEdges:0,latchedEdges:0,
       combo:0,comboDamage:0,flash:0,superFlash:0,hitFlags:0,pushQueue:[],pushFace:1,actionName:'',
     }));
     this.shots=new Projectiles(this.resources);this.projectiles=this.shots.actors;
     this.events.push({type:'round',round:this.round});
   }
   select(p,group,variant=0){p.animation.select(group,variant);p.age=0;}
-  clearInput(){for(const p of this.players){p.previousMask=p.punchEdges=p.attackEdges=p.bufferedPunch=p.bufferedAttack=0;p.pendingButtons.clear();for(const command of p.motions.commands)command.state=0;}}
+  clearInput(){for(const p of this.players){p.previousMask=p.punchEdges=p.attackEdges=p.bufferedPunch=p.bufferedAttack=p.latchedEdges=0;p.superJumpCommand=null;p.pendingButtons.clear();for(const command of p.motions.commands)command.state=0;}}
   finish(p,mode=p.y>0?'air':'ground'){
     if(p.controller?.control)p.controller.control.active=0;
     if(p.reaction){p.combo=0;p.comboDamage=0;}
@@ -59,6 +59,7 @@ export class Match {
     const action=chooseNormal(p,button,this.resources);
     if(!action)return false;
     p.attack={...action,contacted:false,hitSet:new Set()};p.controller=null;p.state='normal';
+    p.latchedEdges=0; // 00186440 clears native364/366 on every normal entry.
     p.normalUpdate=createNormalUpdate(p.name,action,{air:p.y>0,crouch:p.crouch});
     p.actionName=action.name;this.select(p,action.group,action.variant);
     if(p.y<=0)startGroundNormal(p,this.resources.system);
@@ -67,7 +68,7 @@ export class Match {
     return true;
   }
   allowMotion(p,selection){
-    if(p.state==='hurt'||p.state==='knockdown'||p.state==='block'||p.health<=0)return false;
+    if(p.state==='hurt'||p.state==='knockdown'||(p.state==='block'&&p.stun>0)||p.health<=0)return false;
     const air=p.y>0, flags=selection.flags;
     if((flags&0x1000)&&air)return false;
     if((flags&0x2000)&&!air)return false;
@@ -83,27 +84,27 @@ export class Match {
     }
     return true;
   }
-  startMotion(p,selection){
+  startMotion(p,selection,{defer=false}={}){
     const hyper=Boolean(selection.profile.bars);
     if(p.controller?.control)p.controller.control.active=0;
     if(p.y>0&&!p.superJump&&['airTatsu','airHadouken'].includes(selection.key))p.airActionUsed=true;
     p.controller=hyper?createHyper(p.name,selection.key,selection.strength,{air:p.y>0}):createSpecial(p.name,selection.key,selection.strength,{air:p.y>0});
     p.attack={kind:hyper?'hyper':'special',key:selection.key,contacted:false,hitSet:new Set()};
     p.state=hyper?'hyper':'special';p.actionName=selection.key.replace(/([A-Z])/g,' $1');
-    this.updateController(p);
+    if(!defer)this.updateController(p);
     this.events.push({type:'special',name:p.name});
   }
   controllerIO(p){
     const other=this.players[1-p.index];
     return {
-      motion:p,target:other,inputSet:p.inputSet,heldMask:p.previousMask,inputFacing:p.face<0?0:1,
+      motion:p,target:other,inputSet:p.inputSet,edgeMask:p.attackEdges|p.latchedEdges,inputFacing:p.face<0?0:1,
       select:(g,v)=>this.select(p,g,v),advance:()=>p.animation.step(),get:i=>p.animation.bytes[i]||0,
       consume:i=>p.animation.consume(i),finish:mode=>this.finish(p,mode),
       setAttack:id=>this.setAttack(p,id),spawn:spec=>this.shots.spawn(p.index,spec,this.players),
       hitFlags:()=>p.hitFlags,airborne:value=>{p.airborne=value;},
       consumePunch:()=>{const result=Boolean(p.punchEdges);p.punchEdges=0;return result;},clearPunch:()=>{p.punchEdges=0;},
       consumeAttack:()=>{const result=Boolean(p.attackEdges);p.attackEdges=0;return result;},
-      repeatHK:()=>{const result=Boolean((p.previousMask|p.attackEdges)&0x20);if(result)p.attackEdges=0;return result;},
+      consumeHK:()=>{const result=Boolean((p.attackEdges|p.latchedEdges)&0x20);if(result)p.latchedEdges=0;return result;},
       attackFlags:value=>{if(p.attack)p.attack.flags=value;},
       airMotion:()=>{superJumpSteer(p,this.resources.system);airMotion(p,this.resources.system);},superJumpFall:()=>superJumpFall(p,this.resources.system),
       landCheck:(_address,state)=>p.y<=p.ground+(state===20&&!p.hitFlags?-42.85713958740234:0),
@@ -135,8 +136,13 @@ export class Match {
     for(const [button,bit] of Object.entries(BUTTON_BITS))if(edges&bit)p.pendingButtons.add(button);
     p.punchEdges=(p.bufferedPunch||0)|(edges&0x300);p.attackEdges=(p.bufferedAttack||0)|(edges&0x360);
     const previous=p.previousMask;p.previousMask=mask;
-    if(p.hitstop>0){p.hitstop--;p.bufferedPunch=p.punchEdges;p.bufferedAttack=p.attackEdges;return;}
+    // 00179590 calls the character command chain before its hitstop early return.
+    const motion=p.motions.check(mask,previous,selection=>this.allowMotion(p,selection));
+    if(motion){p.pendingButtons.clear();this.startMotion(p,motion,{defer:p.hitstop>0});}
+    else stepSuperJump(p,edges); // character slot1 reaches188330 after motion predicates.
+    if(p.hitstop>0){p.hitstop--;p.latchedEdges|=edges;p.bufferedPunch=p.punchEdges;p.bufferedAttack=p.attackEdges;return;}
     p.bufferedPunch=p.bufferedAttack=0;
+    if(motion)return;
     if(p.y<=0&&!p.airborne)p.crouch=keys.has('down');
     if(p.state==='hurt'||p.state==='knockdown'){
       if(p.reaction){updateReaction(p.reaction,this.controllerIO(p));p.pendingButtons.clear();return;}
@@ -152,9 +158,15 @@ export class Match {
       if(p.stun>0){p.stun--;p.pendingButtons.clear();return;}
       this.finish(p);
     }
-    const motion=p.motions.check(mask,previous,selection=>this.allowMotion(p,selection));
-    if(motion){p.pendingButtons.clear();this.startMotion(p,motion);return;}
+    if(canSuperJump(p,other,this.resources)){
+      if(p.controller?.control)p.controller.control.active=0;
+      p.attack=p.controller=p.normalUpdate=null;p.hitFlags=0;p.pendingButtons.clear();p.superJumpCommand.ready=0;
+      const horizontal=Number(keys.has('right'))-Number(keys.has('left'));
+      const variant=jumpMotion(p,horizontal,this.resources.system,true);
+      p.state='jump';p.actionName='super jump';this.select(p,1,6+variant);return;
+    }
     if(p.controller){this.updateController(p);p.pendingButtons.clear();return;}
+    if(p.attack?.kind==='normal')for(const [button,bit]of Object.entries(BUTTON_BITS))if(p.latchedEdges&bit)p.pendingButtons.add(button);
     for(const button of ['hk','hp','lk','lp'])if(p.pendingButtons.has(button) && this.startNormal(p,button)){p.pendingButtons.clear();return;}
     p.pendingButtons.clear();
     if(p.attack){
@@ -171,7 +183,6 @@ export class Match {
       return;
     }
     if(edges&0x2000){
-      // Ordinary super-jump trigger is still unrecovered. Do not invent a timing window.
       const variant=jumpMotion(p,horizontal,this.resources.system,false);
       p.state='jump';this.select(p,1,variant);return;
     }
@@ -250,7 +261,7 @@ export class Match {
     this.resolveBodyPush();
     const contacts=[];
     this.players.forEach((p,i)=>{
-      if(!p.attack || p.hitstop>0 || p.attack.hitSet.has(1-i))return;
+      if(!p.attack || p.attack.attackId==null || p.hitstop>0 || p.attack.hitSet.has(1-i))return;
       if(contact(p,this.players[1-i],this.resources)){
         p.attack.hitSet.add(1-i);contacts.push([p,this.players[1-i],this.resources.actions[p.name].hitData[p.attack.attackId&127]]);
       }

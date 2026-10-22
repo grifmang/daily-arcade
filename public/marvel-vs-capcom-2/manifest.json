@@ -1,6 +1,6 @@
 {
   "scope": "Two-character native port in progress. Original PS2 action, collision, move and physics data; translated selected character routines. Cabinet CPU/arena/audio authored; full engine parity unverified.",
-  "total_bytes": 8820748,
+  "total_bytes": 8823024,
   "files": [
     {
       "path": "actions.mjs",
@@ -124,8 +124,8 @@
     },
     {
       "path": "index.html",
-      "size": 9766,
-      "sha256": "aadf5f4f49a4f9bde685953fcbdefff971b63760df9d427de4e678b8073e5f2d"
+      "size": 9868,
+      "sha256": "fd4c725a29a423207604799bc1f533d2b6e98712f55370b5fc1d8e994f61498c"
     },
     {
       "path": "input.mjs",
@@ -134,18 +134,18 @@
     },
     {
       "path": "match.mjs",
-      "size": 16963,
-      "sha256": "1b33f45590a00d23f39f6b17c0c40eda6b005fa46402c98f3c51185fb73376ae"
+      "size": 17941,
+      "sha256": "5303c4f8976a8f899a012e9412a190f21f9d33d74c3a09920674188a35fb2aa5"
     },
     {
       "path": "motions.mjs",
-      "size": 3427,
-      "sha256": "f942e21c6acc158820824c664726d0e51fdf5a1894a1672f4c344f0cba706a8a"
+      "size": 4634,
+      "sha256": "fbcd125bd342da8d0ebfe32bb8de3ebf7017d29e8d7df7a2f4452ca288ec8ff9"
     },
     {
       "path": "normal-updates.mjs",
-      "size": 5590,
-      "sha256": "1d98e5b0d598808f34f3c5376ca68e97d35e4a1b846cbd803e8c4af83b82f530"
+      "size": 5579,
+      "sha256": "50c35640e6c7ff90b4c72fe387631711b4bb65edaae2cdd840be768da0a86511"
     },
     {
       "path": "physics.mjs",

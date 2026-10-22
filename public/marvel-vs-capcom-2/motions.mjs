@@ -12,6 +12,28 @@ export function inputMask(keys,face) {
   for(const [button,bit] of Object.entries(BUTTON_BITS))if(keys.has(button))mask|=bit;
   return mask;
 }
+// 00188330: ordinary down-edge/up-edge command at actor370.
+export function stepSuperJump(p,edges){
+  const command=p.superJumpCommand??(p.superJumpCommand={state:0,timer:0,ready:0});
+  if(!p.hitstop)command.ready=0;
+  if(p.state==='hurt'||p.state==='knockdown'){command.state=command.ready=0;return;}
+  if(command.state===0){if(edges&0x1000){command.state=1;command.timer=15;}return;}
+  if(--command.timer<0){command.state=0;return;}
+  if(edges&0x2000){command.state=0;command.ready=2;}
+}
+// 001884C0: direct command or a confirmed launcher, then shared eligibility.
+export function canSuperJump(p,opponent,resources){
+  // Native special/hyper state17BD80 tailcalls vtable+20 without1884C0.
+  if(p.controller)return false;
+  if(p.airborne||p.y>p.ground||opponent.noGroundRecovery)return false;
+  const flags=p.animation.cancelFlags&0xe0,hit=p.hitFlags;
+  if(p.superJumpCommand?.ready!==2){
+    if(!(flags&0x80)||!hit||(hit&1)||!(p.previousMask&0x2000)||!p.attack)return false;
+    const row=resources.actions[p.name].hitData[p.attack.attackId&127];
+    if(!(row[18]&0x40)&&(row[9]<11||((row[8]+3)&31)>5||!opponent.airborne))return false;
+  }
+  return flags===0||(flags===0x80&&Boolean(hit)&&!(hit&1));
+}
 export class OriginalRandom {
   constructor(seed=0x51a7){this.low=seed&255;this.high=(seed>>>8)&255;}
   next(){const step=Math.floor((this.low+(this.high<<8))*3/256);this.low=(this.low+step)&255;this.high=step&255;return this.low;}
