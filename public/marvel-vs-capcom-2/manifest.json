@@ -1,6 +1,6 @@
 {
   "scope": "Native two-character preview; recovered Ryu/Cyclops sprites, authored combat/timing/AI/arena/audio.",
-  "total_bytes": 2699821,
+  "total_bytes": 2699993,
   "files": [
     {
       "path": "app.mjs",
@@ -59,8 +59,8 @@
     },
     {
       "path": "style.css",
-      "size": 18037,
-      "sha256": "dc36ee8d503a9063c608000edd8dc7e60a7a47cf8625b5bfb15352ceddde1d9c"
+      "size": 18209,
+      "sha256": "d86dcd79dd70cee3b83abc74ffe7553199b0cbad45336468768dfa6d556020eb"
     }
   ]
 }
