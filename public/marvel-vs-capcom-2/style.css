@@ -96,6 +96,8 @@ h1 { display: flex; flex-wrap: wrap; align-items: baseline; gap: .18em; margin-t
 #game:focus-visible { outline-offset: calc(-1 * var(--outline)); }
 .hud { position: absolute; inset: var(--space-3) var(--space-3) auto; display: grid; grid-template-columns: minmax(0,1fr) var(--space-10) minmax(0,1fr); gap: var(--space-3); align-items: start; pointer-events: none; text-shadow: 0 var(--line-thin) var(--outline) var(--ink-950); }
 .fighter-hud { display: grid; min-width: 0; gap: var(--space-1); }
+.action-readout { display: flex; justify-content: space-between; gap: var(--space-2); min-height: 1.2em; color: var(--paper-100); font: var(--size-xs)/1.2 var(--font-mono); text-transform: uppercase; }
+.action-readout span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .player-two { text-align: right; }
 .player-label { color: var(--paper-300); font: var(--size-xs)/1.2 var(--font-mono); text-transform: uppercase; }
 .fighter-name { font: 400 var(--size-lg)/1 var(--font-display); letter-spacing: .025em; text-transform: uppercase; }
@@ -149,10 +151,10 @@ select { width: 100%; min-height: var(--target); padding: var(--space-2); color:
 .right-button { grid-column: 3; grid-row: 2; }
 .button-caption { display: block; margin-top: var(--space-1); font: 600 var(--size-xs)/1 var(--font-body); }
 .deck-tip { display: none; color: var(--color-muted); text-align: center; font-size: var(--size-sm); }
-.attack-buttons { display: flex; align-items: end; gap: var(--space-1); min-height: calc(var(--target) * 2 + var(--space-1)); padding-bottom: var(--space-3); }
+.attack-buttons { display: grid; grid-template-columns: repeat(2, var(--target)); gap: var(--space-1); min-height: calc(var(--target) * 2 + var(--space-1)); }
 .attack-buttons button { width: var(--target); height: var(--target); padding: 0; border-radius: var(--radius-round); touch-action: none; user-select: none; -webkit-user-select: none; color: var(--ink-950); }
 .attack-buttons .light-button { background: var(--amber-400); border-color: var(--amber-300); }
-.attack-buttons .heavy-button { background: var(--red-400); border-color: var(--red-400); margin-bottom: var(--space-3); }
+.attack-buttons .heavy-button { background: var(--red-400); border-color: var(--red-400); }
 .attack-buttons .special-button { background: var(--blue-300); border-color: var(--blue-300); margin-bottom: var(--space-6); }
 .attack-buttons button:hover { background: var(--paper-100); }
 .attack-letter { display: none; font: 400 var(--size-lg)/1 var(--font-display); }
@@ -218,6 +220,7 @@ footer a { display: inline-flex; align-items: center; gap: var(--space-2); min-h
   .touch-deck { padding-inline: var(--space-8); }
   .direction-buttons { --target: 3rem; }
   .attack-buttons { gap: var(--space-3); }
+  .attack-buttons { grid-template-columns: repeat(2, var(--space-16)); }
   .attack-buttons button { width: var(--space-16); height: var(--space-16); }
   .attack-letter { display: block; font-size: var(--size-heading); }
   .attack-buttons .button-caption { margin-top: var(--space-1); }

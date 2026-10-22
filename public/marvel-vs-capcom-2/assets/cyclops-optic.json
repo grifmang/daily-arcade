@@ -1,0 +1,6606 @@
+{
+  "schema": "mvc2-optic-palette-variants-v1",
+  "source_sha256": "5a887fadec1da0a14f149534a3320a6ce01ce9f8d858ce5cbb7234ffefc6ebb7",
+  "executable_sha256": "48ebf907d8149122ca9bd622ed11c290d5f93173078ea5bd570e1ac5566f13d7",
+  "paletteCallback": "00353690",
+  "tableAddress": "00462AE0",
+  "cycle": [
+    {
+      "ticks": 2,
+      "index": 16,
+      "row": 72
+    },
+    {
+      "ticks": 2,
+      "index": 17,
+      "row": 73
+    },
+    {
+      "ticks": 1,
+      "index": 18,
+      "row": 74
+    },
+    {
+      "ticks": 1,
+      "index": 19,
+      "row": 75
+    },
+    {
+      "ticks": 1,
+      "index": 20,
+      "row": 76
+    }
+  ],
+  "initial": {
+    "wait": 1,
+    "index": 1
+  },
+  "variants": {
+    "16": {
+      "paletteRow": 72,
+      "palette_sha256": "9011deb69168856e6be6f6d435c8a9227288ea7f905a84905f44d6d8e653fdbf",
+      "atlases": [
+        {
+          "file": "cyclops-optic-16-0.png",
+          "width": 2018,
+          "height": 125,
+          "sha256": "f9e613595bcd3509d3309174a6f4934bc406fa8407ca70692ddaea41180af39f"
+        }
+      ],
+      "frames": {
+        "40": {
+          "id": 40,
+          "atlas": 0,
+          "x": 1110,
+          "y": 78,
+          "w": 62,
+          "h": 26,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "1b617add9a1836f1e5cc4dfc89e721611a7efeca852a564e8ef5b9672d1ae998"
+        },
+        "41": {
+          "id": 41,
+          "atlas": 0,
+          "x": 1174,
+          "y": 78,
+          "w": 62,
+          "h": 26,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "153668c97220e49f5abbc5db3cdf9c47bcedd35a5899b194bb72e30a3ad960d2"
+        },
+        "42": {
+          "id": 42,
+          "atlas": 0,
+          "x": 1238,
+          "y": 78,
+          "w": 56,
+          "h": 26,
+          "dx": -28,
+          "dy": -13,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "682a80c34f02211a72d3bc1d03137baa697f7f6957f3df9b96e48c2ca2e918c8"
+        },
+        "43": {
+          "id": 43,
+          "atlas": 0,
+          "x": 1331,
+          "y": 78,
+          "w": 30,
+          "h": 26,
+          "dx": -15,
+          "dy": -13,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b6298b6aa50d11ce7730b6320feba64e69daea6bdd8f4a95d3c83bb80097fd28"
+        },
+        "44": {
+          "id": 44,
+          "atlas": 0,
+          "x": 1363,
+          "y": 78,
+          "w": 14,
+          "h": 26,
+          "dx": -7,
+          "dy": -13,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "1c39998f986905c68a92cd037cc9bcbc90bd871b0f8fd0fe3fba34e1ad8d0871"
+        },
+        "45": {
+          "id": 45,
+          "atlas": 0,
+          "x": 1352,
+          "y": 2,
+          "w": 2,
+          "h": 50,
+          "dx": -1,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "43862203011816d4c0c271d2d06249cfeef79cd458ab1f45df9aea4ee2278a3c"
+        },
+        "46": {
+          "id": 46,
+          "atlas": 0,
+          "x": 159,
+          "y": 78,
+          "w": 68,
+          "h": 42,
+          "dx": -34,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e0217ea3c200e32e73c848e9d20877e35a771e5d3f1a2642ff66c7641b1f9c07"
+        },
+        "47": {
+          "id": 47,
+          "atlas": 0,
+          "x": 229,
+          "y": 78,
+          "w": 68,
+          "h": 42,
+          "dx": -34,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "5bfe9c46d5edc58d4e76ce6775dae0e99f243ca80eb1360dbfc410bfbe41ff3f"
+        },
+        "48": {
+          "id": 48,
+          "atlas": 0,
+          "x": 299,
+          "y": 78,
+          "w": 63,
+          "h": 39,
+          "dx": -32,
+          "dy": -20,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a972dc690cd0e2e9bf2252eeb90b933b6c1ac6f8c0eb8c55a069d579167c6a1b"
+        },
+        "49": {
+          "id": 49,
+          "atlas": 0,
+          "x": 580,
+          "y": 78,
+          "w": 37,
+          "h": 32,
+          "dx": -18,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "97f62c388caafd00252393126edc0d560b63f8cbeff04aaa26f65a99feba20fd"
+        },
+        "50": {
+          "id": 50,
+          "atlas": 0,
+          "x": 1573,
+          "y": 78,
+          "w": 22,
+          "h": 25,
+          "dx": -11,
+          "dy": -12,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "67287f806f3553ca28b41347721017a233d20c7aeedd4bd2c4224b0277e9dce6"
+        },
+        "51": {
+          "id": 51,
+          "atlas": 0,
+          "x": 1805,
+          "y": 2,
+          "w": 24,
+          "h": 48,
+          "dx": -8,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4b0a800f7eba02447e7df05d16b366540d793a9ff4201abd1b51ae0eac80fac2"
+        },
+        "52": {
+          "id": 52,
+          "atlas": 0,
+          "x": 665,
+          "y": 2,
+          "w": 66,
+          "h": 52,
+          "dx": -34,
+          "dy": -26,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f31ce8616e56f03e14a82785c1a37305e07209c2757da8b2cd899c1f138a2248"
+        },
+        "53": {
+          "id": 53,
+          "atlas": 0,
+          "x": 733,
+          "y": 2,
+          "w": 66,
+          "h": 52,
+          "dx": -34,
+          "dy": -26,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "023a07572fe3be24da1143a941afd197dc94dc4e6a3873743fda8e4139526f41"
+        },
+        "54": {
+          "id": 54,
+          "atlas": 0,
+          "x": 1420,
+          "y": 2,
+          "w": 61,
+          "h": 49,
+          "dx": -31,
+          "dy": -23,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "fe23de96f89225a0249dfabaf57a73c6e4fc0c8368fe931feb3b726aee6fd2b0"
+        },
+        "55": {
+          "id": 55,
+          "atlas": 0,
+          "x": 535,
+          "y": 78,
+          "w": 43,
+          "h": 34,
+          "dx": -21,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "31eac235d64268e59b0431dd0f793730358f4d033cb8db9fd291980e37af3482"
+        },
+        "56": {
+          "id": 56,
+          "atlas": 0,
+          "x": 1296,
+          "y": 78,
+          "w": 33,
+          "h": 26,
+          "dx": -17,
+          "dy": -12,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "5261e1ee4b3df5e1e07fbb4968321c989d095ca5fd7da0a0f59ce0affb7b16bc"
+        },
+        "57": {
+          "id": 57,
+          "atlas": 0,
+          "x": 101,
+          "y": 78,
+          "w": 56,
+          "h": 43,
+          "dx": -24,
+          "dy": -23,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a66b878c7da0c2ba56626c94b33c2854d91453843e8c85a0c47b6e0e45fc1f3f"
+        },
+        "58": {
+          "id": 58,
+          "atlas": 0,
+          "x": 422,
+          "y": 2,
+          "w": 53,
+          "h": 55,
+          "dx": -25,
+          "dy": -27,
+          "empty": false,
+          "part_count": 5,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f5ed735657b22de4ac26d4103211fb1341de673a012126660ee43ab6604bde23"
+        },
+        "59": {
+          "id": 59,
+          "atlas": 0,
+          "x": 477,
+          "y": 2,
+          "w": 53,
+          "h": 55,
+          "dx": -25,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "2ac70039bf0a5aee7f394ae97e38cb1b277a6cc7aef694f3cbbf03bfeda5fa10"
+        },
+        "60": {
+          "id": 60,
+          "atlas": 0,
+          "x": 874,
+          "y": 2,
+          "w": 51,
+          "h": 51,
+          "dx": -25,
+          "dy": -25,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3909639cafa475876286f8a833a2e09e01e3ac083c9b993a4dba0351dca7e15e"
+        },
+        "61": {
+          "id": 61,
+          "atlas": 0,
+          "x": 619,
+          "y": 78,
+          "w": 39,
+          "h": 30,
+          "dx": -20,
+          "dy": -14,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "8270e027d01fa20a6dd08e7c5b3cbce0ae3e9461848548978546bad2f6968f5d"
+        },
+        "62": {
+          "id": 62,
+          "atlas": 0,
+          "x": 1661,
+          "y": 78,
+          "w": 38,
+          "h": 20,
+          "dx": -19,
+          "dy": -9,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "8c57fdf970fef3fe6a18041a45a755c9075deecab876b79426150029cbc225f6"
+        },
+        "63": {
+          "id": 63,
+          "atlas": 0,
+          "x": 1379,
+          "y": 78,
+          "w": 70,
+          "h": 25,
+          "dx": -30,
+          "dy": -14,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "19b0f4495ca25f58ff85ce76773bd4e5b92125b86a23eafded698f930eab001a"
+        },
+        "72": {
+          "id": 72,
+          "atlas": 0,
+          "x": 731,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "14d579fcc546a4d24f465d2628c4cd549dd19aff50887eb4f5162f67f13d781b"
+        },
+        "73": {
+          "id": 73,
+          "atlas": 0,
+          "x": 826,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "62ab0a5403f8896ad5cef9140cf8cf19656104e01e22205839f2d3091db3ef61"
+        },
+        "74": {
+          "id": 74,
+          "atlas": 0,
+          "x": 1016,
+          "y": 78,
+          "w": 92,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3e0a73cda9560f876bcff172f936de9fb77aac5415b9f661b2f446f26d2cef4b"
+        },
+        "75": {
+          "id": 75,
+          "atlas": 0,
+          "x": 921,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f060576b9ad20a80ad8d0610f37592cf2c6ccfbc9c4c34588cc4f8b3e58ef12b"
+        },
+        "80": {
+          "id": 80,
+          "atlas": 0,
+          "x": 2,
+          "y": 2,
+          "w": 36,
+          "h": 74,
+          "dx": -18,
+          "dy": -45,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3fb57c61acd19a8d681b95c81588de849d59a93524cb3bb848d0d418a7178c0a"
+        },
+        "81": {
+          "id": 81,
+          "atlas": 0,
+          "x": 78,
+          "y": 2,
+          "w": 36,
+          "h": 73,
+          "dx": -18,
+          "dy": -44,
+          "empty": false,
+          "part_count": 12,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "6d15590af9e70ec7ee4db97aa17db95fb547a2200865b7a1806112db8845a29b"
+        },
+        "82": {
+          "id": 82,
+          "atlas": 0,
+          "x": 116,
+          "y": 2,
+          "w": 36,
+          "h": 73,
+          "dx": -18,
+          "dy": -44,
+          "empty": false,
+          "part_count": 10,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "0ce3093587a262b2402bfcaaec0b02bd84550cde4262f5974f97357f24b630db"
+        },
+        "83": {
+          "id": 83,
+          "atlas": 0,
+          "x": 40,
+          "y": 2,
+          "w": 36,
+          "h": 74,
+          "dx": -18,
+          "dy": -45,
+          "empty": false,
+          "part_count": 10,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "60e40f22c3c0f23475ec7efe9b567c0edbd967fa5c0586afc214ef80a54a47f4"
+        },
+        "623": {
+          "id": 623,
+          "atlas": 0,
+          "x": 1000,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "37632fae1a895fecb81b252f620b14a01c4a1e7a699b221c9bfca9ab20162206"
+        },
+        "624": {
+          "id": 624,
+          "atlas": 0,
+          "x": 1064,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "50f6f42bae1237e202f5fb9b5e7c5ffad3f7074adb3d5d93b3e885387eee41b1"
+        },
+        "627": {
+          "id": 627,
+          "atlas": 0,
+          "x": 1689,
+          "y": 2,
+          "w": 56,
+          "h": 48,
+          "dx": -28,
+          "dy": -32,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "0e508e2e570837265053107e0a4ec942d91c8f4b3a2fcdde4cab435870b001bc"
+        },
+        "629": {
+          "id": 629,
+          "atlas": 0,
+          "x": 1256,
+          "y": 2,
+          "w": 30,
+          "h": 50,
+          "dx": -15,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "6532630a7ff5dd65e723264af1fe5b0ee83926780add5a7486525d10ae70a7e0"
+        },
+        "631": {
+          "id": 631,
+          "atlas": 0,
+          "x": 1320,
+          "y": 2,
+          "w": 14,
+          "h": 50,
+          "dx": -7,
+          "dy": -34,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "cd418b9fedd7b2c73f4515bd7b2e0b28ba48884036eb6715e54914d32ff05b9e"
+        },
+        "634": {
+          "id": 634,
+          "atlas": 0,
+          "x": 532,
+          "y": 2,
+          "w": 62,
+          "h": 54,
+          "dx": -35,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "10d438957ef4ddef1b0e21d1ac5bf8421a0d61a9a2f66058354de2451a80b1b2"
+        },
+        "635": {
+          "id": 635,
+          "atlas": 0,
+          "x": 357,
+          "y": 2,
+          "w": 63,
+          "h": 55,
+          "dx": -36,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ce9332f2fb798137c5349522af6a0e95f9dd39a67bea55884318f9da87757ac9"
+        },
+        "638": {
+          "id": 638,
+          "atlas": 0,
+          "x": 296,
+          "y": 2,
+          "w": 59,
+          "h": 56,
+          "dx": -33,
+          "dy": -32,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "bfd5604c829a0401c9ee46c9ff14cc15dd437d9ca055bb2e5e61459590e3e655"
+        },
+        "640": {
+          "id": 640,
+          "atlas": 0,
+          "x": 1483,
+          "y": 2,
+          "w": 40,
+          "h": 49,
+          "dx": -19,
+          "dy": -31,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9843d37f21b7b143baf78e396248d20e291bf93dbf30937ffba94d14a001a5c6"
+        },
+        "642": {
+          "id": 642,
+          "atlas": 0,
+          "x": 1525,
+          "y": 2,
+          "w": 32,
+          "h": 49,
+          "dx": -14,
+          "dy": -31,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c7cf0e332febc23f03090fdf8b0d1e9df4a5488c71283f14ae2ef9955526b98f"
+        },
+        "645": {
+          "id": 645,
+          "atlas": 0,
+          "x": 154,
+          "y": 2,
+          "w": 69,
+          "h": 56,
+          "dx": -35,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e80d791d83fde9d530386a83388051b6253704172c1c8cf07a973f43ccc915ec"
+        },
+        "646": {
+          "id": 646,
+          "atlas": 0,
+          "x": 225,
+          "y": 2,
+          "w": 69,
+          "h": 56,
+          "dx": -35,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4a762bd2516e3ca1cd9ce9f24d8a931c828af3b364648f85af457aae2b9c0afc"
+        },
+        "649": {
+          "id": 649,
+          "atlas": 0,
+          "x": 596,
+          "y": 2,
+          "w": 67,
+          "h": 52,
+          "dx": -35,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "adbcbef59c71e9e8ba860e67580d8e8719356bfdf16b7000115cdddaec1da49a"
+        },
+        "651": {
+          "id": 651,
+          "atlas": 0,
+          "x": 1356,
+          "y": 2,
+          "w": 62,
+          "h": 49,
+          "dx": -31,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "99d987529b4c977cb9036362fbd588770c36b54bf92901c51bd0ac7da8edd1a0"
+        },
+        "653": {
+          "id": 653,
+          "atlas": 0,
+          "x": 1920,
+          "y": 2,
+          "w": 59,
+          "h": 45,
+          "dx": -27,
+          "dy": -23,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9fb34e60fa069467b423fe07938cff8b681cfd83e74523acc04b1d2655bcaaa7"
+        },
+        "656": {
+          "id": 656,
+          "atlas": 0,
+          "x": 801,
+          "y": 2,
+          "w": 71,
+          "h": 51,
+          "dx": -30,
+          "dy": -22,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a545c4451de6ebab0fbad21b3cbf68c9e85febd02af92a00f2074455223dd6ed"
+        },
+        "657": {
+          "id": 657,
+          "atlas": 0,
+          "x": 927,
+          "y": 2,
+          "w": 71,
+          "h": 50,
+          "dx": -30,
+          "dy": -22,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "5b498cca86be8774274d0fab85b6b9a64fd69c061ee721a224c29152f42165ef"
+        },
+        "660": {
+          "id": 660,
+          "atlas": 0,
+          "x": 1849,
+          "y": 2,
+          "w": 69,
+          "h": 47,
+          "dx": -29,
+          "dy": -20,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4477a0cf829d1ac6fcdddbe8c72edbb9e17f9dd4ad787da3e7a4ca33917e2dd6"
+        },
+        "662": {
+          "id": 662,
+          "atlas": 0,
+          "x": 462,
+          "y": 78,
+          "w": 71,
+          "h": 37,
+          "dx": -30,
+          "dy": -17,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "66fc7dd324d35a5ebe5545f9c02abb8d10cad21ab9639abb12da96ce10e9aff1"
+        },
+        "664": {
+          "id": 664,
+          "atlas": 0,
+          "x": 660,
+          "y": 78,
+          "w": 69,
+          "h": 29,
+          "dx": -28,
+          "dy": -15,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "553394800d30f8351d68dde45688d89dade93ee7c180286723e940e89262854c"
+        },
+        "667": {
+          "id": 667,
+          "atlas": 0,
+          "x": 1559,
+          "y": 2,
+          "w": 63,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ee84726a91c6fe8a75b9ce392613e4270d135de5ac379de583da87ca2ed731d0"
+        },
+        "668": {
+          "id": 668,
+          "atlas": 0,
+          "x": 1624,
+          "y": 2,
+          "w": 63,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "184872e0e64da84cfc19f20101e263b6d05762bd17aa3690b3a799554dcc7de9"
+        },
+        "671": {
+          "id": 671,
+          "atlas": 0,
+          "x": 36,
+          "y": 78,
+          "w": 63,
+          "h": 44,
+          "dx": -16,
+          "dy": -22,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "54f4c67bf5d8676aa1ac6e6e236c50aa29170e23915790a176bf532660b6921d"
+        },
+        "673": {
+          "id": 673,
+          "atlas": 0,
+          "x": 1597,
+          "y": 78,
+          "w": 62,
+          "h": 22,
+          "dx": -16,
+          "dy": -11,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "2d622cdb7c2a1bb17909d7d36aeaaad5d415f53859f2fde3b4277062a575dc02"
+        },
+        "675": {
+          "id": 675,
+          "atlas": 0,
+          "x": 1857,
+          "y": 78,
+          "w": 63,
+          "h": 10,
+          "dx": -16,
+          "dy": -5,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "534130364ef74f76c64abcccd4015eec0850ce3c9c8047c6fe873d9131c91fad"
+        },
+        "711": {
+          "id": 711,
+          "atlas": 0,
+          "x": 1128,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4690ed9917897dc908984c90677c53c4b7315d46edf47ccfa903fab43b8836b7"
+        },
+        "712": {
+          "id": 712,
+          "atlas": 0,
+          "x": 1192,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "651acb630cb676c8f1eadb69618263e3fc509fe9a1a10a3e5facc3a80786dcae"
+        },
+        "715": {
+          "id": 715,
+          "atlas": 0,
+          "x": 1747,
+          "y": 2,
+          "w": 56,
+          "h": 48,
+          "dx": -28,
+          "dy": -15,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "8be75969db4d8346a9ecace97cdc1a143257491f5f86f78b93cfe75cf3fe4af9"
+        },
+        "717": {
+          "id": 717,
+          "atlas": 0,
+          "x": 1288,
+          "y": 2,
+          "w": 30,
+          "h": 50,
+          "dx": -15,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "cb7b4d51ad7b272449a9e661890493864aeaa583d8f59a02e3ebbf3801059653"
+        },
+        "719": {
+          "id": 719,
+          "atlas": 0,
+          "x": 1336,
+          "y": 2,
+          "w": 14,
+          "h": 50,
+          "dx": -7,
+          "dy": -15,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "bdc400dab66395815eef98524cda7ff81236a6cb87ff330514103ad43dfb0b83"
+        },
+        "722": {
+          "id": 722,
+          "atlas": 0,
+          "x": 1831,
+          "y": 2,
+          "w": 16,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "14cb392a17826ff7bebcdc57c36c2cb78e1b30026220788398a9b863de053bc5"
+        },
+        "723": {
+          "id": 723,
+          "atlas": 0,
+          "x": 1981,
+          "y": 2,
+          "w": 32,
+          "h": 45,
+          "dx": -19,
+          "dy": -22,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "076b3d9dbd99850334f3630d16dd3893ee02846f10e28ec81d378f67e3f33d11"
+        },
+        "724": {
+          "id": 724,
+          "atlas": 0,
+          "x": 364,
+          "y": 78,
+          "w": 47,
+          "h": 38,
+          "dx": -25,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c475981b70d04bdb45881e200eab34e1a41660c3b7068eeed9e3baded9a7c726"
+        },
+        "725": {
+          "id": 725,
+          "atlas": 0,
+          "x": 1451,
+          "y": 78,
+          "w": 59,
+          "h": 25,
+          "dx": -30,
+          "dy": -15,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "17b7084dd657d9f47faaa067faeb57a0f2b5cde653f72b40b61ed83187df857e"
+        },
+        "726": {
+          "id": 726,
+          "atlas": 0,
+          "x": 1701,
+          "y": 78,
+          "w": 62,
+          "h": 13,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "48548bdc7f70f0ced17899f860e8c24476f474831fd088927c115c5cd6e80706"
+        },
+        "727": {
+          "id": 727,
+          "atlas": 0,
+          "x": 2,
+          "y": 78,
+          "w": 32,
+          "h": 45,
+          "dx": -19,
+          "dy": -22,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "2fbc9e0487e38d30ea17be07525c92e8937e1c15722be3be37825ded5ec650c3"
+        },
+        "728": {
+          "id": 728,
+          "atlas": 0,
+          "x": 413,
+          "y": 78,
+          "w": 47,
+          "h": 38,
+          "dx": -25,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "7bc22f2a42a151126cfa3f20b77ca3030f82c31a5645c7a1bc747b342d74aa9c"
+        },
+        "729": {
+          "id": 729,
+          "atlas": 0,
+          "x": 1512,
+          "y": 78,
+          "w": 59,
+          "h": 25,
+          "dx": -30,
+          "dy": -9,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a14a6a6f5859c5a338d43e9786d474940120cb175c223f3d0993d406e542b1e5"
+        },
+        "730": {
+          "id": 730,
+          "atlas": 0,
+          "x": 1765,
+          "y": 78,
+          "w": 62,
+          "h": 13,
+          "dx": -31,
+          "dy": 1,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "693771d39bee3fd0098fd526d2e1980755791f6f60a0fbeb3031327aaf3c759e"
+        },
+        "731": {
+          "id": 731,
+          "atlas": 0,
+          "x": 1986,
+          "y": 78,
+          "w": 14,
+          "h": 6,
+          "dx": -6,
+          "dy": 0,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "895f24edc8054daed014bc51420cf966e4050c37a5a2a0f377cd251b8f1dff02"
+        },
+        "732": {
+          "id": 732,
+          "atlas": 0,
+          "x": 1930,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -5,
+          "dy": -3,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "0c5a0b58554cd81c45df14ebc63b780d6ae64807dd09b1341e0e5fff5ba86825"
+        },
+        "733": {
+          "id": 733,
+          "atlas": 0,
+          "x": 1944,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -6,
+          "dy": -3,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a2d10676e840cdcb30f5a1c79cf6cc162e5a26a4764f9350dee20d57d77d852b"
+        },
+        "734": {
+          "id": 734,
+          "atlas": 0,
+          "x": 1829,
+          "y": 78,
+          "w": 12,
+          "h": 11,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "998f1a6b0e7e3374df46b55d07e2188b412450b9e007865cfab43cdfcc9b197c"
+        },
+        "735": {
+          "id": 735,
+          "atlas": 0,
+          "x": 1922,
+          "y": 78,
+          "w": 6,
+          "h": 10,
+          "dx": -5,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4bc1807098de719c846c65cb38cad6c56b9c396b044d0f5a6e06ab4df83c1df6"
+        },
+        "736": {
+          "id": 736,
+          "atlas": 0,
+          "x": 1843,
+          "y": 78,
+          "w": 12,
+          "h": 11,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "79db31ccdea29a192f21336b9b790b0b8c58f4a7b123213890cd8e8dbffaff2f"
+        },
+        "737": {
+          "id": 737,
+          "atlas": 0,
+          "x": 1958,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "2763c99b80e5c1b12a70c31accac282d01e6aeb57595d1a6a8c26cb560cc0a1a"
+        },
+        "738": {
+          "id": 738,
+          "atlas": 0,
+          "x": 1972,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -5,
+          "dy": -5,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f08ffaded1ebe58840f8d8825c8a8ae1d8a0e50acebcbb8323116b29450ced53"
+        },
+        "739": {
+          "id": 739,
+          "atlas": 0,
+          "x": 2002,
+          "y": 78,
+          "w": 14,
+          "h": 6,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "1d1ed51f79de91fa4717628676c00d95076adfff58ad09333c70d1be2a56f8cf"
+        }
+      }
+    },
+    "17": {
+      "paletteRow": 73,
+      "palette_sha256": "0ed6b83fd6d154e63a6e44ba1c3a5254a731b6d319620f14ebc192fcddd0259e",
+      "atlases": [
+        {
+          "file": "cyclops-optic-17-0.png",
+          "width": 2018,
+          "height": 125,
+          "sha256": "1f55b5f7377edb5684543f46110a98cff5bdfc90ae38a971b04883c998b888a0"
+        }
+      ],
+      "frames": {
+        "40": {
+          "id": 40,
+          "atlas": 0,
+          "x": 1110,
+          "y": 78,
+          "w": 62,
+          "h": 26,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "dfcc823b37883cb78fb0d99e2683a69ac512083c769f114fae8310bb86b5811b"
+        },
+        "41": {
+          "id": 41,
+          "atlas": 0,
+          "x": 1174,
+          "y": 78,
+          "w": 62,
+          "h": 26,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "97cfbe63e7936e029bab44c7bfc9eb74a134bb45314eca6d73d917f04e38aca7"
+        },
+        "42": {
+          "id": 42,
+          "atlas": 0,
+          "x": 1238,
+          "y": 78,
+          "w": 56,
+          "h": 26,
+          "dx": -28,
+          "dy": -13,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "839273b1aaa2eb44c9e3024faa9899a5c845159261b9603d75719bf06c201f9c"
+        },
+        "43": {
+          "id": 43,
+          "atlas": 0,
+          "x": 1331,
+          "y": 78,
+          "w": 30,
+          "h": 26,
+          "dx": -15,
+          "dy": -13,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c2419d55479db45295fd7762ddf36022e8da57c5c095445a466446f31b8126a6"
+        },
+        "44": {
+          "id": 44,
+          "atlas": 0,
+          "x": 1363,
+          "y": 78,
+          "w": 14,
+          "h": 26,
+          "dx": -7,
+          "dy": -13,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "598f27c19a13ed718d37541be057ac395965988fe6d392fde4865586f46f49cc"
+        },
+        "45": {
+          "id": 45,
+          "atlas": 0,
+          "x": 1352,
+          "y": 2,
+          "w": 2,
+          "h": 50,
+          "dx": -1,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "108d6ba8f156d81cfd6c3be4a651b53450048823de5a8b3d9d56285cd02ff3a9"
+        },
+        "46": {
+          "id": 46,
+          "atlas": 0,
+          "x": 159,
+          "y": 78,
+          "w": 68,
+          "h": 42,
+          "dx": -34,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3b55b05a59c092e72560c438e4671910125b52454641584f361a959906b0936a"
+        },
+        "47": {
+          "id": 47,
+          "atlas": 0,
+          "x": 229,
+          "y": 78,
+          "w": 68,
+          "h": 42,
+          "dx": -34,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a7f7823bcadf31ab36f433f84a3fd6556bdb3c9a6dc769d686ed7b7edeac70d6"
+        },
+        "48": {
+          "id": 48,
+          "atlas": 0,
+          "x": 299,
+          "y": 78,
+          "w": 63,
+          "h": 39,
+          "dx": -32,
+          "dy": -20,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ae806278447da47fdb7d2c09d0caa6b24a3188c5614e218bf1421c5e6258ce02"
+        },
+        "49": {
+          "id": 49,
+          "atlas": 0,
+          "x": 580,
+          "y": 78,
+          "w": 37,
+          "h": 32,
+          "dx": -18,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "17dc4cc0b89441509d3bf8e40e0400c3d88a348ffebe062471b3f5f0214a2099"
+        },
+        "50": {
+          "id": 50,
+          "atlas": 0,
+          "x": 1573,
+          "y": 78,
+          "w": 22,
+          "h": 25,
+          "dx": -11,
+          "dy": -12,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "afcae26a4e51201ba7a0c4436334727d65c1007103610388deabfd60836b40db"
+        },
+        "51": {
+          "id": 51,
+          "atlas": 0,
+          "x": 1805,
+          "y": 2,
+          "w": 24,
+          "h": 48,
+          "dx": -8,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "7e782dd2f338aac84fdca58ab87638f4046bf9ba96f9e8c971184ac5d93a77be"
+        },
+        "52": {
+          "id": 52,
+          "atlas": 0,
+          "x": 665,
+          "y": 2,
+          "w": 66,
+          "h": 52,
+          "dx": -34,
+          "dy": -26,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a42f516e0705839fefe6a3603f355539e273beb19f969ac63b851b5783438f6c"
+        },
+        "53": {
+          "id": 53,
+          "atlas": 0,
+          "x": 733,
+          "y": 2,
+          "w": 66,
+          "h": 52,
+          "dx": -34,
+          "dy": -26,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "982690d700b1e8ea4ee385a999f0b50c337a76be10515e93dece4f51d6d4517e"
+        },
+        "54": {
+          "id": 54,
+          "atlas": 0,
+          "x": 1420,
+          "y": 2,
+          "w": 61,
+          "h": 49,
+          "dx": -31,
+          "dy": -23,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "994aa1b8ad16d239ddfdd68e569e0c8e6357f30e56cd9bcf53c57abe272093c5"
+        },
+        "55": {
+          "id": 55,
+          "atlas": 0,
+          "x": 535,
+          "y": 78,
+          "w": 43,
+          "h": 34,
+          "dx": -21,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "5d1dc367a09e27ffb968f01a194db85f3638e08d8a6d83fa8d4db945f13fc086"
+        },
+        "56": {
+          "id": 56,
+          "atlas": 0,
+          "x": 1296,
+          "y": 78,
+          "w": 33,
+          "h": 26,
+          "dx": -17,
+          "dy": -12,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "330e4de6990c063caa9b70122ee066abff90d5efca03fa47d337c1a32c751869"
+        },
+        "57": {
+          "id": 57,
+          "atlas": 0,
+          "x": 101,
+          "y": 78,
+          "w": 56,
+          "h": 43,
+          "dx": -24,
+          "dy": -23,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "0b324adfa795d3be54762871f710c0ad761dcbbfe43f0ea1d558ec0ac11c690e"
+        },
+        "58": {
+          "id": 58,
+          "atlas": 0,
+          "x": 422,
+          "y": 2,
+          "w": 53,
+          "h": 55,
+          "dx": -25,
+          "dy": -27,
+          "empty": false,
+          "part_count": 5,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "6dec9dce6a1397c52d18a16b2f30ac8c294231c2f0025bf9f2fd281e0dba0048"
+        },
+        "59": {
+          "id": 59,
+          "atlas": 0,
+          "x": 477,
+          "y": 2,
+          "w": 53,
+          "h": 55,
+          "dx": -25,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ef033be75455f80088873886bd6d85f2f12918b41971b96ec49f9332b0a9d2d8"
+        },
+        "60": {
+          "id": 60,
+          "atlas": 0,
+          "x": 874,
+          "y": 2,
+          "w": 51,
+          "h": 51,
+          "dx": -25,
+          "dy": -25,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "50cb5ec76a374fdb3e5c7850ddf50da35592edde6ac080e26cd57c5296565017"
+        },
+        "61": {
+          "id": 61,
+          "atlas": 0,
+          "x": 619,
+          "y": 78,
+          "w": 39,
+          "h": 30,
+          "dx": -20,
+          "dy": -14,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "14d3ed69c8d7cc942304e6f67c61f33ff7615428376025ffb3e1e2f871b983ec"
+        },
+        "62": {
+          "id": 62,
+          "atlas": 0,
+          "x": 1661,
+          "y": 78,
+          "w": 38,
+          "h": 20,
+          "dx": -19,
+          "dy": -9,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ca1d44d9d5a53c6bb37ba9963b25f587facfea92a1641ae9bf8ca7398a4fb7e9"
+        },
+        "63": {
+          "id": 63,
+          "atlas": 0,
+          "x": 1379,
+          "y": 78,
+          "w": 70,
+          "h": 25,
+          "dx": -30,
+          "dy": -14,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "cc3b87860e947257c25e8e9a95766cb80a0f4d0fe4cdb3c7e6b432ba456b780c"
+        },
+        "72": {
+          "id": 72,
+          "atlas": 0,
+          "x": 731,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "be30448281b1d30a0ecbdba19e704b9093d2778c34558c56d6e81b3b55b660bc"
+        },
+        "73": {
+          "id": 73,
+          "atlas": 0,
+          "x": 826,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f2eb7e6cee6ec3ed576f2b94d0e30ec9bc0b50bec934d908323e7e68c093394f"
+        },
+        "74": {
+          "id": 74,
+          "atlas": 0,
+          "x": 1016,
+          "y": 78,
+          "w": 92,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f20e8914446d1b70ed42b0eacd72756ced3b480bdf93a6b1157f304c1344ba76"
+        },
+        "75": {
+          "id": 75,
+          "atlas": 0,
+          "x": 921,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "53d5e3b1c2cb897282314170e81ffc11e59551a53dab68d05f62acd6cac59363"
+        },
+        "80": {
+          "id": 80,
+          "atlas": 0,
+          "x": 2,
+          "y": 2,
+          "w": 36,
+          "h": 74,
+          "dx": -18,
+          "dy": -45,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "2ced3636b2fe04f83e7bdac5427ca82062daa7d2550000c92dbf8e12cfaf25da"
+        },
+        "81": {
+          "id": 81,
+          "atlas": 0,
+          "x": 78,
+          "y": 2,
+          "w": 36,
+          "h": 73,
+          "dx": -18,
+          "dy": -44,
+          "empty": false,
+          "part_count": 12,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "2e683986cdb9aeeea01b91a79eccead68b3ac42b1dee85e79ef1d65af53caf46"
+        },
+        "82": {
+          "id": 82,
+          "atlas": 0,
+          "x": 116,
+          "y": 2,
+          "w": 36,
+          "h": 73,
+          "dx": -18,
+          "dy": -44,
+          "empty": false,
+          "part_count": 10,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4e20c66b06019c0311e65f1bc4b8c83de9f506299c3d227729a2f304f821af16"
+        },
+        "83": {
+          "id": 83,
+          "atlas": 0,
+          "x": 40,
+          "y": 2,
+          "w": 36,
+          "h": 74,
+          "dx": -18,
+          "dy": -45,
+          "empty": false,
+          "part_count": 10,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "2b7284a43046d902e512b267443901c488590fc4c5e696b711ee9ab635ac006c"
+        },
+        "623": {
+          "id": 623,
+          "atlas": 0,
+          "x": 1000,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "be53700965a7a437ecb1caf646fea146c38329f31e94074beca9e939abd3300b"
+        },
+        "624": {
+          "id": 624,
+          "atlas": 0,
+          "x": 1064,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b4b7427b7ae7544282d54871072f97ea6f7579a942bad007a55bd826b67e68a1"
+        },
+        "627": {
+          "id": 627,
+          "atlas": 0,
+          "x": 1689,
+          "y": 2,
+          "w": 56,
+          "h": 48,
+          "dx": -28,
+          "dy": -32,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "eb006ae6639a776c79667ca56e4ab363acbd2fa14116bb71043f7cc786b3391c"
+        },
+        "629": {
+          "id": 629,
+          "atlas": 0,
+          "x": 1256,
+          "y": 2,
+          "w": 30,
+          "h": 50,
+          "dx": -15,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "48337948f338cd6200af8a2502809f3ca5910fa687f7c5fee037f034a2ba8c6a"
+        },
+        "631": {
+          "id": 631,
+          "atlas": 0,
+          "x": 1320,
+          "y": 2,
+          "w": 14,
+          "h": 50,
+          "dx": -7,
+          "dy": -34,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "fae1a966f0b99fb5dad33fbacd17c5a06dc1e87820ff46e2634dfd43e36dcaf0"
+        },
+        "634": {
+          "id": 634,
+          "atlas": 0,
+          "x": 532,
+          "y": 2,
+          "w": 62,
+          "h": 54,
+          "dx": -35,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "7aded935fb524c74fa64f4bcc36a3e7cb16ee451896c2ad67d786cbe4088c42d"
+        },
+        "635": {
+          "id": 635,
+          "atlas": 0,
+          "x": 357,
+          "y": 2,
+          "w": 63,
+          "h": 55,
+          "dx": -36,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "72aae3c6569efc77916663fb13953c6782e718b5c85885ee2b328834d9cc2588"
+        },
+        "638": {
+          "id": 638,
+          "atlas": 0,
+          "x": 296,
+          "y": 2,
+          "w": 59,
+          "h": 56,
+          "dx": -33,
+          "dy": -32,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e0215ba339746f4b766f0c8d8ecf65b3fa56fd9ca7e8d167817993ca0540f7bf"
+        },
+        "640": {
+          "id": 640,
+          "atlas": 0,
+          "x": 1483,
+          "y": 2,
+          "w": 40,
+          "h": 49,
+          "dx": -19,
+          "dy": -31,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3e2f6b9635bd4f5c561412a4166e20ce6d1fa847a8e993e42c10058ffbf5d611"
+        },
+        "642": {
+          "id": 642,
+          "atlas": 0,
+          "x": 1525,
+          "y": 2,
+          "w": 32,
+          "h": 49,
+          "dx": -14,
+          "dy": -31,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "6b18d91ccf681984bd38496ecbf8543a8951df27b559f687047d6bca6d921f80"
+        },
+        "645": {
+          "id": 645,
+          "atlas": 0,
+          "x": 154,
+          "y": 2,
+          "w": 69,
+          "h": 56,
+          "dx": -35,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "8153142e60c1ec68f84a4077125f3c819c10a6e4dad14293c97ab21f4e9515f4"
+        },
+        "646": {
+          "id": 646,
+          "atlas": 0,
+          "x": 225,
+          "y": 2,
+          "w": 69,
+          "h": 56,
+          "dx": -35,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "bdbeebb38662e6fc5873529af7945f69445b01bb0150631772736d9b45817ed8"
+        },
+        "649": {
+          "id": 649,
+          "atlas": 0,
+          "x": 596,
+          "y": 2,
+          "w": 67,
+          "h": 52,
+          "dx": -35,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e5abee2c270c051bb525254168a4833aa6d52b50ec8da0976b5e1bbbee49fda4"
+        },
+        "651": {
+          "id": 651,
+          "atlas": 0,
+          "x": 1356,
+          "y": 2,
+          "w": 62,
+          "h": 49,
+          "dx": -31,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a4e6c132c80e74e729597a2fd93fbcd4d46edd91c109a346dc2d9934460c9511"
+        },
+        "653": {
+          "id": 653,
+          "atlas": 0,
+          "x": 1920,
+          "y": 2,
+          "w": 59,
+          "h": 45,
+          "dx": -27,
+          "dy": -23,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "af0e53f07b6e14bcfd0a05f42451610b73579e7bbbe81482461583e83535300e"
+        },
+        "656": {
+          "id": 656,
+          "atlas": 0,
+          "x": 801,
+          "y": 2,
+          "w": 71,
+          "h": 51,
+          "dx": -30,
+          "dy": -22,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b2f8af5f08e9c94f73c3d4d7d7cc855bc427993daa8c783b6f8724308e71a739"
+        },
+        "657": {
+          "id": 657,
+          "atlas": 0,
+          "x": 927,
+          "y": 2,
+          "w": 71,
+          "h": 50,
+          "dx": -30,
+          "dy": -22,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "38bfcbfb9daedb4f74502444cd6d7fbccfcf50ce53febdc9820ff8bf197b412f"
+        },
+        "660": {
+          "id": 660,
+          "atlas": 0,
+          "x": 1849,
+          "y": 2,
+          "w": 69,
+          "h": 47,
+          "dx": -29,
+          "dy": -20,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3395a4d4ef7f27737a697f90b63702af90739e06bb75c8eecda079f056005980"
+        },
+        "662": {
+          "id": 662,
+          "atlas": 0,
+          "x": 462,
+          "y": 78,
+          "w": 71,
+          "h": 37,
+          "dx": -30,
+          "dy": -17,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "7de15b40134fc607cfacc1254646d2f90be5ea1a12a13806caac1ed7d9e9a0c5"
+        },
+        "664": {
+          "id": 664,
+          "atlas": 0,
+          "x": 660,
+          "y": 78,
+          "w": 69,
+          "h": 29,
+          "dx": -28,
+          "dy": -15,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c626b4397e03d0de16184b504d758b179b7e202a29e0f9d299a71a7f7a921282"
+        },
+        "667": {
+          "id": 667,
+          "atlas": 0,
+          "x": 1559,
+          "y": 2,
+          "w": 63,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "146c39cbffcf3f4d4a2af64bc8550d5a4793603053c30f54a7658f5c451b314b"
+        },
+        "668": {
+          "id": 668,
+          "atlas": 0,
+          "x": 1624,
+          "y": 2,
+          "w": 63,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "45c9891c05e8025b903fc014f2cb1490904294bdd97ee9b1faf94ac837fadcd0"
+        },
+        "671": {
+          "id": 671,
+          "atlas": 0,
+          "x": 36,
+          "y": 78,
+          "w": 63,
+          "h": 44,
+          "dx": -16,
+          "dy": -22,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "1ae5f9cf2c0591d06d4619643f5ac02205b2e308637d594b7fd89a9733b00e94"
+        },
+        "673": {
+          "id": 673,
+          "atlas": 0,
+          "x": 1597,
+          "y": 78,
+          "w": 62,
+          "h": 22,
+          "dx": -16,
+          "dy": -11,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "6bec7de24afcba84f18169b58fc2ce10b4d9324e73f3d694f549bdcb80547420"
+        },
+        "675": {
+          "id": 675,
+          "atlas": 0,
+          "x": 1857,
+          "y": 78,
+          "w": 63,
+          "h": 10,
+          "dx": -16,
+          "dy": -5,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b13363c94c8f903092ee504a5493184ef60c664773618a45e524c349bc6c5b15"
+        },
+        "711": {
+          "id": 711,
+          "atlas": 0,
+          "x": 1128,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b274d3fc4e4682f86a6b6d720c96d5b77ff708e5a6f56baa6cd3c3188a18548c"
+        },
+        "712": {
+          "id": 712,
+          "atlas": 0,
+          "x": 1192,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ad6632765a800651493eaa497334a5da0679c0877e0f9d83fcdac2405f2e47c3"
+        },
+        "715": {
+          "id": 715,
+          "atlas": 0,
+          "x": 1747,
+          "y": 2,
+          "w": 56,
+          "h": 48,
+          "dx": -28,
+          "dy": -15,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "89c6cac66a3fa1d5dc849ac680a872d9502e1bd57a0a8243f2870d510be3b0ce"
+        },
+        "717": {
+          "id": 717,
+          "atlas": 0,
+          "x": 1288,
+          "y": 2,
+          "w": 30,
+          "h": 50,
+          "dx": -15,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "985b27fafbfb12236e111eff9153358c88614fe3afb8dcd4c82ac0090ed3048e"
+        },
+        "719": {
+          "id": 719,
+          "atlas": 0,
+          "x": 1336,
+          "y": 2,
+          "w": 14,
+          "h": 50,
+          "dx": -7,
+          "dy": -15,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4e72eafce87f7a8dd61a1781d2b695d9bfe68d19fd41f25a5e0f46151fa9954e"
+        },
+        "722": {
+          "id": 722,
+          "atlas": 0,
+          "x": 1831,
+          "y": 2,
+          "w": 16,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "59622d74b81d9de20b3f92cbfc46ae5f0f170b26da544e43f1c872caf8aedacc"
+        },
+        "723": {
+          "id": 723,
+          "atlas": 0,
+          "x": 1981,
+          "y": 2,
+          "w": 32,
+          "h": 45,
+          "dx": -19,
+          "dy": -22,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3ac277c76a3512605d0a5865b309357873bbf18de229d874a20633bfc111dc35"
+        },
+        "724": {
+          "id": 724,
+          "atlas": 0,
+          "x": 364,
+          "y": 78,
+          "w": 47,
+          "h": 38,
+          "dx": -25,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e5c51b7efc4eb722ff63b31c01cfcb2e342c4f258fea804f6665c09a42cf70d1"
+        },
+        "725": {
+          "id": 725,
+          "atlas": 0,
+          "x": 1451,
+          "y": 78,
+          "w": 59,
+          "h": 25,
+          "dx": -30,
+          "dy": -15,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "54f2228cfb3e9327bb5bcbae03ead55be681525d764ed9f64f131c887e07eed7"
+        },
+        "726": {
+          "id": 726,
+          "atlas": 0,
+          "x": 1701,
+          "y": 78,
+          "w": 62,
+          "h": 13,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "40d8c5c4a6aa003b6fa5769fae9ffbf550dfd0a578e11383b4c31b76d93957eb"
+        },
+        "727": {
+          "id": 727,
+          "atlas": 0,
+          "x": 2,
+          "y": 78,
+          "w": 32,
+          "h": 45,
+          "dx": -19,
+          "dy": -22,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "28b8640dc10bccc3f7b58658a0e14b352b222898eeacdcc6588addaec4eff5ad"
+        },
+        "728": {
+          "id": 728,
+          "atlas": 0,
+          "x": 413,
+          "y": 78,
+          "w": 47,
+          "h": 38,
+          "dx": -25,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "05119462e1e357f170e2993ad5cda15869b61e3db4cc7d0cdd3a9bd4d03cb477"
+        },
+        "729": {
+          "id": 729,
+          "atlas": 0,
+          "x": 1512,
+          "y": 78,
+          "w": 59,
+          "h": 25,
+          "dx": -30,
+          "dy": -9,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9e646297e479837b894dc5357a0caa8b70ec6c534a9d0297ed48534086c121ba"
+        },
+        "730": {
+          "id": 730,
+          "atlas": 0,
+          "x": 1765,
+          "y": 78,
+          "w": 62,
+          "h": 13,
+          "dx": -31,
+          "dy": 1,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e1c5355311042369cc2c1f45a18d973fecaffcbba4f9f585bbb96abf1111bed6"
+        },
+        "731": {
+          "id": 731,
+          "atlas": 0,
+          "x": 1986,
+          "y": 78,
+          "w": 14,
+          "h": 6,
+          "dx": -6,
+          "dy": 0,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "6375949ab22248b5e28f02daa031d3d1053abcbd25c15ebc23d9424a29f75e57"
+        },
+        "732": {
+          "id": 732,
+          "atlas": 0,
+          "x": 1930,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -5,
+          "dy": -3,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f6e9395c55626bcd72f5b2d1e7f4265848f28f53faaba499e55cd63b844e10a6"
+        },
+        "733": {
+          "id": 733,
+          "atlas": 0,
+          "x": 1944,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -6,
+          "dy": -3,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "607d3c8ec7fb3c55c7f8df42ce6ec9247e34aeb4a4ca6259bac9224806d94b2b"
+        },
+        "734": {
+          "id": 734,
+          "atlas": 0,
+          "x": 1829,
+          "y": 78,
+          "w": 12,
+          "h": 11,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f9be8bcce49ae6a5aa25026ecadbed14c57ab78ade5aec9b75f27dce1b59bbb3"
+        },
+        "735": {
+          "id": 735,
+          "atlas": 0,
+          "x": 1922,
+          "y": 78,
+          "w": 6,
+          "h": 10,
+          "dx": -5,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "0994c777bd0ca6c179a01349906d6534bf61c22f48328bb629de3b2ce569fa6c"
+        },
+        "736": {
+          "id": 736,
+          "atlas": 0,
+          "x": 1843,
+          "y": 78,
+          "w": 12,
+          "h": 11,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "400bef0ff5f104b2be7730bb649303a4250228bcd433080b3fa170ebdbe368b2"
+        },
+        "737": {
+          "id": 737,
+          "atlas": 0,
+          "x": 1958,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "fff398a87beb5fc67906e545f613e84d0162562e301d8abe6fe333226c1b8396"
+        },
+        "738": {
+          "id": 738,
+          "atlas": 0,
+          "x": 1972,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -5,
+          "dy": -5,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f8f2237759a64c4a33761b8baea74ec71b244debf1cb7303f484883a2ce2d2a6"
+        },
+        "739": {
+          "id": 739,
+          "atlas": 0,
+          "x": 2002,
+          "y": 78,
+          "w": 14,
+          "h": 6,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "314abe1b7d816d4fdbfe563a0245c466fa0648128237dce0fd2f6cea31828eaf"
+        }
+      }
+    },
+    "18": {
+      "paletteRow": 74,
+      "palette_sha256": "b2f5903fb4b02bba182879307cb1b044d3e6085057b9748fbcf5dd3ca1ff6ab8",
+      "atlases": [
+        {
+          "file": "cyclops-optic-18-0.png",
+          "width": 2018,
+          "height": 125,
+          "sha256": "99cc546530f9a8d4a02caca00f30f7725f5dc4794d48b93afb77c8cdbe17ffbe"
+        }
+      ],
+      "frames": {
+        "40": {
+          "id": 40,
+          "atlas": 0,
+          "x": 1110,
+          "y": 78,
+          "w": 62,
+          "h": 26,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3b7f707189dca56e9546a165bf8a2ac9d39096594abd97a7333a71050b67c514"
+        },
+        "41": {
+          "id": 41,
+          "atlas": 0,
+          "x": 1174,
+          "y": 78,
+          "w": 62,
+          "h": 26,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c5f71cc8f48d689588760691085d93d1190521ca0ec10d0aeb74f46a6a27c29a"
+        },
+        "42": {
+          "id": 42,
+          "atlas": 0,
+          "x": 1238,
+          "y": 78,
+          "w": 56,
+          "h": 26,
+          "dx": -28,
+          "dy": -13,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c6e4b03571a7d676108639dee3baa99f7b82c814bc7a90843f1c75be3355f691"
+        },
+        "43": {
+          "id": 43,
+          "atlas": 0,
+          "x": 1331,
+          "y": 78,
+          "w": 30,
+          "h": 26,
+          "dx": -15,
+          "dy": -13,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c51e05ab1443319c45669d4fe11afb11be424cae2f22d31a29fc1ab4d5d10d94"
+        },
+        "44": {
+          "id": 44,
+          "atlas": 0,
+          "x": 1363,
+          "y": 78,
+          "w": 14,
+          "h": 26,
+          "dx": -7,
+          "dy": -13,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e9754034f6db1066759755d3ec5d600441041b81eb904ca7d0b3ca03192d0ca5"
+        },
+        "45": {
+          "id": 45,
+          "atlas": 0,
+          "x": 1352,
+          "y": 2,
+          "w": 2,
+          "h": 50,
+          "dx": -1,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3756858fa1afcf5735f755cbb449f5fce486ab1580f6f10fa4cbf7dd74a35852"
+        },
+        "46": {
+          "id": 46,
+          "atlas": 0,
+          "x": 159,
+          "y": 78,
+          "w": 68,
+          "h": 42,
+          "dx": -34,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "873a72910012bd70af782addf4e65b22533fa04c7906d9fa8ff6483c40d807ee"
+        },
+        "47": {
+          "id": 47,
+          "atlas": 0,
+          "x": 229,
+          "y": 78,
+          "w": 68,
+          "h": 42,
+          "dx": -34,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4ad05aba5cc02f0b2f410f95b906ee4842f2ffd6b5fbeaaec33c95d8cae0e263"
+        },
+        "48": {
+          "id": 48,
+          "atlas": 0,
+          "x": 299,
+          "y": 78,
+          "w": 63,
+          "h": 39,
+          "dx": -32,
+          "dy": -20,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e148a4260e3b141cdd1d643e260884e9744513fb131455479d6d135caa718a3c"
+        },
+        "49": {
+          "id": 49,
+          "atlas": 0,
+          "x": 580,
+          "y": 78,
+          "w": 37,
+          "h": 32,
+          "dx": -18,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f58b8a540e83ec11e9c2b464f37a3771f6d000b4f9c2877113dea65b2e519de6"
+        },
+        "50": {
+          "id": 50,
+          "atlas": 0,
+          "x": 1573,
+          "y": 78,
+          "w": 22,
+          "h": 25,
+          "dx": -11,
+          "dy": -12,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c29ec6d8cd81ca1433f90d092eff19d6c3217e0954981f5d8809cc1a46cc483b"
+        },
+        "51": {
+          "id": 51,
+          "atlas": 0,
+          "x": 1805,
+          "y": 2,
+          "w": 24,
+          "h": 48,
+          "dx": -8,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b12e0d8f7cb8ce97de6f20f45edaec78820ba69851617d9f675716fc7adf45b7"
+        },
+        "52": {
+          "id": 52,
+          "atlas": 0,
+          "x": 665,
+          "y": 2,
+          "w": 66,
+          "h": 52,
+          "dx": -34,
+          "dy": -26,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "190d878e2530fbf42d0e8c2dca29dbd42656b47f29d76e2d07fb8d52d8f9cb3b"
+        },
+        "53": {
+          "id": 53,
+          "atlas": 0,
+          "x": 733,
+          "y": 2,
+          "w": 66,
+          "h": 52,
+          "dx": -34,
+          "dy": -26,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "fd7e7c88960d2681668310de8b0db30a0059c3c0f9ae45d95f47105d30f72116"
+        },
+        "54": {
+          "id": 54,
+          "atlas": 0,
+          "x": 1420,
+          "y": 2,
+          "w": 61,
+          "h": 49,
+          "dx": -31,
+          "dy": -23,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a9910553c3fb8ab80714a66f059a8e2a0e581b5a45b87545eb3837f35f870e52"
+        },
+        "55": {
+          "id": 55,
+          "atlas": 0,
+          "x": 535,
+          "y": 78,
+          "w": 43,
+          "h": 34,
+          "dx": -21,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "7eff169bc421ff6af5ef7e2f7fa6e5d11877386543482c52ed5075ff63fe2e08"
+        },
+        "56": {
+          "id": 56,
+          "atlas": 0,
+          "x": 1296,
+          "y": 78,
+          "w": 33,
+          "h": 26,
+          "dx": -17,
+          "dy": -12,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b953eb7b0203d9fb91a0e82b3c0fb0623013484231356377d8b23d95843ed67c"
+        },
+        "57": {
+          "id": 57,
+          "atlas": 0,
+          "x": 101,
+          "y": 78,
+          "w": 56,
+          "h": 43,
+          "dx": -24,
+          "dy": -23,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "acee1ee3343eae963a36fa98b1990e62298e449feac9ef99df6815169fb3db82"
+        },
+        "58": {
+          "id": 58,
+          "atlas": 0,
+          "x": 422,
+          "y": 2,
+          "w": 53,
+          "h": 55,
+          "dx": -25,
+          "dy": -27,
+          "empty": false,
+          "part_count": 5,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "177f76e2b842a005c5f0374bf0d579834af7f177cfd7b65725482660736ead2a"
+        },
+        "59": {
+          "id": 59,
+          "atlas": 0,
+          "x": 477,
+          "y": 2,
+          "w": 53,
+          "h": 55,
+          "dx": -25,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f8040163abb916be0e33285097fb2c50b6c8f661d7a120f6e3e30e05ba1fa10c"
+        },
+        "60": {
+          "id": 60,
+          "atlas": 0,
+          "x": 874,
+          "y": 2,
+          "w": 51,
+          "h": 51,
+          "dx": -25,
+          "dy": -25,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "23a69067fdc5000b803f325d20f74c34b03fafb076267d78e39774e950004bae"
+        },
+        "61": {
+          "id": 61,
+          "atlas": 0,
+          "x": 619,
+          "y": 78,
+          "w": 39,
+          "h": 30,
+          "dx": -20,
+          "dy": -14,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "189c40821f85b06f33dc0ceb560c98fb3c13885ad8f44e427e1cd899d6e78aad"
+        },
+        "62": {
+          "id": 62,
+          "atlas": 0,
+          "x": 1661,
+          "y": 78,
+          "w": 38,
+          "h": 20,
+          "dx": -19,
+          "dy": -9,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3661d325eab51cd75b2f12f15ffe76ce67a81612b419d6f4a00bc4ad957698ab"
+        },
+        "63": {
+          "id": 63,
+          "atlas": 0,
+          "x": 1379,
+          "y": 78,
+          "w": 70,
+          "h": 25,
+          "dx": -30,
+          "dy": -14,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "66fe3aed40a31cbffa0ec69fd050d3dfc504d83d1d245ff602e24d3752a86fcb"
+        },
+        "72": {
+          "id": 72,
+          "atlas": 0,
+          "x": 731,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e816d83655996abd90038bac83b3ece8efdaf43a3a8c781491483efb318addfd"
+        },
+        "73": {
+          "id": 73,
+          "atlas": 0,
+          "x": 826,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e9ba9cca05b13fcd74b850ba66def09f0a4fd9378b2b8182b9709bf5a35b89d8"
+        },
+        "74": {
+          "id": 74,
+          "atlas": 0,
+          "x": 1016,
+          "y": 78,
+          "w": 92,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "fe7184260d2e5a3c0372e115de3a65dd2688418dd7bcd5cf6f0f5c4849f63644"
+        },
+        "75": {
+          "id": 75,
+          "atlas": 0,
+          "x": 921,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "207b1127655d19b9884d7d0c52ed608de767bebc03ebbe8dbe16da33502271b0"
+        },
+        "80": {
+          "id": 80,
+          "atlas": 0,
+          "x": 2,
+          "y": 2,
+          "w": 36,
+          "h": 74,
+          "dx": -18,
+          "dy": -45,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "1f2681f067b0861ef96c0aa0acbfa815c9eb40f3aea3dcf557ab280a79ca7f90"
+        },
+        "81": {
+          "id": 81,
+          "atlas": 0,
+          "x": 78,
+          "y": 2,
+          "w": 36,
+          "h": 73,
+          "dx": -18,
+          "dy": -44,
+          "empty": false,
+          "part_count": 12,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "fec79fb913c7a5b4e47e373eafd287ed2d66f447613c8e2e99ae517c024c9170"
+        },
+        "82": {
+          "id": 82,
+          "atlas": 0,
+          "x": 116,
+          "y": 2,
+          "w": 36,
+          "h": 73,
+          "dx": -18,
+          "dy": -44,
+          "empty": false,
+          "part_count": 10,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f40254768b81e29948bd50ad426131f4ae5884249467b1dfc0b8715b23ad3540"
+        },
+        "83": {
+          "id": 83,
+          "atlas": 0,
+          "x": 40,
+          "y": 2,
+          "w": 36,
+          "h": 74,
+          "dx": -18,
+          "dy": -45,
+          "empty": false,
+          "part_count": 10,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "82f82e016e2de9722fb25f8a03a2137f6fbe072aa0de799a54b05e4cac770fc8"
+        },
+        "623": {
+          "id": 623,
+          "atlas": 0,
+          "x": 1000,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4e3821f04c1b10114bd9ee17ef0f51c8a9ef3e28fe2a93edffccb3a49b97d478"
+        },
+        "624": {
+          "id": 624,
+          "atlas": 0,
+          "x": 1064,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "1f233fa004de5b04bb3065eea8148f4d120eac9bcec12f889e8b76e25da32659"
+        },
+        "627": {
+          "id": 627,
+          "atlas": 0,
+          "x": 1689,
+          "y": 2,
+          "w": 56,
+          "h": 48,
+          "dx": -28,
+          "dy": -32,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "76ff4602b28f3716cf894cf720a5695d6c88ddc4cb749f30373e4a58fce6d080"
+        },
+        "629": {
+          "id": 629,
+          "atlas": 0,
+          "x": 1256,
+          "y": 2,
+          "w": 30,
+          "h": 50,
+          "dx": -15,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "2bc69a4fcea3c615751e13b93cf87e848f361b1b665a2886f9b132b3e9b8f036"
+        },
+        "631": {
+          "id": 631,
+          "atlas": 0,
+          "x": 1320,
+          "y": 2,
+          "w": 14,
+          "h": 50,
+          "dx": -7,
+          "dy": -34,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "336341b6b9f9da272906dd19108f105a48145648c01133254bb56e757d608f7b"
+        },
+        "634": {
+          "id": 634,
+          "atlas": 0,
+          "x": 532,
+          "y": 2,
+          "w": 62,
+          "h": 54,
+          "dx": -35,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ea359197e91d8d3d61966f98cd34aed9dff3068190a542c7580ad6578155701b"
+        },
+        "635": {
+          "id": 635,
+          "atlas": 0,
+          "x": 357,
+          "y": 2,
+          "w": 63,
+          "h": 55,
+          "dx": -36,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f56d82d1c5eebd1576e7555373f6d083875deccefdf423654482aaec3de2859c"
+        },
+        "638": {
+          "id": 638,
+          "atlas": 0,
+          "x": 296,
+          "y": 2,
+          "w": 59,
+          "h": 56,
+          "dx": -33,
+          "dy": -32,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b34c84eef7e3dc503e7617b63c9e0a8ffa5df6a02ed6458a2c8063158f476424"
+        },
+        "640": {
+          "id": 640,
+          "atlas": 0,
+          "x": 1483,
+          "y": 2,
+          "w": 40,
+          "h": 49,
+          "dx": -19,
+          "dy": -31,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "412c2b60580a0dfae48dafa1b6ffc5c731becd23a90270934baf2add10853548"
+        },
+        "642": {
+          "id": 642,
+          "atlas": 0,
+          "x": 1525,
+          "y": 2,
+          "w": 32,
+          "h": 49,
+          "dx": -14,
+          "dy": -31,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a3398967501fbcfcae29308058ac9739acbcbfdbd795c392b53940a8c39165ed"
+        },
+        "645": {
+          "id": 645,
+          "atlas": 0,
+          "x": 154,
+          "y": 2,
+          "w": 69,
+          "h": 56,
+          "dx": -35,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "234fd26d8ca3b9e16e1e2cb8e1175c63e56406880b8f1dad4cdc4f36b33d2a3d"
+        },
+        "646": {
+          "id": 646,
+          "atlas": 0,
+          "x": 225,
+          "y": 2,
+          "w": 69,
+          "h": 56,
+          "dx": -35,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "db27ebd2f662b4b126456f1276323e33f0d8a20fba92a78c0a3ac5faf51e1aa0"
+        },
+        "649": {
+          "id": 649,
+          "atlas": 0,
+          "x": 596,
+          "y": 2,
+          "w": 67,
+          "h": 52,
+          "dx": -35,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "8ade3332e18ba4b040bfcb969d632db924ac3fdcc7aa7daef3955d133e0e6d54"
+        },
+        "651": {
+          "id": 651,
+          "atlas": 0,
+          "x": 1356,
+          "y": 2,
+          "w": 62,
+          "h": 49,
+          "dx": -31,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "830ea3ee06d3f96ff82f282adf2e3a616f09a2f6388989073427dde848f1ba5e"
+        },
+        "653": {
+          "id": 653,
+          "atlas": 0,
+          "x": 1920,
+          "y": 2,
+          "w": 59,
+          "h": 45,
+          "dx": -27,
+          "dy": -23,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9f4e8ea59661bd5d4708d18c1b0d8e810fe8d0f6c2d76c1dadc35d9e937d6ac6"
+        },
+        "656": {
+          "id": 656,
+          "atlas": 0,
+          "x": 801,
+          "y": 2,
+          "w": 71,
+          "h": 51,
+          "dx": -30,
+          "dy": -22,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "5f53ff53963a2ae163b474b8687de8faaaa0656877f555e9162fb11de73513b6"
+        },
+        "657": {
+          "id": 657,
+          "atlas": 0,
+          "x": 927,
+          "y": 2,
+          "w": 71,
+          "h": 50,
+          "dx": -30,
+          "dy": -22,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "5286a685a5d4f7c8ace3c26f0db846021ae64d7b1115dbc22c531c0bfc0e6259"
+        },
+        "660": {
+          "id": 660,
+          "atlas": 0,
+          "x": 1849,
+          "y": 2,
+          "w": 69,
+          "h": 47,
+          "dx": -29,
+          "dy": -20,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3e8b6b0978ed73a4b2b61beeb9a81653221ef81ad509b210e5d96bed781dfec5"
+        },
+        "662": {
+          "id": 662,
+          "atlas": 0,
+          "x": 462,
+          "y": 78,
+          "w": 71,
+          "h": 37,
+          "dx": -30,
+          "dy": -17,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e615cc1c242aed3b70656586d61aa2b37b5657fafb59a2053625cd324f4aa0fb"
+        },
+        "664": {
+          "id": 664,
+          "atlas": 0,
+          "x": 660,
+          "y": 78,
+          "w": 69,
+          "h": 29,
+          "dx": -28,
+          "dy": -15,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3b4cf3b4b19b73f4371859022e6c36b0f610a4b39fc0d1053cee99b17366418a"
+        },
+        "667": {
+          "id": 667,
+          "atlas": 0,
+          "x": 1559,
+          "y": 2,
+          "w": 63,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f0ec80215249d1c8356f6db782d818473fcec02c4b86fbe49be1d8f5cfed1a8b"
+        },
+        "668": {
+          "id": 668,
+          "atlas": 0,
+          "x": 1624,
+          "y": 2,
+          "w": 63,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3f22ebcfc8ab34e117b51c0da7794589cbefcea79271fe48de4b7ffa07e6347b"
+        },
+        "671": {
+          "id": 671,
+          "atlas": 0,
+          "x": 36,
+          "y": 78,
+          "w": 63,
+          "h": 44,
+          "dx": -16,
+          "dy": -22,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "8585eea38053225c25df565b9e98002a8b0e38c9ec81d4cf59d7a772c9e7c06a"
+        },
+        "673": {
+          "id": 673,
+          "atlas": 0,
+          "x": 1597,
+          "y": 78,
+          "w": 62,
+          "h": 22,
+          "dx": -16,
+          "dy": -11,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "d3e63eade74d7c4ab12dc75860e2e2a7dd22df5ab391a44a86a4ad289baa66f3"
+        },
+        "675": {
+          "id": 675,
+          "atlas": 0,
+          "x": 1857,
+          "y": 78,
+          "w": 63,
+          "h": 10,
+          "dx": -16,
+          "dy": -5,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "8ece432e9ce2be3064ee57615b95abacce8693b7f3839a97175ea8394fda49b1"
+        },
+        "711": {
+          "id": 711,
+          "atlas": 0,
+          "x": 1128,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a7f0dd700f01743f8c57245c0a41bd2b14a910129ea1a9a12ea79461f0677e3d"
+        },
+        "712": {
+          "id": 712,
+          "atlas": 0,
+          "x": 1192,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "0264a737d7fbd5408c715f638d57bf23de39b90856b2f4ae76fc6e1e9d0ea8f9"
+        },
+        "715": {
+          "id": 715,
+          "atlas": 0,
+          "x": 1747,
+          "y": 2,
+          "w": 56,
+          "h": 48,
+          "dx": -28,
+          "dy": -15,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "2529741b1b4ae54c8ddfa2da5598c31ce295b472cf3da9eeec3160d54ff8ce68"
+        },
+        "717": {
+          "id": 717,
+          "atlas": 0,
+          "x": 1288,
+          "y": 2,
+          "w": 30,
+          "h": 50,
+          "dx": -15,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "039edfe9efad13d3dbdac4e435137bc052923e32db3b1326722d86565cefa46a"
+        },
+        "719": {
+          "id": 719,
+          "atlas": 0,
+          "x": 1336,
+          "y": 2,
+          "w": 14,
+          "h": 50,
+          "dx": -7,
+          "dy": -15,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9e77fb408a80843ff079d10683e97aa8a7115c4fdade27a15135b5965763e053"
+        },
+        "722": {
+          "id": 722,
+          "atlas": 0,
+          "x": 1831,
+          "y": 2,
+          "w": 16,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "171f3dc38a1feb5cd339ba9c50a2adf5aad81ec4da20202f47b34671343e17b7"
+        },
+        "723": {
+          "id": 723,
+          "atlas": 0,
+          "x": 1981,
+          "y": 2,
+          "w": 32,
+          "h": 45,
+          "dx": -19,
+          "dy": -22,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "5410bab4e6839ba0a39578eed924fc400701b5bde94f58a5b460691618978a55"
+        },
+        "724": {
+          "id": 724,
+          "atlas": 0,
+          "x": 364,
+          "y": 78,
+          "w": 47,
+          "h": 38,
+          "dx": -25,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a3b0514dcbe8d1099a03bf74efd42e25fe3ce5f3fe04eaca11c8d3508a45385d"
+        },
+        "725": {
+          "id": 725,
+          "atlas": 0,
+          "x": 1451,
+          "y": 78,
+          "w": 59,
+          "h": 25,
+          "dx": -30,
+          "dy": -15,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4a4c8df903d8fff255f950c7bbcf6f4ad23bffe1862b12204e2a08fe6219607c"
+        },
+        "726": {
+          "id": 726,
+          "atlas": 0,
+          "x": 1701,
+          "y": 78,
+          "w": 62,
+          "h": 13,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9effd3a6c9956e4a311a80679920ae6fbd84f17fc37ac804155bec76790714eb"
+        },
+        "727": {
+          "id": 727,
+          "atlas": 0,
+          "x": 2,
+          "y": 78,
+          "w": 32,
+          "h": 45,
+          "dx": -19,
+          "dy": -22,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b235d0cd0786f7da52fc26c2144f5068392ac122f2695ac4aaca453c56655093"
+        },
+        "728": {
+          "id": 728,
+          "atlas": 0,
+          "x": 413,
+          "y": 78,
+          "w": 47,
+          "h": 38,
+          "dx": -25,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e9c437349f6daf45cd15bbc38a397d0ffdfde6bdf74d3cab3ede73d6cfc6b715"
+        },
+        "729": {
+          "id": 729,
+          "atlas": 0,
+          "x": 1512,
+          "y": 78,
+          "w": 59,
+          "h": 25,
+          "dx": -30,
+          "dy": -9,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c9ca48cc89f66d0449766e5a4383869ef3fd4d41bdbe9f3e14d3fa7711ee525c"
+        },
+        "730": {
+          "id": 730,
+          "atlas": 0,
+          "x": 1765,
+          "y": 78,
+          "w": 62,
+          "h": 13,
+          "dx": -31,
+          "dy": 1,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4df3ee8359172e9c8cd04c7464539a9617de82e15356d5b9d5a0ec7983f4ec85"
+        },
+        "731": {
+          "id": 731,
+          "atlas": 0,
+          "x": 1986,
+          "y": 78,
+          "w": 14,
+          "h": 6,
+          "dx": -6,
+          "dy": 0,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "21a2e91a3630a98d3d35db16688e00194c4ea2a47887b384fcbe9af26b6141e4"
+        },
+        "732": {
+          "id": 732,
+          "atlas": 0,
+          "x": 1930,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -5,
+          "dy": -3,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "0edf86285bf238d7b3bf2efcfd171053cc5bc47aba6d100a1fa79487da9691d9"
+        },
+        "733": {
+          "id": 733,
+          "atlas": 0,
+          "x": 1944,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -6,
+          "dy": -3,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a2affb28b6887abf4306a04d2437452f75b3b4ca2d0fb0e3b770c4c2d20c2f53"
+        },
+        "734": {
+          "id": 734,
+          "atlas": 0,
+          "x": 1829,
+          "y": 78,
+          "w": 12,
+          "h": 11,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "80354e3f8de4a042a0048aa9b91d5f30f168bb3e3b5258996bdceaa57653fbcd"
+        },
+        "735": {
+          "id": 735,
+          "atlas": 0,
+          "x": 1922,
+          "y": 78,
+          "w": 6,
+          "h": 10,
+          "dx": -5,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "547fdcc5b25fe68170d8e076c1d8722300cae19cef3b109dd5551b4e75af4255"
+        },
+        "736": {
+          "id": 736,
+          "atlas": 0,
+          "x": 1843,
+          "y": 78,
+          "w": 12,
+          "h": 11,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "7133c023d1653d93da16409d834adba167fb2d96f3db0bccf8f8119ade534399"
+        },
+        "737": {
+          "id": 737,
+          "atlas": 0,
+          "x": 1958,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "2f01cf430d763b0d25c86b8f5e0dd9ef8b0b78f0e8906571e3af260ed96177b7"
+        },
+        "738": {
+          "id": 738,
+          "atlas": 0,
+          "x": 1972,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -5,
+          "dy": -5,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e52b744f1c353e523b31be4cf0fc02613a1d851a449f74e35795a256f6455e81"
+        },
+        "739": {
+          "id": 739,
+          "atlas": 0,
+          "x": 2002,
+          "y": 78,
+          "w": 14,
+          "h": 6,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "074776e80ae2a0d0ec4176c92f7af8d4ee4a67ff5195e42961f6be82f02022fc"
+        }
+      }
+    },
+    "19": {
+      "paletteRow": 75,
+      "palette_sha256": "dcea6252126a1db6e54a8782e98d3e66cb4d164cf63395acd8119077422ad257",
+      "atlases": [
+        {
+          "file": "cyclops-optic-19-0.png",
+          "width": 2018,
+          "height": 125,
+          "sha256": "52c87b3d6462d6b3fb6ae8d1974c1e2d324c3bca54e9cf7ff97e3c2fe9576ab6"
+        }
+      ],
+      "frames": {
+        "40": {
+          "id": 40,
+          "atlas": 0,
+          "x": 1110,
+          "y": 78,
+          "w": 62,
+          "h": 26,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "14c59e5b48c7cdeeb79b773b357f57bf2acfae2b6d9ed2564cfa1c9866e1679c"
+        },
+        "41": {
+          "id": 41,
+          "atlas": 0,
+          "x": 1174,
+          "y": 78,
+          "w": 62,
+          "h": 26,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "14c59e5b48c7cdeeb79b773b357f57bf2acfae2b6d9ed2564cfa1c9866e1679c"
+        },
+        "42": {
+          "id": 42,
+          "atlas": 0,
+          "x": 1238,
+          "y": 78,
+          "w": 56,
+          "h": 26,
+          "dx": -28,
+          "dy": -13,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "8db385adc8b4d9bdda4c785591bcbb09ad0adabf28c7c7499f80425e1dcac141"
+        },
+        "43": {
+          "id": 43,
+          "atlas": 0,
+          "x": 1331,
+          "y": 78,
+          "w": 30,
+          "h": 26,
+          "dx": -15,
+          "dy": -13,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "d345fbc819ad502cc545063683600646fd91da3a2086e560cc3c5c2a6cd1317f"
+        },
+        "44": {
+          "id": 44,
+          "atlas": 0,
+          "x": 1363,
+          "y": 78,
+          "w": 14,
+          "h": 26,
+          "dx": -7,
+          "dy": -13,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a384b378bbdb17ea3fa54d38766fb32b91e701ead6d3f901283f0581dbc25696"
+        },
+        "45": {
+          "id": 45,
+          "atlas": 0,
+          "x": 1352,
+          "y": 2,
+          "w": 2,
+          "h": 50,
+          "dx": -1,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c323c96b39b5155a4788a606c6fc05571befd551e693af4ec6b7f369cc42a834"
+        },
+        "46": {
+          "id": 46,
+          "atlas": 0,
+          "x": 159,
+          "y": 78,
+          "w": 68,
+          "h": 42,
+          "dx": -34,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ba476070afa4707bf76c04538e1eec2762f5dbcbe7212634ebfc02debe4eeed0"
+        },
+        "47": {
+          "id": 47,
+          "atlas": 0,
+          "x": 229,
+          "y": 78,
+          "w": 68,
+          "h": 42,
+          "dx": -34,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "12bcd8d88f3ab840d31be3aaccfb213a77377b6b6e43666556a5cb19df2e2719"
+        },
+        "48": {
+          "id": 48,
+          "atlas": 0,
+          "x": 299,
+          "y": 78,
+          "w": 63,
+          "h": 39,
+          "dx": -32,
+          "dy": -20,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "350c997abac28e885985f40b56415311d24023756cdb01326ec3fe72f57ebacb"
+        },
+        "49": {
+          "id": 49,
+          "atlas": 0,
+          "x": 580,
+          "y": 78,
+          "w": 37,
+          "h": 32,
+          "dx": -18,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "cf83f2a643ce1f2904133d4540fe62062ceb88371b7d3d23182572107507af7c"
+        },
+        "50": {
+          "id": 50,
+          "atlas": 0,
+          "x": 1573,
+          "y": 78,
+          "w": 22,
+          "h": 25,
+          "dx": -11,
+          "dy": -12,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "5fab6891c95f468070edad7d0721e45ba92ea7384ad7a77f56d162c0009064e1"
+        },
+        "51": {
+          "id": 51,
+          "atlas": 0,
+          "x": 1805,
+          "y": 2,
+          "w": 24,
+          "h": 48,
+          "dx": -8,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e2a73c756167991ba055be67b4e58fd7f56534844c81d4e4b588a270f8326e33"
+        },
+        "52": {
+          "id": 52,
+          "atlas": 0,
+          "x": 665,
+          "y": 2,
+          "w": 66,
+          "h": 52,
+          "dx": -34,
+          "dy": -26,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "972a8554ee6ff158b479f8cc97542222a1ee1bc2cbddcfbf2e7f259f86264199"
+        },
+        "53": {
+          "id": 53,
+          "atlas": 0,
+          "x": 733,
+          "y": 2,
+          "w": 66,
+          "h": 52,
+          "dx": -34,
+          "dy": -26,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9ab6c87bd3006f3c166326cdd45b7e3c469a20da6b26aee55301bdb75b48e56e"
+        },
+        "54": {
+          "id": 54,
+          "atlas": 0,
+          "x": 1420,
+          "y": 2,
+          "w": 61,
+          "h": 49,
+          "dx": -31,
+          "dy": -23,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4ae02fb9d0cfb906596b11b345db922523045b75ef171aff16d10c11218d543d"
+        },
+        "55": {
+          "id": 55,
+          "atlas": 0,
+          "x": 535,
+          "y": 78,
+          "w": 43,
+          "h": 34,
+          "dx": -21,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "fceccda14c93617917b0d3ffb47a447f565fd7246f5d7b5eab66b7c64c4c8a35"
+        },
+        "56": {
+          "id": 56,
+          "atlas": 0,
+          "x": 1296,
+          "y": 78,
+          "w": 33,
+          "h": 26,
+          "dx": -17,
+          "dy": -12,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "43f0782fca322082615b67999a15908135fef5ef5a752c72e47d3c5334025ecf"
+        },
+        "57": {
+          "id": 57,
+          "atlas": 0,
+          "x": 101,
+          "y": 78,
+          "w": 56,
+          "h": 43,
+          "dx": -24,
+          "dy": -23,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f8df47f2cc49d7d9c8f7106ac44d7839f42f4edc3ca6b8d630b6a0245d4799bd"
+        },
+        "58": {
+          "id": 58,
+          "atlas": 0,
+          "x": 422,
+          "y": 2,
+          "w": 53,
+          "h": 55,
+          "dx": -25,
+          "dy": -27,
+          "empty": false,
+          "part_count": 5,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "99431a6507c87d33973008cb4ec33031d1dcd5e9107cab841ac678c4230eb8a6"
+        },
+        "59": {
+          "id": 59,
+          "atlas": 0,
+          "x": 477,
+          "y": 2,
+          "w": 53,
+          "h": 55,
+          "dx": -25,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "832e67819c6dcbdfa657567d16cfbc6163d873155610064c48026237c73d9282"
+        },
+        "60": {
+          "id": 60,
+          "atlas": 0,
+          "x": 874,
+          "y": 2,
+          "w": 51,
+          "h": 51,
+          "dx": -25,
+          "dy": -25,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "2e20c36773f51aef4fee67ac63795c3a6e222de569d1412da2abff1b61a53209"
+        },
+        "61": {
+          "id": 61,
+          "atlas": 0,
+          "x": 619,
+          "y": 78,
+          "w": 39,
+          "h": 30,
+          "dx": -20,
+          "dy": -14,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "d91083685916eabf292f38e94e05fc9e6ebe13634a3728b30e0500f3f2ab1d0c"
+        },
+        "62": {
+          "id": 62,
+          "atlas": 0,
+          "x": 1661,
+          "y": 78,
+          "w": 38,
+          "h": 20,
+          "dx": -19,
+          "dy": -9,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "59e8704bb5714e682319869fc88a563037df31acfdeb0b2b939475da2157cbc1"
+        },
+        "63": {
+          "id": 63,
+          "atlas": 0,
+          "x": 1379,
+          "y": 78,
+          "w": 70,
+          "h": 25,
+          "dx": -30,
+          "dy": -14,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "40043526981d03a49307f045661803de602be979bab50084987039004ac75446"
+        },
+        "72": {
+          "id": 72,
+          "atlas": 0,
+          "x": 731,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "6fa1dda7c1c3f16fff8b1df2ee87437ac257a9d02c612e8416906bb909a09da4"
+        },
+        "73": {
+          "id": 73,
+          "atlas": 0,
+          "x": 826,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "09688143f45b610f0319cd23f33ce4f7187e00e971b785fa9d3b8884135297ff"
+        },
+        "74": {
+          "id": 74,
+          "atlas": 0,
+          "x": 1016,
+          "y": 78,
+          "w": 92,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "15be6bee22216bfc1e63008deb153590a350808a57cba025a8a7548546f0025d"
+        },
+        "75": {
+          "id": 75,
+          "atlas": 0,
+          "x": 921,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "de5e0f39e7ce90456d3846b634fbebfe0fa3603f0b32b95cf061679d5bc2f9be"
+        },
+        "80": {
+          "id": 80,
+          "atlas": 0,
+          "x": 2,
+          "y": 2,
+          "w": 36,
+          "h": 74,
+          "dx": -18,
+          "dy": -45,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a6da36ba0336de485e373f3916ddfeaa8ae99ed499303381034f64608e3bd78b"
+        },
+        "81": {
+          "id": 81,
+          "atlas": 0,
+          "x": 78,
+          "y": 2,
+          "w": 36,
+          "h": 73,
+          "dx": -18,
+          "dy": -44,
+          "empty": false,
+          "part_count": 12,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9692a93c195c9b04aa5a8f157700fc9b3cf79f20679d9d4d5580983bb714273c"
+        },
+        "82": {
+          "id": 82,
+          "atlas": 0,
+          "x": 116,
+          "y": 2,
+          "w": 36,
+          "h": 73,
+          "dx": -18,
+          "dy": -44,
+          "empty": false,
+          "part_count": 10,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9bc1f745d5e205a832cef43d923be561f83fe43793e32cacb8219effa0fc8196"
+        },
+        "83": {
+          "id": 83,
+          "atlas": 0,
+          "x": 40,
+          "y": 2,
+          "w": 36,
+          "h": 74,
+          "dx": -18,
+          "dy": -45,
+          "empty": false,
+          "part_count": 10,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "721a4c1190f932e160465d2c51193cf1b6198196a15b21af68eb23afce277052"
+        },
+        "623": {
+          "id": 623,
+          "atlas": 0,
+          "x": 1000,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a37562514bc223954ad3763cdabd204619948fdf3d56a171487c00c38a5564a3"
+        },
+        "624": {
+          "id": 624,
+          "atlas": 0,
+          "x": 1064,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a45ec2474f690daa7e111d6833e5f944a6e9daaba1826035cf6a8a2438c35224"
+        },
+        "627": {
+          "id": 627,
+          "atlas": 0,
+          "x": 1689,
+          "y": 2,
+          "w": 56,
+          "h": 48,
+          "dx": -28,
+          "dy": -32,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a860d8d51355e3e3f800b9951099e56f5f24bf5b27e30d9d9ffce231b059eee8"
+        },
+        "629": {
+          "id": 629,
+          "atlas": 0,
+          "x": 1256,
+          "y": 2,
+          "w": 30,
+          "h": 50,
+          "dx": -15,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ddc0320e7a7988364231a7dc02bb4d3c00c42c367afeccfe12c757879dff8722"
+        },
+        "631": {
+          "id": 631,
+          "atlas": 0,
+          "x": 1320,
+          "y": 2,
+          "w": 14,
+          "h": 50,
+          "dx": -7,
+          "dy": -34,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c0ff53a53345701a226770ab890864ca0334902dc356f8a36324f9792aad2416"
+        },
+        "634": {
+          "id": 634,
+          "atlas": 0,
+          "x": 532,
+          "y": 2,
+          "w": 62,
+          "h": 54,
+          "dx": -35,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f3d8471a2747e7007d1ce3d5cce9d3ba81e36170e99f69a6c739622f41a58fb5"
+        },
+        "635": {
+          "id": 635,
+          "atlas": 0,
+          "x": 357,
+          "y": 2,
+          "w": 63,
+          "h": 55,
+          "dx": -36,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "59a57b0c6bb094484ba9d3f3c2460c95fa25cf6d6a30d7526eabe0bb5d3d56e7"
+        },
+        "638": {
+          "id": 638,
+          "atlas": 0,
+          "x": 296,
+          "y": 2,
+          "w": 59,
+          "h": 56,
+          "dx": -33,
+          "dy": -32,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "6d51878e46fe98de6c219b5ff5eb72bae6e3cf87f5b7ea967b77ac8bb6de8f28"
+        },
+        "640": {
+          "id": 640,
+          "atlas": 0,
+          "x": 1483,
+          "y": 2,
+          "w": 40,
+          "h": 49,
+          "dx": -19,
+          "dy": -31,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ed2dee1847d4074f19a4dc335e76cc89c184f1478ca864fe7faa8c980bac190e"
+        },
+        "642": {
+          "id": 642,
+          "atlas": 0,
+          "x": 1525,
+          "y": 2,
+          "w": 32,
+          "h": 49,
+          "dx": -14,
+          "dy": -31,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "715790e6801a835d6bd5ac41e87e614458fe8ab66715e0e5b33ae5566378b637"
+        },
+        "645": {
+          "id": 645,
+          "atlas": 0,
+          "x": 154,
+          "y": 2,
+          "w": 69,
+          "h": 56,
+          "dx": -35,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "1eaa4b4a97aba8e0ced84d0ab086742af4061efcf3db2bef515afa83f282df27"
+        },
+        "646": {
+          "id": 646,
+          "atlas": 0,
+          "x": 225,
+          "y": 2,
+          "w": 69,
+          "h": 56,
+          "dx": -35,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "74c09197b326fd2d8d01c819b949e225d9ccff7fed5f91d66617bc6c7e628459"
+        },
+        "649": {
+          "id": 649,
+          "atlas": 0,
+          "x": 596,
+          "y": 2,
+          "w": 67,
+          "h": 52,
+          "dx": -35,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ec6e29d913fa33ffb187103116081d81c7f62f6b2b6c3569cd64842a31933727"
+        },
+        "651": {
+          "id": 651,
+          "atlas": 0,
+          "x": 1356,
+          "y": 2,
+          "w": 62,
+          "h": 49,
+          "dx": -31,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3678e0e76b49fe99e6cd56c9f7f624dfbb19c16c7412b72230dec4a651a0953d"
+        },
+        "653": {
+          "id": 653,
+          "atlas": 0,
+          "x": 1920,
+          "y": 2,
+          "w": 59,
+          "h": 45,
+          "dx": -27,
+          "dy": -23,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c44c140e983bf232af8e4dfaf7220789502ccfb45bfed3e02a6325506143b560"
+        },
+        "656": {
+          "id": 656,
+          "atlas": 0,
+          "x": 801,
+          "y": 2,
+          "w": 71,
+          "h": 51,
+          "dx": -30,
+          "dy": -22,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f880890a844ddd2c88dc46ee33c3e641ef0fbd1cdca94b6c84a7473727323ea6"
+        },
+        "657": {
+          "id": 657,
+          "atlas": 0,
+          "x": 927,
+          "y": 2,
+          "w": 71,
+          "h": 50,
+          "dx": -30,
+          "dy": -22,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c53ba225eaf6fd50f31c314b0f6c405c339f97a8387cbf4adfd263987adb198a"
+        },
+        "660": {
+          "id": 660,
+          "atlas": 0,
+          "x": 1849,
+          "y": 2,
+          "w": 69,
+          "h": 47,
+          "dx": -29,
+          "dy": -20,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4452d28a730e162e426f6573ea808ef0333fa0d355f2d0b426313b3c283fcf6d"
+        },
+        "662": {
+          "id": 662,
+          "atlas": 0,
+          "x": 462,
+          "y": 78,
+          "w": 71,
+          "h": 37,
+          "dx": -30,
+          "dy": -17,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a906a405666f875d9ed6983fad73337ba23e256cbd3e1261c6f327a2e63f58f1"
+        },
+        "664": {
+          "id": 664,
+          "atlas": 0,
+          "x": 660,
+          "y": 78,
+          "w": 69,
+          "h": 29,
+          "dx": -28,
+          "dy": -15,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a9b2d993eca6a41977ca844f1f8adc6a2af94ed00689240ce28b2666e146995c"
+        },
+        "667": {
+          "id": 667,
+          "atlas": 0,
+          "x": 1559,
+          "y": 2,
+          "w": 63,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "1a420246dc97a8d1534c7e030602468db9477ba0fc44d9b7dbed9e71dba6556f"
+        },
+        "668": {
+          "id": 668,
+          "atlas": 0,
+          "x": 1624,
+          "y": 2,
+          "w": 63,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "4394f131f8cae0c5b2fb94cc50d87305f6fad63ab759bea7422ffd719b9451e5"
+        },
+        "671": {
+          "id": 671,
+          "atlas": 0,
+          "x": 36,
+          "y": 78,
+          "w": 63,
+          "h": 44,
+          "dx": -16,
+          "dy": -22,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "efc4dbd2242c623805d8288dabdb37ad710c68f1035da9be45496d75f0e68e89"
+        },
+        "673": {
+          "id": 673,
+          "atlas": 0,
+          "x": 1597,
+          "y": 78,
+          "w": 62,
+          "h": 22,
+          "dx": -16,
+          "dy": -11,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "332f3d8a7d07fd73c2bb3d07fd0d437050fac27b6b975bce426a5aaebe605e9a"
+        },
+        "675": {
+          "id": 675,
+          "atlas": 0,
+          "x": 1857,
+          "y": 78,
+          "w": 63,
+          "h": 10,
+          "dx": -16,
+          "dy": -5,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3d1615774ff1b71fe7a43475f423b34965a7bfbcbcaea75a9d4d77ea758e72a2"
+        },
+        "711": {
+          "id": 711,
+          "atlas": 0,
+          "x": 1128,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e0e03231d14093a729e1824ae396bbb1116509c18a5542900b79f6cd7c2da09b"
+        },
+        "712": {
+          "id": 712,
+          "atlas": 0,
+          "x": 1192,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3f5e57346fbe45ed42e88bb2aba1183475deac40ebb995556e0f638b8dd561c7"
+        },
+        "715": {
+          "id": 715,
+          "atlas": 0,
+          "x": 1747,
+          "y": 2,
+          "w": 56,
+          "h": 48,
+          "dx": -28,
+          "dy": -15,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "518ebdf6c9a40c82e3d5eed90c99113940a80e3653ed72e724788f9ad3c0ed0c"
+        },
+        "717": {
+          "id": 717,
+          "atlas": 0,
+          "x": 1288,
+          "y": 2,
+          "w": 30,
+          "h": 50,
+          "dx": -15,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b2e7bb8e6f35e4352766ba77bf5bfad594fc084c44836b834357d7ad78cff35b"
+        },
+        "719": {
+          "id": 719,
+          "atlas": 0,
+          "x": 1336,
+          "y": 2,
+          "w": 14,
+          "h": 50,
+          "dx": -7,
+          "dy": -15,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "2a1102b31f8ceb7fdb7bc07a4396561de893dfbaaa06dcdb1287186ec37a28d6"
+        },
+        "722": {
+          "id": 722,
+          "atlas": 0,
+          "x": 1831,
+          "y": 2,
+          "w": 16,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b1992929d5db9735d604e7aa56f1b005ed72fb96530d5f9a3d1ca157a2f526ee"
+        },
+        "723": {
+          "id": 723,
+          "atlas": 0,
+          "x": 1981,
+          "y": 2,
+          "w": 32,
+          "h": 45,
+          "dx": -19,
+          "dy": -22,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "bc925521001d5be8d18c752a4cde182f00545c4029f5d2d23f5e9755a928aceb"
+        },
+        "724": {
+          "id": 724,
+          "atlas": 0,
+          "x": 364,
+          "y": 78,
+          "w": 47,
+          "h": 38,
+          "dx": -25,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "077332bd435782554d129948362cb944c7cf8e97601a2c903328e655526df6ee"
+        },
+        "725": {
+          "id": 725,
+          "atlas": 0,
+          "x": 1451,
+          "y": 78,
+          "w": 59,
+          "h": 25,
+          "dx": -30,
+          "dy": -15,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "52f03b44cf4e3697f9353c8cb38e137ae2a21418610d0be32f26bc04722c6aaa"
+        },
+        "726": {
+          "id": 726,
+          "atlas": 0,
+          "x": 1701,
+          "y": 78,
+          "w": 62,
+          "h": 13,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "acdca7ece2eb7f196b45e3dd5519bfed01a612c0a617f0159f1de9a75e74bd94"
+        },
+        "727": {
+          "id": 727,
+          "atlas": 0,
+          "x": 2,
+          "y": 78,
+          "w": 32,
+          "h": 45,
+          "dx": -19,
+          "dy": -22,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "d86e1f8ee2dcdb4a7631a1ee272b5a1c7f64e21e007a7ca9b927a1830826e403"
+        },
+        "728": {
+          "id": 728,
+          "atlas": 0,
+          "x": 413,
+          "y": 78,
+          "w": 47,
+          "h": 38,
+          "dx": -25,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "7491ea766176f8e641edb9568b01f9fbf7dc494d4608d0f0df45f450f430f3da"
+        },
+        "729": {
+          "id": 729,
+          "atlas": 0,
+          "x": 1512,
+          "y": 78,
+          "w": 59,
+          "h": 25,
+          "dx": -30,
+          "dy": -9,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3b22341b64b67b9b28fbb1152aa10d40737918b7888432854e207d2530c55e59"
+        },
+        "730": {
+          "id": 730,
+          "atlas": 0,
+          "x": 1765,
+          "y": 78,
+          "w": 62,
+          "h": 13,
+          "dx": -31,
+          "dy": 1,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ac155cd67b83d20d2beb83d92d3fedd9750bf118734524efa7df130a0dd73215"
+        },
+        "731": {
+          "id": 731,
+          "atlas": 0,
+          "x": 1986,
+          "y": 78,
+          "w": 14,
+          "h": 6,
+          "dx": -6,
+          "dy": 0,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "557b64b141dd9095e53b3a29ba5dcd0a64554f96be4d59db4e0cf56e98f6627a"
+        },
+        "732": {
+          "id": 732,
+          "atlas": 0,
+          "x": 1930,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -5,
+          "dy": -3,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a120230a99d02291bed470810f1d0b47b43d985169fb8882a78472b899899f69"
+        },
+        "733": {
+          "id": 733,
+          "atlas": 0,
+          "x": 1944,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -6,
+          "dy": -3,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "5f91ec8d0442fabbdea1fba339ad6d45060412ef60d7a82deffa4be687558d3d"
+        },
+        "734": {
+          "id": 734,
+          "atlas": 0,
+          "x": 1829,
+          "y": 78,
+          "w": 12,
+          "h": 11,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "8b549b7d7af1e609a04407373752689f01cbf16f6af1a60b2462edf89d6ff13e"
+        },
+        "735": {
+          "id": 735,
+          "atlas": 0,
+          "x": 1922,
+          "y": 78,
+          "w": 6,
+          "h": 10,
+          "dx": -5,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "bdc123ec77858b3b01bce24c71d7ddbfc03ee5e92a88412b3fe2f1fa7bb997cb"
+        },
+        "736": {
+          "id": 736,
+          "atlas": 0,
+          "x": 1843,
+          "y": 78,
+          "w": 12,
+          "h": 11,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "8b176a449e8e5781011a0e44fac3ac2ba73122a03fb59aaf51cc971e328059b3"
+        },
+        "737": {
+          "id": 737,
+          "atlas": 0,
+          "x": 1958,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "aec62c73c478bd24fdb33f3946d1e5438b61aa3c4fe3b27dc072c2ced00adce4"
+        },
+        "738": {
+          "id": 738,
+          "atlas": 0,
+          "x": 1972,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -5,
+          "dy": -5,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9d0c3b6652fdb881176b446fd5e5b7368a8ad93a558643c6ee5f6633688ab271"
+        },
+        "739": {
+          "id": 739,
+          "atlas": 0,
+          "x": 2002,
+          "y": 78,
+          "w": 14,
+          "h": 6,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ebf6a3d2c9783476aae1ea97ff17aafbe84e41f3e4106293878450936a3f9cbb"
+        }
+      }
+    },
+    "20": {
+      "paletteRow": 76,
+      "palette_sha256": "56112ab7830feee3493da9f9851692c9b830940dd7adbacc90c50767b8a3b652",
+      "atlases": [
+        {
+          "file": "cyclops-optic-20-0.png",
+          "width": 2018,
+          "height": 125,
+          "sha256": "a0203819bb2d1e1d0b7e563b3f2ed389e22dc95d76d3715d66f24ef08cc90cb6"
+        }
+      ],
+      "frames": {
+        "40": {
+          "id": 40,
+          "atlas": 0,
+          "x": 1110,
+          "y": 78,
+          "w": 62,
+          "h": 26,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "22eeb8b94dcbe1d9e6b0422d9e6c5dcd683cafbc602635219a1ec280f8c992bb"
+        },
+        "41": {
+          "id": 41,
+          "atlas": 0,
+          "x": 1174,
+          "y": 78,
+          "w": 62,
+          "h": 26,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "628d5092fd7782377c6d52871569edfd153ac33b1d1d66341ed8c484c56c8206"
+        },
+        "42": {
+          "id": 42,
+          "atlas": 0,
+          "x": 1238,
+          "y": 78,
+          "w": 56,
+          "h": 26,
+          "dx": -28,
+          "dy": -13,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "82276619b99e193e4d47fdaf2fdc1b8c5e585360f9b6e892d43cbb803cbb9f37"
+        },
+        "43": {
+          "id": 43,
+          "atlas": 0,
+          "x": 1331,
+          "y": 78,
+          "w": 30,
+          "h": 26,
+          "dx": -15,
+          "dy": -13,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c8e3e51779672b3d3cb5e30029b8349bde8babb96fc1d1412916e7489a808c71"
+        },
+        "44": {
+          "id": 44,
+          "atlas": 0,
+          "x": 1363,
+          "y": 78,
+          "w": 14,
+          "h": 26,
+          "dx": -7,
+          "dy": -13,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "7c01f6d1ba674191ef2161a8f10d21dfc1558925186bbcf3563efac25674eb18"
+        },
+        "45": {
+          "id": 45,
+          "atlas": 0,
+          "x": 1352,
+          "y": 2,
+          "w": 2,
+          "h": 50,
+          "dx": -1,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "00af42e932cfd553376544bef9b73f7e107a8449c9f9e3b3bef3545423da53e6"
+        },
+        "46": {
+          "id": 46,
+          "atlas": 0,
+          "x": 159,
+          "y": 78,
+          "w": 68,
+          "h": 42,
+          "dx": -34,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "7d2f2dfeb708b0db84c62ae62e00c4539b47998e6eac70796e22869f4902b601"
+        },
+        "47": {
+          "id": 47,
+          "atlas": 0,
+          "x": 229,
+          "y": 78,
+          "w": 68,
+          "h": 42,
+          "dx": -34,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "486afab4a5900ba20939bbbe802bdc5b1f02d11e81d59b80b912f5dcaf4b09c9"
+        },
+        "48": {
+          "id": 48,
+          "atlas": 0,
+          "x": 299,
+          "y": 78,
+          "w": 63,
+          "h": 39,
+          "dx": -32,
+          "dy": -20,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "d26d03d2bcd0c11c0cfb7d281012aa5b303c4068b95ffa0aa8b23604c41a6143"
+        },
+        "49": {
+          "id": 49,
+          "atlas": 0,
+          "x": 580,
+          "y": 78,
+          "w": 37,
+          "h": 32,
+          "dx": -18,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ab9aa4825fe8c735d2735922c493dd855d372b4a6511e92ae6c63a40de8c7e20"
+        },
+        "50": {
+          "id": 50,
+          "atlas": 0,
+          "x": 1573,
+          "y": 78,
+          "w": 22,
+          "h": 25,
+          "dx": -11,
+          "dy": -12,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "1e807effa2dca8d6459d6169e8c2d83b7307a161cb5f4a2cf04ac37d069d25c8"
+        },
+        "51": {
+          "id": 51,
+          "atlas": 0,
+          "x": 1805,
+          "y": 2,
+          "w": 24,
+          "h": 48,
+          "dx": -8,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9bcd790a9c8d2eefb18b7765befc6c51e49ef8a1f640c37c956b7be71ffd2ef7"
+        },
+        "52": {
+          "id": 52,
+          "atlas": 0,
+          "x": 665,
+          "y": 2,
+          "w": 66,
+          "h": 52,
+          "dx": -34,
+          "dy": -26,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "7aedff79cb84a33ed9400325bff74d09eeaae2c0546a0fccfabd8b50868cc2d4"
+        },
+        "53": {
+          "id": 53,
+          "atlas": 0,
+          "x": 733,
+          "y": 2,
+          "w": 66,
+          "h": 52,
+          "dx": -34,
+          "dy": -26,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c94e4ccbee18025fef27163c2734827e3de888bc6ff167c01f69a4ddeb4e83bc"
+        },
+        "54": {
+          "id": 54,
+          "atlas": 0,
+          "x": 1420,
+          "y": 2,
+          "w": 61,
+          "h": 49,
+          "dx": -31,
+          "dy": -23,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "5ee692de303d75081530fd5f4b86541592255def9aee562d9beb9b21076adb0c"
+        },
+        "55": {
+          "id": 55,
+          "atlas": 0,
+          "x": 535,
+          "y": 78,
+          "w": 43,
+          "h": 34,
+          "dx": -21,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "80a278302c95310bb4dd3a80b227f2790785a73248ce3d503e5f0df3f8708d69"
+        },
+        "56": {
+          "id": 56,
+          "atlas": 0,
+          "x": 1296,
+          "y": 78,
+          "w": 33,
+          "h": 26,
+          "dx": -17,
+          "dy": -12,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f2b8ea57c29b79c69ebd50db2a59dd930f6797843a6d36f5d728214a0f043654"
+        },
+        "57": {
+          "id": 57,
+          "atlas": 0,
+          "x": 101,
+          "y": 78,
+          "w": 56,
+          "h": 43,
+          "dx": -24,
+          "dy": -23,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "dce83ba9739e392afc2c5f8a04e6a0b3fd058505de6b860fe9d9a5ad7ba24ea6"
+        },
+        "58": {
+          "id": 58,
+          "atlas": 0,
+          "x": 422,
+          "y": 2,
+          "w": 53,
+          "h": 55,
+          "dx": -25,
+          "dy": -27,
+          "empty": false,
+          "part_count": 5,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "04c7b0572d2bf83c9b64c8e9135176fab5df6e4216600df01dd90c7fda7ee3b8"
+        },
+        "59": {
+          "id": 59,
+          "atlas": 0,
+          "x": 477,
+          "y": 2,
+          "w": 53,
+          "h": 55,
+          "dx": -25,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "28029edf77b58d61e50c2786d83c885aaab4d44ada098c2e2f460787b364e1f1"
+        },
+        "60": {
+          "id": 60,
+          "atlas": 0,
+          "x": 874,
+          "y": 2,
+          "w": 51,
+          "h": 51,
+          "dx": -25,
+          "dy": -25,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "5ae454dd23d103e678f503f6783902da7a0c815a64c777f2dc63769df31f1df9"
+        },
+        "61": {
+          "id": 61,
+          "atlas": 0,
+          "x": 619,
+          "y": 78,
+          "w": 39,
+          "h": 30,
+          "dx": -20,
+          "dy": -14,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "67df5d30858d29dc809221fb3ca2a987171d5c05cd0c6ecb825127e78357fe5f"
+        },
+        "62": {
+          "id": 62,
+          "atlas": 0,
+          "x": 1661,
+          "y": 78,
+          "w": 38,
+          "h": 20,
+          "dx": -19,
+          "dy": -9,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9cc61d0d339523261bd191c446b305e957581be916ee298e6705b849a3661c64"
+        },
+        "63": {
+          "id": 63,
+          "atlas": 0,
+          "x": 1379,
+          "y": 78,
+          "w": 70,
+          "h": 25,
+          "dx": -30,
+          "dy": -14,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "8c99afaa1280e7b37b3221b69ebf044e9353a45eddebff124ffd3b583c3f70e3"
+        },
+        "72": {
+          "id": 72,
+          "atlas": 0,
+          "x": 731,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a22fb04a5bc1558457563f3aa81c9caf62011021b0b3e667b50a4ace6de3ba0d"
+        },
+        "73": {
+          "id": 73,
+          "atlas": 0,
+          "x": 826,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "7c33bffd3eb148b3562c4adc9d5a665b101fe702cd99eeae9e3dde91a47a0b99"
+        },
+        "74": {
+          "id": 74,
+          "atlas": 0,
+          "x": 1016,
+          "y": 78,
+          "w": 92,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b343f87f89f3c57a3b417ff4a4c81214baf2ee784e6844741ce9197b2e556df7"
+        },
+        "75": {
+          "id": 75,
+          "atlas": 0,
+          "x": 921,
+          "y": 78,
+          "w": 93,
+          "h": 28,
+          "dx": -45,
+          "dy": -14,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b48a1efe9a03f99c746a2141689c4d1d79fe095ca952d1952b63231f9acc8aa3"
+        },
+        "80": {
+          "id": 80,
+          "atlas": 0,
+          "x": 2,
+          "y": 2,
+          "w": 36,
+          "h": 74,
+          "dx": -18,
+          "dy": -45,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "6a7edce94daa850b23122bccba341d54ecb7ad54c9328866940d3dcf61e1651f"
+        },
+        "81": {
+          "id": 81,
+          "atlas": 0,
+          "x": 78,
+          "y": 2,
+          "w": 36,
+          "h": 73,
+          "dx": -18,
+          "dy": -44,
+          "empty": false,
+          "part_count": 12,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "084b4c8b1a04b5bcf9c0e593dc24aad1661d6eb0ef26c14574630ffe1450e926"
+        },
+        "82": {
+          "id": 82,
+          "atlas": 0,
+          "x": 116,
+          "y": 2,
+          "w": 36,
+          "h": 73,
+          "dx": -18,
+          "dy": -44,
+          "empty": false,
+          "part_count": 10,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "76aef667f571994e066d898ce626d942093e33317bf48134ab754e5584d7baee"
+        },
+        "83": {
+          "id": 83,
+          "atlas": 0,
+          "x": 40,
+          "y": 2,
+          "w": 36,
+          "h": 74,
+          "dx": -18,
+          "dy": -45,
+          "empty": false,
+          "part_count": 10,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "48e179994f0b1f4a4b71f0bee062b02c2e7d2afb8d7927069bc53ca1ac845678"
+        },
+        "623": {
+          "id": 623,
+          "atlas": 0,
+          "x": 1000,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "60f3c7d25343845be57a60deab908a2dfb9dc78a105f5a7f4d988e9558e3197b"
+        },
+        "624": {
+          "id": 624,
+          "atlas": 0,
+          "x": 1064,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "89d02e04fe7387a37c43b1af5de880ff5c1f973e9cd222a56845b30fa0b7e47d"
+        },
+        "627": {
+          "id": 627,
+          "atlas": 0,
+          "x": 1689,
+          "y": 2,
+          "w": 56,
+          "h": 48,
+          "dx": -28,
+          "dy": -32,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "03610331b16e253fecf3e24ef307d092a2a1c50db4e7db8cd1adb9aea3ec15c8"
+        },
+        "629": {
+          "id": 629,
+          "atlas": 0,
+          "x": 1256,
+          "y": 2,
+          "w": 30,
+          "h": 50,
+          "dx": -15,
+          "dy": -34,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "0d48d3214ea07d1002ac14fa228e5865dc3bf4a1d242b9e0b8744e9f79cc895f"
+        },
+        "631": {
+          "id": 631,
+          "atlas": 0,
+          "x": 1320,
+          "y": 2,
+          "w": 14,
+          "h": 50,
+          "dx": -7,
+          "dy": -34,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "1437b177e72ff10d670f6da2c173ca246dae78fdd12260f839ad4a321a3dff5c"
+        },
+        "634": {
+          "id": 634,
+          "atlas": 0,
+          "x": 532,
+          "y": 2,
+          "w": 62,
+          "h": 54,
+          "dx": -35,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ec32674f730b25645f2d91da80c98e6c604495a549d9b9b2a40432fd4bcb2bea"
+        },
+        "635": {
+          "id": 635,
+          "atlas": 0,
+          "x": 357,
+          "y": 2,
+          "w": 63,
+          "h": 55,
+          "dx": -36,
+          "dy": -31,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "57d96fc0eb84ec72b215a8b5f4cef7075288ae106fa5ef3fa04ac3e3ca996826"
+        },
+        "638": {
+          "id": 638,
+          "atlas": 0,
+          "x": 296,
+          "y": 2,
+          "w": 59,
+          "h": 56,
+          "dx": -33,
+          "dy": -32,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f3d565156bfe8f5d89eb7b89dd2e305c7a2fff8623d0d8174eda42dff9510914"
+        },
+        "640": {
+          "id": 640,
+          "atlas": 0,
+          "x": 1483,
+          "y": 2,
+          "w": 40,
+          "h": 49,
+          "dx": -19,
+          "dy": -31,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b922d11d2f09169691e3f192c7240b65ae8f161cb214e99838741304c580963b"
+        },
+        "642": {
+          "id": 642,
+          "atlas": 0,
+          "x": 1525,
+          "y": 2,
+          "w": 32,
+          "h": 49,
+          "dx": -14,
+          "dy": -31,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "903976c50b677cc5eec8ee081575e1a162c7d50542f9401580e684497ac984d4"
+        },
+        "645": {
+          "id": 645,
+          "atlas": 0,
+          "x": 154,
+          "y": 2,
+          "w": 69,
+          "h": 56,
+          "dx": -35,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ba63b4dfb78316e1386ffd2ad16239d6daffaca10c4059812a8ae183f82445b4"
+        },
+        "646": {
+          "id": 646,
+          "atlas": 0,
+          "x": 225,
+          "y": 2,
+          "w": 69,
+          "h": 56,
+          "dx": -35,
+          "dy": -27,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9a0b94389febd2d625c082b996f44645ee64167424f2252fcbd6673bdb99f5c1"
+        },
+        "649": {
+          "id": 649,
+          "atlas": 0,
+          "x": 596,
+          "y": 2,
+          "w": 67,
+          "h": 52,
+          "dx": -35,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "180ec61af8d019075eb666941dad302eafb5160bc305237f03ce3097117d4ab7"
+        },
+        "651": {
+          "id": 651,
+          "atlas": 0,
+          "x": 1356,
+          "y": 2,
+          "w": 62,
+          "h": 49,
+          "dx": -31,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "70209b567a1ae32e936a08f2dedda4bcf9b70fd93ca016d4663f9738eee22f6c"
+        },
+        "653": {
+          "id": 653,
+          "atlas": 0,
+          "x": 1920,
+          "y": 2,
+          "w": 59,
+          "h": 45,
+          "dx": -27,
+          "dy": -23,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "7d6e30bdd4032dad1d9881901bd16cbdf6686811b6e063936ae8c3e7b1eefaea"
+        },
+        "656": {
+          "id": 656,
+          "atlas": 0,
+          "x": 801,
+          "y": 2,
+          "w": 71,
+          "h": 51,
+          "dx": -30,
+          "dy": -22,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "0e4e90ab7ed6fda31ec441ae00e67e77622580580a06b8858cabec5a49a77d0f"
+        },
+        "657": {
+          "id": 657,
+          "atlas": 0,
+          "x": 927,
+          "y": 2,
+          "w": 71,
+          "h": 50,
+          "dx": -30,
+          "dy": -22,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "0f2e502b3a641bc447d6c289469f9405990f03fc39fc25a5894857ea0fb40f3c"
+        },
+        "660": {
+          "id": 660,
+          "atlas": 0,
+          "x": 1849,
+          "y": 2,
+          "w": 69,
+          "h": 47,
+          "dx": -29,
+          "dy": -20,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "ab05512cffeaa76abf0196089e5726644cd7b3a87d6d026280c438b857b534f6"
+        },
+        "662": {
+          "id": 662,
+          "atlas": 0,
+          "x": 462,
+          "y": 78,
+          "w": 71,
+          "h": 37,
+          "dx": -30,
+          "dy": -17,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "85ee7fbaec4b96f25bd695dce6a7e3589cc7ba5f249a5aa2f84039b19f54966b"
+        },
+        "664": {
+          "id": 664,
+          "atlas": 0,
+          "x": 660,
+          "y": 78,
+          "w": 69,
+          "h": 29,
+          "dx": -28,
+          "dy": -15,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3146ef96717523c6bea15254e78a5e9672124ea93debb266462d64efc028b175"
+        },
+        "667": {
+          "id": 667,
+          "atlas": 0,
+          "x": 1559,
+          "y": 2,
+          "w": 63,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "b716dd75050836bf36fe6490f12cd1ded03fdd254c7aa0c84440ef21d553bd49"
+        },
+        "668": {
+          "id": 668,
+          "atlas": 0,
+          "x": 1624,
+          "y": 2,
+          "w": 63,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "0956dcf7774a99ba31146cea25bf5a5bb71d01f7506d7954dcc66a11b56abe08"
+        },
+        "671": {
+          "id": 671,
+          "atlas": 0,
+          "x": 36,
+          "y": 78,
+          "w": 63,
+          "h": 44,
+          "dx": -16,
+          "dy": -22,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c84a8558bc4e01b7496dcb9330e6c158599e2578d57a6731d5c140fff01c7206"
+        },
+        "673": {
+          "id": 673,
+          "atlas": 0,
+          "x": 1597,
+          "y": 78,
+          "w": 62,
+          "h": 22,
+          "dx": -16,
+          "dy": -11,
+          "empty": false,
+          "part_count": 6,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e4acf46e418fa89c9b54c03b453e9377d3409e245ef1420290ba01ab13f15ba8"
+        },
+        "675": {
+          "id": 675,
+          "atlas": 0,
+          "x": 1857,
+          "y": 78,
+          "w": 63,
+          "h": 10,
+          "dx": -16,
+          "dy": -5,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e73502cd0195b1bfb26f4f1206dcc99c87b6c7991a9183691b1f8725b234fc0d"
+        },
+        "711": {
+          "id": 711,
+          "atlas": 0,
+          "x": 1128,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "8b94d0ab72eb778c9ac17cff15141c6836b4c04f4598c0928be86bec0b5e20f4"
+        },
+        "712": {
+          "id": 712,
+          "atlas": 0,
+          "x": 1192,
+          "y": 2,
+          "w": 62,
+          "h": 50,
+          "dx": -31,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9e84477ca5ddbce0ca957c9fccad04af220e961ff27c69dbb9be4df889f130b6"
+        },
+        "715": {
+          "id": 715,
+          "atlas": 0,
+          "x": 1747,
+          "y": 2,
+          "w": 56,
+          "h": 48,
+          "dx": -28,
+          "dy": -15,
+          "empty": false,
+          "part_count": 8,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "a8ee05fb5d7cef4424e0863047e8fb9214544f583aa3c1ec22c8bed40b008779"
+        },
+        "717": {
+          "id": 717,
+          "atlas": 0,
+          "x": 1288,
+          "y": 2,
+          "w": 30,
+          "h": 50,
+          "dx": -15,
+          "dy": -15,
+          "empty": false,
+          "part_count": 4,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "098033eea849a70b4bb53724d14d48740db188d6b6bcf49c6d23f853a754924b"
+        },
+        "719": {
+          "id": 719,
+          "atlas": 0,
+          "x": 1336,
+          "y": 2,
+          "w": 14,
+          "h": 50,
+          "dx": -7,
+          "dy": -15,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "5d003b3a859b5b59182f8581808e6428acb3e99ed7f0e6a0633495f19fc42ae4"
+        },
+        "722": {
+          "id": 722,
+          "atlas": 0,
+          "x": 1831,
+          "y": 2,
+          "w": 16,
+          "h": 48,
+          "dx": -16,
+          "dy": -24,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "f5ac396f3216ba7053b29e39543e426899f9ce1fddc74af4c578fcd856254cab"
+        },
+        "723": {
+          "id": 723,
+          "atlas": 0,
+          "x": 1981,
+          "y": 2,
+          "w": 32,
+          "h": 45,
+          "dx": -19,
+          "dy": -22,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "40da793f38bc2ba2adc8e72e91bd3c72f560018c6c3d64c1091262fdc09d5194"
+        },
+        "724": {
+          "id": 724,
+          "atlas": 0,
+          "x": 364,
+          "y": 78,
+          "w": 47,
+          "h": 38,
+          "dx": -25,
+          "dy": -21,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "24de048b2100fc77023f402ef7e724c5db0bfbf67a26817b7a6dcf88a7d824dd"
+        },
+        "725": {
+          "id": 725,
+          "atlas": 0,
+          "x": 1451,
+          "y": 78,
+          "w": 59,
+          "h": 25,
+          "dx": -30,
+          "dy": -15,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "8f93dab6f6c6c9a4f5007f60a0a29ae9dbe98011fa9f20c3d2871e1bb3c5f4f8"
+        },
+        "726": {
+          "id": 726,
+          "atlas": 0,
+          "x": 1701,
+          "y": 78,
+          "w": 62,
+          "h": 13,
+          "dx": -31,
+          "dy": -13,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "70f81ce028cdf95f6c6c77d91de8cc1e15a576cd4729c4a72606cf7f5a62432b"
+        },
+        "727": {
+          "id": 727,
+          "atlas": 0,
+          "x": 2,
+          "y": 78,
+          "w": 32,
+          "h": 45,
+          "dx": -19,
+          "dy": -22,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "e150c7be5c4f682b6b210cab1fbd69ad418b26c52127307492239c08ef4dc524"
+        },
+        "728": {
+          "id": 728,
+          "atlas": 0,
+          "x": 413,
+          "y": 78,
+          "w": 47,
+          "h": 38,
+          "dx": -25,
+          "dy": -16,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "d4fecd3883ccbff532a8835a392694fda7a5974d4dcd0861304af8190bb97f41"
+        },
+        "729": {
+          "id": 729,
+          "atlas": 0,
+          "x": 1512,
+          "y": 78,
+          "w": 59,
+          "h": 25,
+          "dx": -30,
+          "dy": -9,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "42ae42b0307dca08b6019ddcde1147ad0d706faf320149b744811c3a46674629"
+        },
+        "730": {
+          "id": 730,
+          "atlas": 0,
+          "x": 1765,
+          "y": 78,
+          "w": 62,
+          "h": 13,
+          "dx": -31,
+          "dy": 1,
+          "empty": false,
+          "part_count": 3,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "801c1bd30d097c57f8c5f8f71cb77dfb902912fb5d83c25549ad1679b659d24a"
+        },
+        "731": {
+          "id": 731,
+          "atlas": 0,
+          "x": 1986,
+          "y": 78,
+          "w": 14,
+          "h": 6,
+          "dx": -6,
+          "dy": 0,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "7baf88040702d85b1960984d6d223599b68a9cb65054cc8f0ed1e46a3a416882"
+        },
+        "732": {
+          "id": 732,
+          "atlas": 0,
+          "x": 1930,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -5,
+          "dy": -3,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "3d997d98365153c3cb7aa131c0bc746aa0f98d9b49e26f7714fbebf157fbee6c"
+        },
+        "733": {
+          "id": 733,
+          "atlas": 0,
+          "x": 1944,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -6,
+          "dy": -3,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "9b62f3efee1f3f32b724e0152ff6531d054a40745a31ad79bf1d2ad70903b343"
+        },
+        "734": {
+          "id": 734,
+          "atlas": 0,
+          "x": 1829,
+          "y": 78,
+          "w": 12,
+          "h": 11,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "28ddbc2727a242fb3c068156abb786323fc0e1db30e2b98007196005445042ef"
+        },
+        "735": {
+          "id": 735,
+          "atlas": 0,
+          "x": 1922,
+          "y": 78,
+          "w": 6,
+          "h": 10,
+          "dx": -5,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c95ce59fb8691849878bccbfeeabb208b7cd81ef6b4a2d0ce2cbf214328cde5d"
+        },
+        "736": {
+          "id": 736,
+          "atlas": 0,
+          "x": 1843,
+          "y": 78,
+          "w": 12,
+          "h": 11,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "894082bdba1fd68ba53da5bf03b935cfac6e165e0ec3a9db17afa48b0a5c4b57"
+        },
+        "737": {
+          "id": 737,
+          "atlas": 0,
+          "x": 1958,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "aa16e8ca8028b535a6ed7db2e357ba515d285424d3738664672e402c1395a1be"
+        },
+        "738": {
+          "id": 738,
+          "atlas": 0,
+          "x": 1972,
+          "y": 78,
+          "w": 12,
+          "h": 9,
+          "dx": -5,
+          "dy": -5,
+          "empty": false,
+          "part_count": 2,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "5b4c8d639085c945f651df8d8dc0b4e076b9c3b193bbd93ff0749deccf3937d9"
+        },
+        "739": {
+          "id": 739,
+          "atlas": 0,
+          "x": 2002,
+          "y": 78,
+          "w": 14,
+          "h": 6,
+          "dx": -7,
+          "dy": -5,
+          "empty": false,
+          "part_count": 1,
+          "palette_channels": [
+            2
+          ],
+          "rgba_sha256": "c6b8f62b2287275848debe840be07cf2b4ed2e47fe1a91d8bbd0cc4e85ad0d7b"
+        }
+      }
+    }
+  },
+  "cells": [
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    72,
+    73,
+    74,
+    75,
+    80,
+    81,
+    82,
+    83,
+    623,
+    624,
+    627,
+    629,
+    631,
+    634,
+    635,
+    638,
+    640,
+    642,
+    645,
+    646,
+    649,
+    651,
+    653,
+    656,
+    657,
+    660,
+    662,
+    664,
+    667,
+    668,
+    671,
+    673,
+    675,
+    711,
+    712,
+    715,
+    717,
+    719,
+    722,
+    723,
+    724,
+    725,
+    726,
+    727,
+    728,
+    729,
+    730,
+    731,
+    732,
+    733,
+    734,
+    735,
+    736,
+    737,
+    738,
+    739
+  ],
+  "sourceStreams": [
+    {
+      "group": 21,
+      "variant": 8
+    },
+    {
+      "group": 20,
+      "variant": 0
+    },
+    {
+      "group": 20,
+      "variant": 1
+    }
+  ]
+}

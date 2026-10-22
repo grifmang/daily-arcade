@@ -44,14 +44,16 @@
               <span class="player-label">Player 1</span>
               <span class="fighter-name" id="p1-name">Ryu</span>
               <label class="sr-only" for="p1-health">Player one health</label>
-              <progress id="p1-health" max="1000" value="1000">1000</progress>
+              <progress id="p1-health" max="144" value="144">144</progress>
+              <span class="action-readout"><span id="p1-action"></span><span id="p1-level">Level 1</span></span>
             </div>
             <div class="round-clock"><span class="sr-only">Seconds remaining: </span><span id="timer">99</span><span class="clock-label" aria-hidden="true">Time</span></div>
             <div class="fighter-hud player-two">
               <span class="player-label">Player 2</span>
               <span class="fighter-name" id="p2-name">Cyclops</span>
               <label class="sr-only" for="p2-health">Player two health</label>
-              <progress id="p2-health" max="1000" value="1000">1000</progress>
+              <progress id="p2-health" max="144" value="144">144</progress>
+              <span class="action-readout"><span id="p2-action"></span><span id="p2-level">Level 1</span></span>
             </div>
           </div>
 
@@ -91,9 +93,10 @@
           </div></div>
           <p class="deck-tip" id="controls-hint">Hold back to block.<br>Find your opening.</p>
           <div class="control-cluster attack-cluster"><span class="deck-label">Attack</span><div class="attack-buttons" role="group" aria-label="Attacks">
-            <button type="button" data-action="light" class="light-button"><span class="attack-letter" aria-hidden="true">L</span><span class="button-caption">Light</span></button>
-            <button type="button" data-action="heavy" class="heavy-button"><span class="attack-letter" aria-hidden="true">H</span><span class="button-caption">Heavy</span></button>
-            <button type="button" data-action="special" class="special-button"><span class="attack-letter" aria-hidden="true">S</span><span class="button-caption">Special</span></button>
+            <button type="button" data-action="lp" class="light-button" aria-label="Light punch"><span class="attack-letter" aria-hidden="true">LP</span></button>
+            <button type="button" data-action="hp" class="heavy-button" aria-label="Heavy punch"><span class="attack-letter" aria-hidden="true">HP</span></button>
+            <button type="button" data-action="lk" class="light-button" aria-label="Light kick"><span class="attack-letter" aria-hidden="true">LK</span></button>
+            <button type="button" data-action="hk" class="heavy-button" aria-label="Heavy kick"><span class="attack-letter" aria-hidden="true">HK</span></button>
           </div></div>
         </div>
       </section>
@@ -101,15 +104,18 @@
       <details class="controls" id="controls">
         <summary>How to play <span aria-hidden="true">+</span></summary>
         <div class="controls-grid">
-          <section aria-labelledby="keyboard-one"><h2 id="keyboard-one">Player one</h2><p><kbd>←</kbd> <kbd>→</kbd> move · <kbd>↑</kbd> jump · <kbd>↓</kbd> crouch</p><p><kbd>Z</kbd> light · <kbd>X</kbd> heavy · <kbd>C</kbd> special</p></section>
-          <section aria-labelledby="keyboard-two"><h2 id="keyboard-two">Player two · local</h2><p><kbd>A</kbd> <kbd>D</kbd> move · <kbd>W</kbd> jump · <kbd>S</kbd> crouch</p><p><kbd>F</kbd> light · <kbd>G</kbd> heavy · <kbd>H</kbd> special</p></section>
-          <section aria-labelledby="controller-help"><h2 id="controller-help">Gamepad</h2><p>Left stick or D-pad moves. A light · X heavy · B special · Y jump. Start pauses.</p></section>
+          <section aria-labelledby="keyboard-one"><h2 id="keyboard-one">Player one</h2><p><kbd>←</kbd> <kbd>→</kbd> move · <kbd>↑</kbd> jump · <kbd>↓</kbd> crouch</p><p><kbd>Z</kbd> LP · <kbd>X</kbd> HP · <kbd>C</kbd> LK · <kbd>V</kbd> HK</p></section>
+          <section aria-labelledby="keyboard-two"><h2 id="keyboard-two">Player two · local</h2><p><kbd>A</kbd> <kbd>D</kbd> move · <kbd>W</kbd> jump · <kbd>S</kbd> crouch</p><p><kbd>F</kbd> LP · <kbd>G</kbd> HP · <kbd>H</kbd> LK · <kbd>J</kbd> HK</p></section>
+          <section aria-labelledby="controller-help"><h2 id="controller-help">Gamepad</h2><p>Left stick or D-pad moves and jumps. X / Y punch · A / B kick. Start pauses.</p></section>
           <section aria-labelledby="match-help"><h2 id="match-help">Keep your guard up</h2><p>Hold away from your opponent to block. <kbd>Enter</kbd> starts or pauses. <kbd>Esc</kbd> pauses.</p></section>
+          <section aria-labelledby="ryu-moves"><h2 id="ryu-moves">Ryu</h2><p>Hadouken: ↓ ↘ → + P<br>Shoryuken: → ↓ ↘ + P<br>Tatsumaki: ↓ ↙ ← + K</p><p>Shinku Hadouken: ↓ ↘ → + LP + HP<br>Shinku Tatsumaki: ↓ ↙ ← + LK + HK<br>Shin Shoryuken: → ↓ ↘ + LP + HP · 3 levels</p></section>
+          <section aria-labelledby="cyclops-moves"><h2 id="cyclops-moves">Cyclops</h2><p>Optic Blast: ↓ ↘ → + P<br>Gene Splice: → ↓ ↘ + P · tap P for follow-ups<br>Cyclone Kick: ↓ ↙ ← + K</p><p>Super Optic Blast: ↓ ↘ → + LP + HP<br>Mega Optic Blast: ↓ ↘ → + LK + HK</p></section>
+          <section aria-labelledby="combo-help"><h2 id="combo-help">Chains &amp; air attacks</h2><p>Directions are shown facing right; reverse left and right when facing left. P means either punch; K means either kick. Press both listed buttons together for a hyper.</p><p>On contact, repeat a light button for its medium attack, then chain onward using the character's allowed sequence. Crouch and jump change the attacks. Ryu's forward + HP / HK are command normals. Hold Cyclops's standing HK for its follow-up.</p></section>
         </div>
       </details>
     </main>
 
-    <footer><p>Unofficial native preview · Two fighters, one arena. Recovered character sprites with reconstructed combat; timing and balance differ from the original. Full roster, tags and assists are not included.</p><a href="/">Back to Daily Arcade <span aria-hidden="true">↗</span></a></footer>
+    <footer><p>Unofficial native port in progress · Original PS2 animation, collision and move data with translated character routines. Full engine parity, roster, tags, assists, stage and audio are not yet complete.</p><a href="/">Back to Daily Arcade <span aria-hidden="true">↗</span></a></footer>
   </div>
 </body>
 </html>

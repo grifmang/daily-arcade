@@ -1,6 +1,6 @@
 const KEYS = [
-  {ArrowLeft:'left',ArrowRight:'right',ArrowUp:'jump',ArrowDown:'down',KeyZ:'light',KeyX:'heavy',KeyC:'special'},
-  {KeyA:'left',KeyD:'right',KeyW:'jump',KeyS:'down',KeyF:'light',KeyG:'heavy',KeyH:'special'},
+  {ArrowLeft:'left',ArrowRight:'right',ArrowUp:'jump',ArrowDown:'down',KeyZ:'lp',KeyX:'hp',KeyC:'lk',KeyV:'hk'},
+  {KeyA:'left',KeyD:'right',KeyW:'jump',KeyS:'down',KeyF:'lp',KeyG:'hp',KeyH:'lk',KeyJ:'hk'},
 ];
 export class Inputs {
   constructor(canvas, onPause, onBlur) {
@@ -43,8 +43,9 @@ export class Inputs {
       if(pad.axes[0]<-0.25||press(14))result[i].add('left');
       if(pad.axes[0]>0.25||press(15))result[i].add('right');
       if(pad.axes[1]>0.35||press(13))result[i].add('down');
-      if(pad.axes[1]<-0.5||press(12)||press(3))result[i].add('jump');
-      if(press(0))result[i].add('light');if(press(2))result[i].add('heavy');if(press(1))result[i].add('special');
+      if(pad.axes[1]<-0.5||press(12))result[i].add('jump');
+      if(press(2))result[i].add('lp');if(press(3))result[i].add('hp');
+      if(press(0))result[i].add('lk');if(press(1))result[i].add('hk');
     });
     const pause=pads.some(p=>p.buttons[9]?.pressed);
     if(pause&&!this.padPause&&this.enabled)this.onPause();

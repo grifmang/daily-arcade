@@ -8,16 +8,16 @@ let selected='ryu',match=null,last=0,accumulator=0,ready=false;
 const input=new Inputs(canvas,()=>togglePause(),()=>{if(match&&match.phase!=='result')setPause(true);});
 function setPause(value){
   if(!match||match.phase==='result')return;
-  match.paused=value;input.clear();$('pause').textContent=value?'Resume':'Pause';
+  match.paused=value;input.clear();match.clearInput();$('pause').textContent=value?'Resume':'Pause';
   $('status').textContent=value?'Paused · Enter or Start to resume':(match.phase==='active'?'Fight!':`Round ${match.round}`);
 }
 function togglePause(){setPause(!match?.paused);canvas.focus({preventScroll:true});audio.unlock();}
 function start(){
   if(!ready)return;
-  audio.unlock();match=new Match(selected,$('mode').value);input.clear();input.enabled=true;
+  audio.unlock();match=new Match(selected,$('mode').value,{actions:renderer.actions,system:renderer.system,moves:renderer.moves});input.clear();input.enabled=true;
   $('menu').hidden=true;$('results').hidden=true;$('pause').disabled=false;$('pause').textContent='Pause';
   $('p1-name').textContent=NAMES[match.names[0]];$('p2-name').textContent=NAMES[match.names[1]];
-  $('p1-health').value=1000;$('p2-health').value=1000;
+  $('p1-health').value=144;$('p2-health').value=144;
   $('status').textContent='Round 1 · Get ready';canvas.focus({preventScroll:true});last=performance.now();accumulator=0;
 }
 $('start').disabled=true;
@@ -45,6 +45,7 @@ function updateHUD(){
   // Keep native progress fallback values useful for assistive technology.
   $('p1-health').setAttribute('value',String(match.players[0].health));$('p2-health').setAttribute('value',String(match.players[1].health));
   $('timer').textContent=String(Math.max(0,Math.ceil(match.time/60))).padStart(2,'0');
+  match.players.forEach((p,i)=>{$(`p${i+1}-action`).textContent=p.actionName|| (p.y>0?'Airborne':p.crouch?'Crouching':'');$(`p${i+1}-level`).textContent=`Level ${p.bars}`;});
   for(const event of match.events.splice(0)){
     audio.play(event);
     if(event.type==='fight')$('status').textContent='Fight!';
